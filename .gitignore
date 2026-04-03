@@ -5,6 +5,5 @@ __pycache__/
 .venv/
 .streamlit/secrets.toml
 
-# Corpus + index are large; commit them for Streamlit Cloud (see README) or use Git LFS.
-K-texts/
+# Index is large and optional to commit; K-texts/ is tracked for Streamlit Cloud deploy.
 .k_index/

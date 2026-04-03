@@ -17,10 +17,8 @@ python main.py
 
 ## Streamlit Cloud (deploy)
 
-1. **GitHub**: create the repo (e.g. `sadnnyi/K-project`), push this project.
-2. **Data**: `.gitignore` excludes `K-texts/` and `.k_index/`. For a working cloud app you must either:
-   - **Commit** `K-texts/` and `.k_index/` (temporarily remove those two lines from `.gitignore`, then `git add -f K-texts .k_index` or add normally), or  
-   - Ship **only** `K-texts/` and use **“Build index”** in the app (first load is slow; needs embedding API quota).
+1. **GitHub**: push this project (e.g. `sdannyvi/K-project`).
+2. **Data**: `K-texts/` is **committed** so Streamlit has transcripts. `.k_index/` stays gitignored; on first cloud run use **“Build index”** in the app (slow; uses embedding API), or commit a prebuilt `.k_index/` if you remove that line from `.gitignore`.
 3. **Streamlit Community Cloud**: New app → pick repo → **Main file**: `app.py` → Deploy.
 4. **Secrets** (dashboard → App settings → Secrets): add the same keys as `.env.example`, in **TOML** form:
 
