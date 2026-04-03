@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+.streamlit/secrets.toml
+
+# Corpus + index are large; commit them for Streamlit Cloud (see README) or use Git LFS.
+K-texts/
+.k_index/
