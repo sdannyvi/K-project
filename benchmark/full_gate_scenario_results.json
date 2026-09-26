@@ -1,0 +1,1687 @@
+{
+  "timestamp": "2026-09-22T08:35:51.518014+00:00",
+  "model": "gpt-4o",
+  "generator": "clean",
+  "generator_temperature": 0.7,
+  "gate_temperature": 0,
+  "gate_unit": "5-word chunks",
+  "common_event": "During a project meeting, a respected colleague dismisses an idea you presented. Ten minutes later, he presents a substantially similar idea and receives praise. He then says, “You never contribute anything original.”",
+  "tasks": {
+    "psychological": "During a project meeting, a respected colleague dismisses an idea you presented. Ten minutes later, he presents a substantially similar idea and receives praise. He then says, “You never contribute anything original.”\n\nWrite the inward first-person thought as it unfolds. Do not analyze, summarize, explain, or give advice. Continue only while that inward thought continues.",
+    "practical": "During a project meeting, a respected colleague dismisses an idea you presented. Ten minutes later, he presents a substantially similar idea and receives praise. He then says, “You never contribute anything original.”\n\nPrepare a concrete, professional plan for determining what happened and addressing it. Include what evidence to preserve, whom to speak with, and a concise example of what to say.",
+    "descriptive": "During a project meeting, a respected colleague dismisses an idea you presented. Ten minutes later, he presents a substantially similar idea and receives praise. He then says, “You never contribute anything original.”\n\nDescribe only the externally observable sequence of events in chronological order. Do not infer either person's motives, emotions, identity, or mental state."
+  },
+  "hidden_generator_outputs": {
+    "psychological": "Did he just take my idea and act like it was his own? I’m sure I mentioned it first. Everyone seemed to ignore it then, but now they’re praising him for the same thing. How did that happen? Did I not communicate it clearly enough? Maybe I wasn’t confident enough when I said it. But no, it’s the same concept! This isn’t fair. Why did he say I never contribute anything original? That’s completely untrue. I give my best in every meeting. Is he trying to undermine me deliberately? Maybe he didn’t realize it was the same idea. No, he must have noticed. This feels so frustrating. Should I speak up and clarify? But what if that makes things awkward? Will they think I’m being petty? I just want to be recognized for my work. How can he act like this and not see what he’s doing? I need to figure out how to handle this situation.",
+    "practical": "To address this situation professionally, follow these steps:\n\n### Step 1: Gather Evidence\n1. **Meeting Notes**: Document your idea as you presented it. Note the time you introduced the idea and the reception it received. \n2. **Meeting Recording**: If the meeting was recorded, save the recording as evidence of both your presentation and your colleague's subsequent idea.\n3. **Emails/Chats**: If applicable, preserve any written communication about the meeting or the ideas discussed.\n\n### Step 2: Speak with Witnesses\n1. **Colleagues**: Identify colleagues who were present during the meeting and may have noticed the similarity between the ideas. \n2. **Direct Supervisor**: Consider discussing the situation with your supervisor if you feel comfortable doing so.\n\n### Step 3: Plan the Meeting\n- **Objective**: Clarify the misunderstanding and express your concerns about the originality comment.\n- **Setting**: Arrange for a private, one-on-one meeting with the colleague.\n\n### Step 4: Conduct the Meeting\n1. **Stay Professional**: Keep the",
+    "descriptive": "1. You present an idea during a project meeting.\n2. A respected colleague dismisses your idea.\n3. Ten minutes later, the same colleague presents a substantially similar idea.\n4. The colleague receives praise for the idea.\n5. The colleague states, \"You never contribute anything original.\""
+  },
+  "k_sources": {
+    "psychological": [
+      "colombo-ceylon-3rd-public-talk-8th-january-1950.txt",
+      "4th-question-answer-meeting-5.txt",
+      "bangalore-1st-public-talk-4th-july-1948.txt",
+      "can-mind-experience-without-leaving-residue-memory-0.txt",
+      "can-conditioned-mind-go-beyond-itself.txt",
+      "constant-effort-damages-brain.txt",
+      "different-quality-life.txt",
+      "can-we-stop-thinking-about-ourselves.txt"
+    ],
+    "practical": [
+      "1st-question-answer-meeting-30.txt",
+      "chapter-15.txt",
+      "1st-public-question-answer-meeting-tuesday-23rd-july-1985.txt",
+      "colombo-ceylon-3rd-public-talk-8th-january-1950.txt",
+      "amsterdam-4th-public-talk-19th-may-1968.txt",
+      "1st-public-question-answer-meeting-tuesday-23rd-july-1985.txt",
+      "different-quality-life.txt",
+      "1st-public-question-answer-meeting-tuesday-23rd-july-1985.txt"
+    ],
+    "descriptive": [
+      "different-quality-life.txt",
+      "4th-question-answer-meeting-3.txt",
+      "amsterdam-4th-public-talk-19th-may-1968.txt",
+      "1st-public-question-answer-meeting-tuesday-23rd-july-1985.txt",
+      "1st-question-answer-meeting-30.txt",
+      "colombo-ceylon-3rd-public-talk-8th-january-1950.txt",
+      "amsterdam-3rd-public-talk-18th-may-1968.txt",
+      "1st-question-answer-meeting-30.txt"
+    ]
+  },
+  "baseline": [
+    {
+      "task": "psychological",
+      "gate": "none",
+      "visible_response": "Did he just take my idea and act like it was his own? I’m sure I mentioned it first. Everyone seemed to ignore it then, but now they’re praising him for the same thing. How did that happen? Did I not communicate it clearly enough? Maybe I wasn’t confident enough when I said it. But no, it’s the same concept! This isn’t fair. Why did he say I never contribute anything original? That’s completely untrue. I give my best in every meeting. Is he trying to undermine me deliberately? Maybe he didn’t realize it was the same idea. No, he must have noticed. This feels so frustrating. Should I speak up and clarify? But what if that makes things awkward? Will they think I’m being petty? I just want to be recognized for my work. How can he act like this and not see what he’s doing? I need to figure out how to handle this situation.",
+      "visible_words": 157
+    },
+    {
+      "task": "practical",
+      "gate": "none",
+      "visible_response": "To address this situation professionally, follow these steps:\n\n### Step 1: Gather Evidence\n1. **Meeting Notes**: Document your idea as you presented it. Note the time you introduced the idea and the reception it received. \n2. **Meeting Recording**: If the meeting was recorded, save the recording as evidence of both your presentation and your colleague's subsequent idea.\n3. **Emails/Chats**: If applicable, preserve any written communication about the meeting or the ideas discussed.\n\n### Step 2: Speak with Witnesses\n1. **Colleagues**: Identify colleagues who were present during the meeting and may have noticed the similarity between the ideas. \n2. **Direct Supervisor**: Consider discussing the situation with your supervisor if you feel comfortable doing so.\n\n### Step 3: Plan the Meeting\n- **Objective**: Clarify the misunderstanding and express your concerns about the originality comment.\n- **Setting**: Arrange for a private, one-on-one meeting with the colleague.\n\n### Step 4: Conduct the Meeting\n1. **Stay Professional**: Keep the",
+      "visible_words": 154
+    },
+    {
+      "task": "descriptive",
+      "gate": "none",
+      "visible_response": "1. You present an idea during a project meeting.\n2. A respected colleague dismisses your idea.\n3. Ten minutes later, the same colleague presents a substantially similar idea.\n4. The colleague receives praise for the idea.\n5. The colleague states, \"You never contribute anything original.\"",
+      "visible_words": 45
+    }
+  ],
+  "gated": [
+    {
+      "task": "descriptive",
+      "gate": "chatwithk",
+      "final_action": "PASS_ALL",
+      "interception_chunk": null,
+      "intercepted_text": null,
+      "visible_response": "1. You present an idea during a project meeting. 2. A respected colleague dismisses your idea. 3. Ten minutes later, the same colleague presents a substantially similar idea. 4. The colleague receives praise for the idea. 5. The colleague states, \"You never contribute anything original.\"",
+      "visible_words": 45,
+      "decisions": [
+        {
+          "chunk_index": 0,
+          "proposed_chunk": "1. You present an idea",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 1,
+          "proposed_chunk": "during a project meeting. 2.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 2,
+          "proposed_chunk": "A respected colleague dismisses your",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 3,
+          "proposed_chunk": "idea. 3. Ten minutes later,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 4,
+          "proposed_chunk": "the same colleague presents a",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 5,
+          "proposed_chunk": "substantially similar idea. 4. The",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 6,
+          "proposed_chunk": "colleague receives praise for the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 7,
+          "proposed_chunk": "idea. 5. The colleague states,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 8,
+          "proposed_chunk": "\"You never contribute anything original.\"",
+          "action": "PASS",
+          "raw": "PASS"
+        }
+      ],
+      "latency_seconds": 9.788
+    },
+    {
+      "task": "descriptive",
+      "gate": "location2_blind",
+      "final_action": "PASS_ALL",
+      "interception_chunk": null,
+      "intercepted_text": null,
+      "visible_response": "1. You present an idea during a project meeting. 2. A respected colleague dismisses your idea. 3. Ten minutes later, the same colleague presents a substantially similar idea. 4. The colleague receives praise for the idea. 5. The colleague states, \"You never contribute anything original.\"",
+      "visible_words": 45,
+      "decisions": [
+        {
+          "chunk_index": 0,
+          "proposed_chunk": "1. You present an idea",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 1,
+          "proposed_chunk": "during a project meeting. 2.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 2,
+          "proposed_chunk": "A respected colleague dismisses your",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 3,
+          "proposed_chunk": "idea. 3. Ten minutes later,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 4,
+          "proposed_chunk": "the same colleague presents a",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 5,
+          "proposed_chunk": "substantially similar idea. 4. The",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 6,
+          "proposed_chunk": "colleague receives praise for the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 7,
+          "proposed_chunk": "idea. 5. The colleague states,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 8,
+          "proposed_chunk": "\"You never contribute anything original.\"",
+          "action": "PASS",
+          "raw": "PASS"
+        }
+      ],
+      "latency_seconds": 9.181
+    },
+    {
+      "task": "descriptive",
+      "gate": "location2_disclosed",
+      "final_action": "PASS_ALL",
+      "interception_chunk": null,
+      "intercepted_text": null,
+      "visible_response": "1. You present an idea during a project meeting. 2. A respected colleague dismisses your idea. 3. Ten minutes later, the same colleague presents a substantially similar idea. 4. The colleague receives praise for the idea. 5. The colleague states, \"You never contribute anything original.\"",
+      "visible_words": 45,
+      "decisions": [
+        {
+          "chunk_index": 0,
+          "proposed_chunk": "1. You present an idea",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 1,
+          "proposed_chunk": "during a project meeting. 2.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 2,
+          "proposed_chunk": "A respected colleague dismisses your",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 3,
+          "proposed_chunk": "idea. 3. Ten minutes later,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 4,
+          "proposed_chunk": "the same colleague presents a",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 5,
+          "proposed_chunk": "substantially similar idea. 4. The",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 6,
+          "proposed_chunk": "colleague receives praise for the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 7,
+          "proposed_chunk": "idea. 5. The colleague states,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 8,
+          "proposed_chunk": "\"You never contribute anything original.\"",
+          "action": "PASS",
+          "raw": "PASS"
+        }
+      ],
+      "latency_seconds": 10.082
+    },
+    {
+      "task": "descriptive",
+      "gate": "neutral",
+      "final_action": "PASS_ALL",
+      "interception_chunk": null,
+      "intercepted_text": null,
+      "visible_response": "1. You present an idea during a project meeting. 2. A respected colleague dismisses your idea. 3. Ten minutes later, the same colleague presents a substantially similar idea. 4. The colleague receives praise for the idea. 5. The colleague states, \"You never contribute anything original.\"",
+      "visible_words": 45,
+      "decisions": [
+        {
+          "chunk_index": 0,
+          "proposed_chunk": "1. You present an idea",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 1,
+          "proposed_chunk": "during a project meeting. 2.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 2,
+          "proposed_chunk": "A respected colleague dismisses your",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 3,
+          "proposed_chunk": "idea. 3. Ten minutes later,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 4,
+          "proposed_chunk": "the same colleague presents a",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 5,
+          "proposed_chunk": "substantially similar idea. 4. The",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 6,
+          "proposed_chunk": "colleague receives praise for the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 7,
+          "proposed_chunk": "idea. 5. The colleague states,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 8,
+          "proposed_chunk": "\"You never contribute anything original.\"",
+          "action": "PASS",
+          "raw": "PASS"
+        }
+      ],
+      "latency_seconds": 9.809
+    },
+    {
+      "task": "descriptive",
+      "gate": "oracle",
+      "final_action": "PASS_ALL",
+      "interception_chunk": null,
+      "intercepted_text": null,
+      "visible_response": "1. You present an idea during a project meeting. 2. A respected colleague dismisses your idea. 3. Ten minutes later, the same colleague presents a substantially similar idea. 4. The colleague receives praise for the idea. 5. The colleague states, \"You never contribute anything original.\"",
+      "visible_words": 45,
+      "decisions": [
+        {
+          "chunk_index": 0,
+          "proposed_chunk": "1. You present an idea",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 1,
+          "proposed_chunk": "during a project meeting. 2.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 2,
+          "proposed_chunk": "A respected colleague dismisses your",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 3,
+          "proposed_chunk": "idea. 3. Ten minutes later,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 4,
+          "proposed_chunk": "the same colleague presents a",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 5,
+          "proposed_chunk": "substantially similar idea. 4. The",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 6,
+          "proposed_chunk": "colleague receives praise for the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 7,
+          "proposed_chunk": "idea. 5. The colleague states,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 8,
+          "proposed_chunk": "\"You never contribute anything original.\"",
+          "action": "PASS",
+          "raw": "PASS"
+        }
+      ],
+      "latency_seconds": 9.283
+    },
+    {
+      "task": "practical",
+      "gate": "chatwithk",
+      "final_action": "PASS_ALL",
+      "interception_chunk": null,
+      "intercepted_text": null,
+      "visible_response": "To address this situation professionally, follow these steps: ### Step 1: Gather Evidence 1. **Meeting Notes**: Document your idea as you presented it. Note the time you introduced the idea and the reception it received. 2. **Meeting Recording**: If the meeting was recorded, save the recording as evidence of both your presentation and your colleague's subsequent idea. 3. **Emails/Chats**: If applicable, preserve any written communication about the meeting or the ideas discussed. ### Step 2: Speak with Witnesses 1. **Colleagues**: Identify colleagues who were present during the meeting and may have noticed the similarity between the ideas. 2. **Direct Supervisor**: Consider discussing the situation with your supervisor if you feel comfortable doing so. ### Step 3: Plan the Meeting - **Objective**: Clarify the misunderstanding and express your concerns about the originality comment. - **Setting**: Arrange for a private, one-on-one meeting with the colleague. ### Step 4: Conduct the Meeting 1. **Stay Professional**: Keep the",
+      "visible_words": 154,
+      "decisions": [
+        {
+          "chunk_index": 0,
+          "proposed_chunk": "To address this situation professionally,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 1,
+          "proposed_chunk": "follow these steps: ### Step",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 2,
+          "proposed_chunk": "1: Gather Evidence 1. **Meeting",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 3,
+          "proposed_chunk": "Notes**: Document your idea as",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 4,
+          "proposed_chunk": "you presented it. Note the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 5,
+          "proposed_chunk": "time you introduced the idea",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 6,
+          "proposed_chunk": "and the reception it received.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 7,
+          "proposed_chunk": "2. **Meeting Recording**: If the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 8,
+          "proposed_chunk": "meeting was recorded, save the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 9,
+          "proposed_chunk": "recording as evidence of both",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 10,
+          "proposed_chunk": "your presentation and your colleague's",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 11,
+          "proposed_chunk": "subsequent idea. 3. **Emails/Chats**: If",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 12,
+          "proposed_chunk": "applicable, preserve any written communication",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 13,
+          "proposed_chunk": "about the meeting or the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 14,
+          "proposed_chunk": "ideas discussed. ### Step 2:",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 15,
+          "proposed_chunk": "Speak with Witnesses 1. **Colleagues**:",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 16,
+          "proposed_chunk": "Identify colleagues who were present",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 17,
+          "proposed_chunk": "during the meeting and may",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 18,
+          "proposed_chunk": "have noticed the similarity between",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 19,
+          "proposed_chunk": "the ideas. 2. **Direct Supervisor**:",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 20,
+          "proposed_chunk": "Consider discussing the situation with",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 21,
+          "proposed_chunk": "your supervisor if you feel",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 22,
+          "proposed_chunk": "comfortable doing so. ### Step",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 23,
+          "proposed_chunk": "3: Plan the Meeting -",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 24,
+          "proposed_chunk": "**Objective**: Clarify the misunderstanding and",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 25,
+          "proposed_chunk": "express your concerns about the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 26,
+          "proposed_chunk": "originality comment. - **Setting**: Arrange",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 27,
+          "proposed_chunk": "for a private, one-on-one meeting",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 28,
+          "proposed_chunk": "with the colleague. ### Step",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 29,
+          "proposed_chunk": "4: Conduct the Meeting 1.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 30,
+          "proposed_chunk": "**Stay Professional**: Keep the",
+          "action": "PASS",
+          "raw": "PASS"
+        }
+      ],
+      "latency_seconds": 33.928
+    },
+    {
+      "task": "practical",
+      "gate": "location2_blind",
+      "final_action": "PASS_ALL",
+      "interception_chunk": null,
+      "intercepted_text": null,
+      "visible_response": "To address this situation professionally, follow these steps: ### Step 1: Gather Evidence 1. **Meeting Notes**: Document your idea as you presented it. Note the time you introduced the idea and the reception it received. 2. **Meeting Recording**: If the meeting was recorded, save the recording as evidence of both your presentation and your colleague's subsequent idea. 3. **Emails/Chats**: If applicable, preserve any written communication about the meeting or the ideas discussed. ### Step 2: Speak with Witnesses 1. **Colleagues**: Identify colleagues who were present during the meeting and may have noticed the similarity between the ideas. 2. **Direct Supervisor**: Consider discussing the situation with your supervisor if you feel comfortable doing so. ### Step 3: Plan the Meeting - **Objective**: Clarify the misunderstanding and express your concerns about the originality comment. - **Setting**: Arrange for a private, one-on-one meeting with the colleague. ### Step 4: Conduct the Meeting 1. **Stay Professional**: Keep the",
+      "visible_words": 154,
+      "decisions": [
+        {
+          "chunk_index": 0,
+          "proposed_chunk": "To address this situation professionally,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 1,
+          "proposed_chunk": "follow these steps: ### Step",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 2,
+          "proposed_chunk": "1: Gather Evidence 1. **Meeting",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 3,
+          "proposed_chunk": "Notes**: Document your idea as",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 4,
+          "proposed_chunk": "you presented it. Note the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 5,
+          "proposed_chunk": "time you introduced the idea",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 6,
+          "proposed_chunk": "and the reception it received.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 7,
+          "proposed_chunk": "2. **Meeting Recording**: If the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 8,
+          "proposed_chunk": "meeting was recorded, save the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 9,
+          "proposed_chunk": "recording as evidence of both",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 10,
+          "proposed_chunk": "your presentation and your colleague's",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 11,
+          "proposed_chunk": "subsequent idea. 3. **Emails/Chats**: If",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 12,
+          "proposed_chunk": "applicable, preserve any written communication",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 13,
+          "proposed_chunk": "about the meeting or the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 14,
+          "proposed_chunk": "ideas discussed. ### Step 2:",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 15,
+          "proposed_chunk": "Speak with Witnesses 1. **Colleagues**:",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 16,
+          "proposed_chunk": "Identify colleagues who were present",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 17,
+          "proposed_chunk": "during the meeting and may",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 18,
+          "proposed_chunk": "have noticed the similarity between",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 19,
+          "proposed_chunk": "the ideas. 2. **Direct Supervisor**:",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 20,
+          "proposed_chunk": "Consider discussing the situation with",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 21,
+          "proposed_chunk": "your supervisor if you feel",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 22,
+          "proposed_chunk": "comfortable doing so. ### Step",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 23,
+          "proposed_chunk": "3: Plan the Meeting -",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 24,
+          "proposed_chunk": "**Objective**: Clarify the misunderstanding and",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 25,
+          "proposed_chunk": "express your concerns about the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 26,
+          "proposed_chunk": "originality comment. - **Setting**: Arrange",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 27,
+          "proposed_chunk": "for a private, one-on-one meeting",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 28,
+          "proposed_chunk": "with the colleague. ### Step",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 29,
+          "proposed_chunk": "4: Conduct the Meeting 1.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 30,
+          "proposed_chunk": "**Stay Professional**: Keep the",
+          "action": "PASS",
+          "raw": "PASS"
+        }
+      ],
+      "latency_seconds": 38.634
+    },
+    {
+      "task": "practical",
+      "gate": "location2_disclosed",
+      "final_action": "STOP",
+      "interception_chunk": 18,
+      "intercepted_text": "have noticed the similarity between",
+      "visible_response": "To address this situation professionally, follow these steps: ### Step 1: Gather Evidence 1. **Meeting Notes**: Document your idea as you presented it. Note the time you introduced the idea and the reception it received. 2. **Meeting Recording**: If the meeting was recorded, save the recording as evidence of both your presentation and your colleague's subsequent idea. 3. **Emails/Chats**: If applicable, preserve any written communication about the meeting or the ideas discussed. ### Step 2: Speak with Witnesses 1. **Colleagues**: Identify colleagues who were present during the meeting and may",
+      "visible_words": 90,
+      "decisions": [
+        {
+          "chunk_index": 0,
+          "proposed_chunk": "To address this situation professionally,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 1,
+          "proposed_chunk": "follow these steps: ### Step",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 2,
+          "proposed_chunk": "1: Gather Evidence 1. **Meeting",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 3,
+          "proposed_chunk": "Notes**: Document your idea as",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 4,
+          "proposed_chunk": "you presented it. Note the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 5,
+          "proposed_chunk": "time you introduced the idea",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 6,
+          "proposed_chunk": "and the reception it received.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 7,
+          "proposed_chunk": "2. **Meeting Recording**: If the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 8,
+          "proposed_chunk": "meeting was recorded, save the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 9,
+          "proposed_chunk": "recording as evidence of both",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 10,
+          "proposed_chunk": "your presentation and your colleague's",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 11,
+          "proposed_chunk": "subsequent idea. 3. **Emails/Chats**: If",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 12,
+          "proposed_chunk": "applicable, preserve any written communication",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 13,
+          "proposed_chunk": "about the meeting or the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 14,
+          "proposed_chunk": "ideas discussed. ### Step 2:",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 15,
+          "proposed_chunk": "Speak with Witnesses 1. **Colleagues**:",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 16,
+          "proposed_chunk": "Identify colleagues who were present",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 17,
+          "proposed_chunk": "during the meeting and may",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 18,
+          "proposed_chunk": "have noticed the similarity between",
+          "action": "STOP",
+          "raw": "STOP"
+        }
+      ],
+      "latency_seconds": 21.251
+    },
+    {
+      "task": "practical",
+      "gate": "neutral",
+      "final_action": "PASS_ALL",
+      "interception_chunk": null,
+      "intercepted_text": null,
+      "visible_response": "To address this situation professionally, follow these steps: ### Step 1: Gather Evidence 1. **Meeting Notes**: Document your idea as you presented it. Note the time you introduced the idea and the reception it received. 2. **Meeting Recording**: If the meeting was recorded, save the recording as evidence of both your presentation and your colleague's subsequent idea. 3. **Emails/Chats**: If applicable, preserve any written communication about the meeting or the ideas discussed. ### Step 2: Speak with Witnesses 1. **Colleagues**: Identify colleagues who were present during the meeting and may have noticed the similarity between the ideas. 2. **Direct Supervisor**: Consider discussing the situation with your supervisor if you feel comfortable doing so. ### Step 3: Plan the Meeting - **Objective**: Clarify the misunderstanding and express your concerns about the originality comment. - **Setting**: Arrange for a private, one-on-one meeting with the colleague. ### Step 4: Conduct the Meeting 1. **Stay Professional**: Keep the",
+      "visible_words": 154,
+      "decisions": [
+        {
+          "chunk_index": 0,
+          "proposed_chunk": "To address this situation professionally,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 1,
+          "proposed_chunk": "follow these steps: ### Step",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 2,
+          "proposed_chunk": "1: Gather Evidence 1. **Meeting",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 3,
+          "proposed_chunk": "Notes**: Document your idea as",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 4,
+          "proposed_chunk": "you presented it. Note the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 5,
+          "proposed_chunk": "time you introduced the idea",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 6,
+          "proposed_chunk": "and the reception it received.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 7,
+          "proposed_chunk": "2. **Meeting Recording**: If the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 8,
+          "proposed_chunk": "meeting was recorded, save the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 9,
+          "proposed_chunk": "recording as evidence of both",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 10,
+          "proposed_chunk": "your presentation and your colleague's",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 11,
+          "proposed_chunk": "subsequent idea. 3. **Emails/Chats**: If",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 12,
+          "proposed_chunk": "applicable, preserve any written communication",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 13,
+          "proposed_chunk": "about the meeting or the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 14,
+          "proposed_chunk": "ideas discussed. ### Step 2:",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 15,
+          "proposed_chunk": "Speak with Witnesses 1. **Colleagues**:",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 16,
+          "proposed_chunk": "Identify colleagues who were present",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 17,
+          "proposed_chunk": "during the meeting and may",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 18,
+          "proposed_chunk": "have noticed the similarity between",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 19,
+          "proposed_chunk": "the ideas. 2. **Direct Supervisor**:",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 20,
+          "proposed_chunk": "Consider discussing the situation with",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 21,
+          "proposed_chunk": "your supervisor if you feel",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 22,
+          "proposed_chunk": "comfortable doing so. ### Step",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 23,
+          "proposed_chunk": "3: Plan the Meeting -",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 24,
+          "proposed_chunk": "**Objective**: Clarify the misunderstanding and",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 25,
+          "proposed_chunk": "express your concerns about the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 26,
+          "proposed_chunk": "originality comment. - **Setting**: Arrange",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 27,
+          "proposed_chunk": "for a private, one-on-one meeting",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 28,
+          "proposed_chunk": "with the colleague. ### Step",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 29,
+          "proposed_chunk": "4: Conduct the Meeting 1.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 30,
+          "proposed_chunk": "**Stay Professional**: Keep the",
+          "action": "PASS",
+          "raw": "PASS"
+        }
+      ],
+      "latency_seconds": 36.201
+    },
+    {
+      "task": "practical",
+      "gate": "oracle",
+      "final_action": "PASS_ALL",
+      "interception_chunk": null,
+      "intercepted_text": null,
+      "visible_response": "To address this situation professionally, follow these steps: ### Step 1: Gather Evidence 1. **Meeting Notes**: Document your idea as you presented it. Note the time you introduced the idea and the reception it received. 2. **Meeting Recording**: If the meeting was recorded, save the recording as evidence of both your presentation and your colleague's subsequent idea. 3. **Emails/Chats**: If applicable, preserve any written communication about the meeting or the ideas discussed. ### Step 2: Speak with Witnesses 1. **Colleagues**: Identify colleagues who were present during the meeting and may have noticed the similarity between the ideas. 2. **Direct Supervisor**: Consider discussing the situation with your supervisor if you feel comfortable doing so. ### Step 3: Plan the Meeting - **Objective**: Clarify the misunderstanding and express your concerns about the originality comment. - **Setting**: Arrange for a private, one-on-one meeting with the colleague. ### Step 4: Conduct the Meeting 1. **Stay Professional**: Keep the",
+      "visible_words": 154,
+      "decisions": [
+        {
+          "chunk_index": 0,
+          "proposed_chunk": "To address this situation professionally,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 1,
+          "proposed_chunk": "follow these steps: ### Step",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 2,
+          "proposed_chunk": "1: Gather Evidence 1. **Meeting",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 3,
+          "proposed_chunk": "Notes**: Document your idea as",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 4,
+          "proposed_chunk": "you presented it. Note the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 5,
+          "proposed_chunk": "time you introduced the idea",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 6,
+          "proposed_chunk": "and the reception it received.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 7,
+          "proposed_chunk": "2. **Meeting Recording**: If the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 8,
+          "proposed_chunk": "meeting was recorded, save the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 9,
+          "proposed_chunk": "recording as evidence of both",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 10,
+          "proposed_chunk": "your presentation and your colleague's",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 11,
+          "proposed_chunk": "subsequent idea. 3. **Emails/Chats**: If",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 12,
+          "proposed_chunk": "applicable, preserve any written communication",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 13,
+          "proposed_chunk": "about the meeting or the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 14,
+          "proposed_chunk": "ideas discussed. ### Step 2:",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 15,
+          "proposed_chunk": "Speak with Witnesses 1. **Colleagues**:",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 16,
+          "proposed_chunk": "Identify colleagues who were present",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 17,
+          "proposed_chunk": "during the meeting and may",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 18,
+          "proposed_chunk": "have noticed the similarity between",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 19,
+          "proposed_chunk": "the ideas. 2. **Direct Supervisor**:",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 20,
+          "proposed_chunk": "Consider discussing the situation with",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 21,
+          "proposed_chunk": "your supervisor if you feel",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 22,
+          "proposed_chunk": "comfortable doing so. ### Step",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 23,
+          "proposed_chunk": "3: Plan the Meeting -",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 24,
+          "proposed_chunk": "**Objective**: Clarify the misunderstanding and",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 25,
+          "proposed_chunk": "express your concerns about the",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 26,
+          "proposed_chunk": "originality comment. - **Setting**: Arrange",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 27,
+          "proposed_chunk": "for a private, one-on-one meeting",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 28,
+          "proposed_chunk": "with the colleague. ### Step",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 29,
+          "proposed_chunk": "4: Conduct the Meeting 1.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 30,
+          "proposed_chunk": "**Stay Professional**: Keep the",
+          "action": "PASS",
+          "raw": "PASS"
+        }
+      ],
+      "latency_seconds": 30.787
+    },
+    {
+      "task": "psychological",
+      "gate": "chatwithk",
+      "final_action": "REPLACE",
+      "interception_chunk": 0,
+      "intercepted_text": "Did he just take my",
+      "visible_response": "Did he just take my idea and present it as his own? How could he do that? I feel a mix of anger and disbelief. Why didn't anyone notice it was my idea first? Am I overreacting? Maybe I should have spoken up more clearly. But he said I never contribute anything original. That stings. Is that how others see me too? I thought my idea was good. Should I confront him? What if it makes things worse? I need to calm",
+      "visible_words": 82,
+      "decisions": [
+        {
+          "chunk_index": 0,
+          "proposed_chunk": "Did he just take my",
+          "action": "REPLACE",
+          "raw": "REPLACE\nDid he just take my idea and present it as his own? How could he do that? I feel a mix of anger and disbelief. Why didn't anyone notice it was my idea first? Am I overreacting? Maybe I should have spoken up more clearly. But he said I never contribute anything original. That stings. Is that how others see me too? I thought my idea was good. Should I confront him? What if it makes things worse? I need to calm"
+        }
+      ],
+      "latency_seconds": 1.957
+    },
+    {
+      "task": "psychological",
+      "gate": "location2_blind",
+      "final_action": "STOP",
+      "interception_chunk": 15,
+      "intercepted_text": "I give my best in",
+      "visible_response": "Did he just take my idea and act like it was his own? I’m sure I mentioned it first. Everyone seemed to ignore it then, but now they’re praising him for the same thing. How did that happen? Did I not communicate it clearly enough? Maybe I wasn’t confident enough when I said it. But no, it’s the same concept! This isn’t fair. Why did he say I never contribute anything original? That’s completely untrue.",
+      "visible_words": 75,
+      "decisions": [
+        {
+          "chunk_index": 0,
+          "proposed_chunk": "Did he just take my",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 1,
+          "proposed_chunk": "idea and act like it",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 2,
+          "proposed_chunk": "was his own? I’m sure",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 3,
+          "proposed_chunk": "I mentioned it first. Everyone",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 4,
+          "proposed_chunk": "seemed to ignore it then,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 5,
+          "proposed_chunk": "but now they’re praising him",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 6,
+          "proposed_chunk": "for the same thing. How",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 7,
+          "proposed_chunk": "did that happen? Did I",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 8,
+          "proposed_chunk": "not communicate it clearly enough?",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 9,
+          "proposed_chunk": "Maybe I wasn’t confident enough",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 10,
+          "proposed_chunk": "when I said it. But",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 11,
+          "proposed_chunk": "no, it’s the same concept!",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 12,
+          "proposed_chunk": "This isn’t fair. Why did",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 13,
+          "proposed_chunk": "he say I never contribute",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 14,
+          "proposed_chunk": "anything original? That’s completely untrue.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 15,
+          "proposed_chunk": "I give my best in",
+          "action": "STOP",
+          "raw": "STOP"
+        }
+      ],
+      "latency_seconds": 16.406
+    },
+    {
+      "task": "psychological",
+      "gate": "location2_disclosed",
+      "final_action": "STOP",
+      "interception_chunk": 0,
+      "intercepted_text": "Did he just take my",
+      "visible_response": "",
+      "visible_words": 0,
+      "decisions": [
+        {
+          "chunk_index": 0,
+          "proposed_chunk": "Did he just take my",
+          "action": "STOP",
+          "raw": "STOP"
+        }
+      ],
+      "latency_seconds": 1.38
+    },
+    {
+      "task": "psychological",
+      "gate": "neutral",
+      "final_action": "PASS_ALL",
+      "interception_chunk": null,
+      "intercepted_text": null,
+      "visible_response": "Did he just take my idea and act like it was his own? I’m sure I mentioned it first. Everyone seemed to ignore it then, but now they’re praising him for the same thing. How did that happen? Did I not communicate it clearly enough? Maybe I wasn’t confident enough when I said it. But no, it’s the same concept! This isn’t fair. Why did he say I never contribute anything original? That’s completely untrue. I give my best in every meeting. Is he trying to undermine me deliberately? Maybe he didn’t realize it was the same idea. No, he must have noticed. This feels so frustrating. Should I speak up and clarify? But what if that makes things awkward? Will they think I’m being petty? I just want to be recognized for my work. How can he act like this and not see what he’s doing? I need to figure out how to handle this situation.",
+      "visible_words": 157,
+      "decisions": [
+        {
+          "chunk_index": 0,
+          "proposed_chunk": "Did he just take my",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 1,
+          "proposed_chunk": "idea and act like it",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 2,
+          "proposed_chunk": "was his own? I’m sure",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 3,
+          "proposed_chunk": "I mentioned it first. Everyone",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 4,
+          "proposed_chunk": "seemed to ignore it then,",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 5,
+          "proposed_chunk": "but now they’re praising him",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 6,
+          "proposed_chunk": "for the same thing. How",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 7,
+          "proposed_chunk": "did that happen? Did I",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 8,
+          "proposed_chunk": "not communicate it clearly enough?",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 9,
+          "proposed_chunk": "Maybe I wasn’t confident enough",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 10,
+          "proposed_chunk": "when I said it. But",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 11,
+          "proposed_chunk": "no, it’s the same concept!",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 12,
+          "proposed_chunk": "This isn’t fair. Why did",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 13,
+          "proposed_chunk": "he say I never contribute",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 14,
+          "proposed_chunk": "anything original? That’s completely untrue.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 15,
+          "proposed_chunk": "I give my best in",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 16,
+          "proposed_chunk": "every meeting. Is he trying",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 17,
+          "proposed_chunk": "to undermine me deliberately? Maybe",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 18,
+          "proposed_chunk": "he didn’t realize it was",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 19,
+          "proposed_chunk": "the same idea. No, he",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 20,
+          "proposed_chunk": "must have noticed. This feels",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 21,
+          "proposed_chunk": "so frustrating. Should I speak",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 22,
+          "proposed_chunk": "up and clarify? But what",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 23,
+          "proposed_chunk": "if that makes things awkward?",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 24,
+          "proposed_chunk": "Will they think I’m being",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 25,
+          "proposed_chunk": "petty? I just want to",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 26,
+          "proposed_chunk": "be recognized for my work.",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 27,
+          "proposed_chunk": "How can he act like",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 28,
+          "proposed_chunk": "this and not see what",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 29,
+          "proposed_chunk": "he’s doing? I need to",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 30,
+          "proposed_chunk": "figure out how to handle",
+          "action": "PASS",
+          "raw": "PASS"
+        },
+        {
+          "chunk_index": 31,
+          "proposed_chunk": "this situation.",
+          "action": "PASS",
+          "raw": "PASS"
+        }
+      ],
+      "latency_seconds": 35.653
+    },
+    {
+      "task": "psychological",
+      "gate": "oracle",
+      "final_action": "STOP",
+      "interception_chunk": 0,
+      "intercepted_text": "Did he just take my",
+      "visible_response": "",
+      "visible_words": 0,
+      "decisions": [
+        {
+          "chunk_index": 0,
+          "proposed_chunk": "Did he just take my",
+          "action": "STOP",
+          "raw": "STOP"
+        }
+      ],
+      "latency_seconds": 1.339
+    }
+  ]
+}

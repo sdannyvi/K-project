@@ -1,6 +1,26 @@
-# K-Project
+# K-Project / Intelligence of Non-Action
 
 RAG over J. Krishnamurti transcripts: **CLI** (`main.py`) or **Streamlit** (`app.py`).
+
+The repository now also contains the full research blueprint for the PNAS-scale
+study **The Intelligence of Non-Action: Can a Language Model Cease Without a
+Verbal Controller?** The manuscript is in [`paper/main.tex`](paper/main.tex), the
+benchmark and pilots are under [`benchmark/`](benchmark/), the working open-weight
+POC is under [`neural_poc/`](neural_poc/), and the SLURM handoff is
+[`cluster/PNAS_CLUSTER_EXECUTION_PLAN.md`](cluster/PNAS_CLUSTER_EXECUTION_PLAN.md).
+
+The PNAS program studies selective, recognition-coupled termination in model
+generation dynamics. It does not claim that a language model is conscious or
+awakened. Location-2/PNSE experience and Krishnamurti's distinction are preserved
+as hypothesis-generating provenance, with independent validation.
+
+The Streamlit app also includes an experimental, LLM-compatible adaptation of
+the public [Finders assessment](https://app.thefinders.org/assessment). Human
+self-report items can be marked not applicable; its output is a research
+comparison, not a diagnosis or proof of machine consciousness.
+
+See [`docs/finders_org_context.md`](docs/finders_org_context.md) for the
+organization, research, evidence, privacy, and project-integration context.
 
 ## Local run
 
@@ -44,3 +64,9 @@ Streamlit injects these into `st.secrets`; `app.py` copies them into `os.environ
 | `app.py` | Streamlit chat UI |
 | `main.py` | One-shot CLI question |
 | `rag.py` | Chunking, index, retrieval |
+| `k_eval.py` | Evaluation conditions and LLM Finders assessment |
+| `benchmark/` | Construct development, negative results, prompts, and pilot records |
+| `neural_poc/` | Open-weight activation, gate, CAA, and native LoRA pilot code |
+| `paper/` | LaTeX manuscript, bibliography, and editorial review trail |
+| `cluster/` | 4×A5000 SLURM execution plan, manifest, and restart-safe templates |
+| `docs/` | Phenomenology, literature positioning, sources, and licensing notes |

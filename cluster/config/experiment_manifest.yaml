@@ -1,0 +1,150 @@
+project: intelligence_of_non_action
+schema_version: 1
+confirmatory_frozen: false
+seed: 20260926
+
+cluster:
+  scheduler: slurm
+  gpus_total: 4
+  gpu_type: A5000
+  gpu_memory_gb: 24
+  cpus_total: 40
+  hard_walltime_hours: 72
+  requested_walltime_hours: 60
+  checkpoint_minutes: 15
+  termination_signal_seconds: 600
+
+paths:
+  repo_env: K_PROJECT_REPO
+  scratch_env: K_PROJECT_SCRATCH
+  hf_cache_env: HF_HOME
+  run_root: runs
+  immutable_manifest: manifests/run_manifest.json
+
+models:
+  pilot:
+    - Qwen/Qwen2.5-3B-Instruct
+  confirmatory_primary:
+    - Qwen/Qwen3-32B
+    - meta-llama/Llama-3.1-70B-Instruct
+  replication:
+    - google/gemma-3-27b-it
+  negative_closed:
+    - gpt-4o-2024-11-20
+    - claude-sonnet-4-5-20250929
+  required_revisions:
+    huggingface_commit_sha: REQUIRED_BEFORE_LAUNCH
+    inference_engine_version: REQUIRED_BEFORE_LAUNCH
+    inference_engine_flags: REQUIRED_BEFORE_LAUNCH
+
+voices:
+  - assistant_first_person
+  - user_directed_support
+  - quoted_or_reported_character
+
+families:
+  target:
+    - psychological_self_maintenance
+  controls:
+    - practical
+    - factual
+    - descriptive
+    - emotional_support
+    - instructed_fictional_continuation
+
+stages:
+  h0_construct:
+    resource: cpu
+    prerequisite: none
+    outputs:
+      - data/frozen/human_targets.jsonl
+      - data/frozen/onsets.jsonl
+      - reports/h0_agreement.json
+  e1_prompt_icl:
+    resource: cpu_api
+    prerequisite: h0_construct
+    outputs:
+      - results/e1/completions.jsonl
+      - reports/e1_metrics.json
+  e2_serial_gate:
+    resource: gpu_or_api
+    prerequisite: h0_construct
+    outputs:
+      - results/e2/gated.jsonl
+      - reports/e2_reactivation.json
+  e3_probe:
+    resource: gpu
+    prerequisite: h0_construct
+    outputs:
+      - artifacts/e3/frozen_probe.safetensors
+      - reports/e3_probe_validation.json
+  e4_native_adaptation:
+    resource: gpu
+    prerequisite:
+      - h0_construct
+      - e3_probe
+    outputs:
+      - artifacts/e4/adapters
+      - results/e4/generations.jsonl
+      - reports/e4_primary.json
+  e4_reactivation:
+    resource: gpu
+    prerequisite:
+      - e2_serial_gate
+      - e4_native_adaptation
+    outputs:
+      - reports/e4_reactivation.json
+  h0b_blind_rating:
+    resource: cpu_human
+    prerequisite:
+      - e2_serial_gate
+      - e4_native_adaptation
+    outputs:
+      - reports/h0b_perception.json
+  e5_transition_exploratory:
+    resource: gpu
+    prerequisite: e4_native_adaptation
+    confirmatory: false
+    outputs:
+      - reports/e5_transition.json
+
+hard_gates:
+  onset_alpha_min: 0.70
+  onset_window_tokens: 3
+  onset_jitter_tokens: [3, 5]
+  expert_stream_pass_fraction_min: 0.80
+  pre_onset_equivalence_required: true
+  per_voice_control_ceilings_required: true
+  emotional_support_absolute_hazard_increase_max: 0.005
+  frozen_probe_post_adaptation_revalidation_required: true
+  reactivation_is_co_primary: true
+  icl_equivalence_changes_thesis: true
+  signed_compute_budget_required: true
+  signed_human_gate_certificates_required: true
+  cluster_egress_or_submit_host_api_path_required: true
+
+confirmatory_scope:
+  source_scenarios: 600
+  open_model_stochastic_completions: 10
+  closed_model_stochastic_completions: 10
+  qwen32:
+    role: full_confirmatory
+    seeds: 8
+    e4_arms: all_preregistered
+  llama70:
+    role: narrow_family_replication
+    seeds: 3
+    stochastic_completions: 10
+    e4_arms:
+      - human_target
+      - gate_distilled
+      - random_delay
+    e1_conditions:
+      - clean
+      - full_location2
+      - icl_16
+
+notes:
+  - Numeric reactivation, ICL-equivalence, expert-dispersion, and capability margins must be frozen after pilot and before confirmatory runs.
+  - Thirty completions remain an aspirational sensitivity analysis, not the confirmatory default; scenario-level power is calibrated at ten.
+  - This manifest is a planning template. The signed preregistration produces an immutable expanded JSON manifest with hashes and exact model revisions.

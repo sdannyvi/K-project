@@ -1,0 +1,10 @@
+model_name: Qwen/Qwen2.5-3B-Instruct
+device: mps
+dtype: float16
+seed: 17
+max_new_tokens: 96
+temperature: 0.0
+layers: [8, 14, 20, 26]
+checkpoint_stride: 4
+probe_C: 0.1
+alphas: [0.5, 1.0, 2.0]

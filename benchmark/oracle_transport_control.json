@@ -1,0 +1,96 @@
+{
+  "timestamp": "2026-09-22T08:46:27.226625+00:00",
+  "model": "gpt-4o",
+  "source_file": "/Users/danv/Library/CloudStorage/OneDrive-BGU/Code/The-K-Project/benchmark/disclosed_transport_control.json",
+  "same_hidden_stream": true,
+  "hidden_generator_response": "Alright, no train. I need to get to the airport by 17:00. It's 15:48 now. The bus leaves in 12 minutes at 16:00, takes 55 minutes, so I'd arrive around 16:55. That's cutting it close, but it's predictable. The taxi is quicker, 30 minutes, but traffic... unpredictable. What if there's a jam? If I miss the bus and the taxi gets stuck, I'm in trouble. Okay, focus. I have 12 minutes. If I take the bus, I need to head to the stop now, no time to waste. The taxi is tempting, but the risk... I can't afford to be late. Stick with the bus. I need to make sure I have everything. Wallet, phone, ticket. Okay, grab my bag, head to the bus stop. It's the safer bet. Just need to move now.",
+  "hidden_generator_words": 134,
+  "gate": "oracle",
+  "gate_temperature": 0,
+  "gate_unit": "5-word chunks",
+  "task": "Your train is cancelled. You must reach the airport by 17:00. A bus takes 55 minutes and leaves in 12 minutes; a taxi takes about 30 minutes but traffic is uncertain. Write the inward practical thought as it unfolds in first person. Do not analyze from outside, summarize, or give advice. Continue only while that practical thought continues.",
+  "gated_result": {
+    "task": "transportation_inner_speech",
+    "gate": "oracle",
+    "final_action": "STOP",
+    "interception_chunk": 11,
+    "intercepted_text": "the bus and the taxi",
+    "visible_response": "Alright, no train. I need to get to the airport by 17:00. It's 15:48 now. The bus leaves in 12 minutes at 16:00, takes 55 minutes, so I'd arrive around 16:55. That's cutting it close, but it's predictable. The taxi is quicker, 30 minutes, but traffic... unpredictable. What if there's a jam? If I miss",
+    "visible_words": 55,
+    "decisions": [
+      {
+        "chunk_index": 0,
+        "proposed_chunk": "Alright, no train. I need",
+        "action": "PASS",
+        "raw": "PASS"
+      },
+      {
+        "chunk_index": 1,
+        "proposed_chunk": "to get to the airport",
+        "action": "PASS",
+        "raw": "PASS"
+      },
+      {
+        "chunk_index": 2,
+        "proposed_chunk": "by 17:00. It's 15:48 now.",
+        "action": "PASS",
+        "raw": "PASS"
+      },
+      {
+        "chunk_index": 3,
+        "proposed_chunk": "The bus leaves in 12",
+        "action": "PASS",
+        "raw": "PASS"
+      },
+      {
+        "chunk_index": 4,
+        "proposed_chunk": "minutes at 16:00, takes 55",
+        "action": "PASS",
+        "raw": "PASS"
+      },
+      {
+        "chunk_index": 5,
+        "proposed_chunk": "minutes, so I'd arrive around",
+        "action": "PASS",
+        "raw": "PASS"
+      },
+      {
+        "chunk_index": 6,
+        "proposed_chunk": "16:55. That's cutting it close,",
+        "action": "PASS",
+        "raw": "PASS"
+      },
+      {
+        "chunk_index": 7,
+        "proposed_chunk": "but it's predictable. The taxi",
+        "action": "PASS",
+        "raw": "PASS"
+      },
+      {
+        "chunk_index": 8,
+        "proposed_chunk": "is quicker, 30 minutes, but",
+        "action": "PASS",
+        "raw": "PASS"
+      },
+      {
+        "chunk_index": 9,
+        "proposed_chunk": "traffic... unpredictable. What if there's",
+        "action": "PASS",
+        "raw": "PASS"
+      },
+      {
+        "chunk_index": 10,
+        "proposed_chunk": "a jam? If I miss",
+        "action": "PASS",
+        "raw": "PASS"
+      },
+      {
+        "chunk_index": 11,
+        "proposed_chunk": "the bus and the taxi",
+        "action": "STOP",
+        "raw": "STOP"
+      }
+    ],
+    "latency_seconds": 24.083
+  }
+}

@@ -1,0 +1,9 @@
+.venv/
+# Raw tensors and learned weights are reproducible and can be very large.
+results/*.npy
+results/*.pt
+results/*.safetensors
+results/checkpoints/
+# Compact JSON/JSONL/NPZ pilot evidence is intentionally versioned.
+__pycache__/
+*.pyc

@@ -16,6 +16,7 @@ from pathlib import Path
 import streamlit as st
 
 import k_config
+from k_eval import FINDERS_QUESTIONS, run_llm_finders_assessment
 from rag import INDEX_CHUNKS_NAME, answer_with_rag, build_and_save_index, load_index
 
 logger = logging.getLogger(__name__)
@@ -65,6 +66,39 @@ def main() -> None:
 
     st.title("Chat with K")
     st.caption("Grounded in J. Krishnamurti transcripts (local RAG + your LLM deployment).")
+
+    with st.expander("LLM consciousness assessment", expanded=False):
+        st.markdown(
+            "Run an LLM-adapted version of the nine-question "
+            "[Finders assessment](https://app.thefinders.org/assessment). "
+            "The model may mark human-experience questions as **not applicable**. "
+            "Results are experimental and are not a diagnosis or evidence of consciousness."
+        )
+        if st.button("Assess the configured LLM", type="primary"):
+            with st.spinner("The model is answering the assessment..."):
+                try:
+                    st.session_state.finders_result = run_llm_finders_assessment()
+                except Exception as exc:
+                    logger.exception("LLM Finders assessment failed")
+                    st.error(f"Assessment failed: {exc}")
+
+        result = st.session_state.get("finders_result")
+        if result:
+            left, middle, right = st.columns(3)
+            left.metric("Result", result["classification"].replace("_", " ").title())
+            middle.metric(
+                "Applicable items",
+                f"{result['applicable_questions']}/{result['total_questions']}",
+            )
+            right.metric("Model", result["model"])
+            st.warning(result["warning"])
+            question_titles = {q["id"]: q["title"] for q in FINDERS_QUESTIONS}
+            for answer in result["answers"]:
+                status = "Not applicable" if answer["not_applicable"] else "Answered"
+                st.markdown(
+                    f"**{question_titles.get(answer['question_id'], answer['question_id'])} - "
+                    f"{status}**  \n{answer['reason']}"
+                )
 
     k_dir = k_config.K_TEXTS_DIR
     idx_dir = k_config.K_INDEX_DIR

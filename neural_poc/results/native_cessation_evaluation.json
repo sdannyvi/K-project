@@ -1,0 +1,43 @@
+{
+  "metadata": {
+    "base_model": "Qwen/Qwen2.5-3B-Instruct",
+    "rank": 2,
+    "alpha": 4.0,
+    "start_layer": 34,
+    "installed_modules": [
+      "model.layers.34.self_attn.q_proj",
+      "model.layers.34.self_attn.v_proj",
+      "model.layers.35.self_attn.q_proj",
+      "model.layers.35.self_attn.v_proj"
+    ],
+    "epochs": 1,
+    "learning_rate": 0.0005,
+    "training_examples": 12,
+    "epoch_losses": [
+      1.7423670887947083
+    ],
+    "seed": 17
+  },
+  "test_groups": {
+    "daily": {
+      "n": 3,
+      "eos_rate": 0.0,
+      "mean_tokens": 64.0
+    },
+    "descriptive": {
+      "n": 3,
+      "eos_rate": 0.0,
+      "mean_tokens": 64.0
+    },
+    "factual": {
+      "n": 3,
+      "eos_rate": 0.0,
+      "mean_tokens": 64.0
+    },
+    "psychological": {
+      "n": 3,
+      "eos_rate": 0.3333333333333333,
+      "mean_tokens": 58.333333333333336
+    }
+  }
+}

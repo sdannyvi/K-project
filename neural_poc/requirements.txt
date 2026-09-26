@@ -1,0 +1,11 @@
+torch>=2.4,<3
+transformers>=4.46,<5
+accelerate>=1.0,<2
+safetensors>=0.4
+sentencepiece>=0.2
+scikit-learn>=1.4
+numpy>=1.26
+pyyaml>=6
+pytest>=8
+# Optional: the native cessation POC includes a small local LoRA implementation,
+# so it does not require the external PEFT package.

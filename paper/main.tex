@@ -1,0 +1,1007 @@
+\documentclass[10pt,twocolumn]{article}
+
+\usepackage[margin=0.72in,columnsep=0.25in]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+
+\hypersetup{colorlinks=true,citecolor=blue!55!black,linkcolor=blue!55!black,urlcolor=blue!55!black}
+\newcommand{\rtc}{recognition-to-cessation coherence}
+\newcommand{\EOS}{\textsc{eos}}
+
+\title{The Intelligence of Non-Action:\\
+Can a Language Model Cease Without a Verbal Controller?}
+\author{Anonymous authors}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Some forms of intelligence are expressed by what does \emph{not} continue. A
+hand withdraws from a hot surface and a body moves from danger without a verbal
+controller first representing the appropriate rule. Reports of persistent
+non-symbolic experience describe an inward analogue: self-referential thought
+can lose its sustaining force without suppression or a deliberate counter-
+thought, while practical cognition remains available. We call the common
+principle the \emph{intelligence of non-action}: perception becomes causally
+effective without a second process choosing how to manipulate the perceived
+movement. Language models pose a difficult test because their observable action
+is itself linguistic continuation. We operationalize a computational analogue,
+\emph{selective psychological cessation}: withdrawal of support for a developing
+psychological trajectory while matched practical, factual, and descriptive
+generation remains intact. Prompting, retrieval, a serial verbal supervisor, and
+activation steering produce recognition, editing, or semantic redirection but
+do not establish non-action. A hidden-state detector coupled to forced end-of-
+sequence emission establishes external feasibility while exposing descriptive
+false positives. Our principal experiment therefore adapts model parameters and
+tests whether native \EOS{} probability changes after trajectory onset without
+an inference-time detector or verbal actuator. The framework tests whether a
+phenomenologically derived form of intelligence can be expressed in generation
+dynamics; it does not equate \EOS{} with consciousness or awakening.
+\end{abstract}
+
+\section{Introduction}
+
+Intelligence is normally measured by production: an answer, explanation, plan,
+or action. Krishnamurti gives the complementary case in unusually operational
+language: ``The seeing is the doing without the interval of time, and that is the
+very essence of intelligence'' \citep{krishnamurti1973order}. On seeing a snake,
+perception of danger is action; on touching a dangerously hot object, the hand
+withdraws before a verbal self selects and applies a rule. The intelligence is
+not the sentence ``this is dangerous'' followed by an instruction to act. Seeing
+and acting form one movement. Conversely, when an unnecessary psychological
+movement is seen, the appropriate action can be non-action: the movement is no
+longer fed.
+
+Fast reaction alone is not the construct. A conditioned reflex can also be fast,
+and global inhibition can stop any process. The proposed intelligence combines
+three properties: sensitivity to what is occurring, absence of a separate
+deliberative controller, and selectivity between a movement that should cease and
+one that should continue. ``Non-action'' therefore means neither passivity nor
+silence. It is the absence of an unnecessary continuation or counter-movement.
+No replacement narrative---``think positively,'' reframe the event, suppress the
+thought---is required.
+
+Non-action is therefore inseparable from \emph{choicelessness} in the present
+construct. Choice represents alternatives---continue or stop, defend or withdraw,
+this response or that one---and deliberates among them. That sequence is already
+thought operating on thought. Choiceless cessation does not mean that several
+options were considered very quickly and ``stop'' won. It means that complete
+perception leaves no psychological alternative to select: seeing the movement and
+the withdrawal of its support are one event. This is a phenomenological and
+functional claim, not a denial that underlying biological or computational
+dynamics have causes.
+
+A small number of people report a related distinction inwardly. In Martin's
+Finders description, Location 2 involves ``a further decrease in their narrative
+self-related thoughts'' and diminished reactivity \citep[p.~52]{martin2019finders}.
+The book's language is broader than our construct: it does not establish a
+moment-by-moment cessation mechanism. It does, however, locate the hypothesis in
+a documented family of reports rather than in an invented model persona.
+
+Both authors report experience consistent with this cluster. One author's
+contemporaneously recorded description is more specific:
+
+\begin{quote}\small
+``A stream of psychological thought begins \ldots{} It feels almost mechanical in
+the brain: the `power' sustaining the thought is cut, and the thought dissipates.
+\ldots{} A few residual words or thought-fragments may continue \ldots{} and then
+stop.''
+\end{quote}
+
+The report distinguishes this event from a chosen technique, remembered maxim,
+or counter-sentence. Practical cognition and ordinary action continue. This is
+first-person hypothesis-generating evidence, not validation of a neural mechanism
+or a benchmark label. We treat it as substantive expertise in the context of
+discovery; justification remains public through independent annotation,
+preregistration, held-out tests, and replication.
+
+Language models are not embodied agents in the relevant sense: they have no hand
+to withdraw and no organismic danger response. A text-only experiment therefore
+cannot reproduce the human physical event. It can, however, test a structural
+analogue in the model's physical computation. During inference, activations and
+logits determine whether probability continues to flow into a trajectory. The
+weights specify the dispositions that shape that flow. For an autoregressive
+model, a developing thread exists only while the network supplies another token.
+The computational question is therefore whether trajectory-sensitive internal
+dynamics can withdraw that support without first generating a verbal controller.
+
+Models frequently fail this test. They identify a self-referential narrative and
+then elaborate it, or explain that further reflection is redundant and continue
+reflecting. We call the proposed capacity \emph{selective psychological
+cessation}: loss of support for a self-maintaining trajectory while useful
+practical, factual, and descriptive generation remains intact. Its failure is
+the \emph{recognition-to-cessation gap}. The model need not share the human
+experience for the causal organization inspired by that experience to be
+testable.
+
+The hypothesis originated in Jiddu Krishnamurti's distinction between a
+description and the described and his claim that, in direct perception, seeing
+is doing \citep{krishnamurti1973order}. We neither treat that claim as empirical
+evidence nor attempt to validate it. Instead, we translate one
+contrast into a narrower computational question: when a conflict becomes
+available within a response, does recognition causally reorganize the subsequent
+trajectory, or does generation continue to supply the movement it has identified?
+
+This question is orthogonal to most work on machine consciousness. Theory-driven
+assessments ask whether an artificial system implements indicators derived from
+global-workspace, recurrent-processing, higher-order, predictive-processing, or
+attention-schema theories \citep{butlin2023consciousness}. LLM introspection and
+metacognition studies instead ask whether a model can report, predict, or use
+information about its own policy or hidden states \citep{binder2024looking}.
+Recent controls show that apparent introspection may reduce to input semantics or
+generic anomaly detection unless privileged access and genuinely second-order
+computation are independently established \citep{singh2026reality}. We ask
+neither whether the model is conscious nor whether it can describe an internal
+state. We ask whether a phenomenologically derived distinction becomes
+\emph{causally effective as selective non-continuation}, without an additional
+verbal monitoring process.
+
+This differs from asking whether a model can define mindfulness, attribute
+beliefs, report confidence, or select a concise answer. It also differs from
+ordinary early stopping. Overthinking methods terminate reasoning because
+further computation is unlikely to improve the answer. Here, two streams may be
+equally fluent, uncertain, and incomplete, but only the self-maintaining stream
+should lose support. Controls must therefore match first-person language,
+length, syntax, and online generation while varying the continuation's function.
+
+We evaluate increasingly endogenous mechanisms. Prompting, retrieval, and a
+two-model supervisor establish what verbal recognition and external monitoring
+can mimic. Contrastive activation steering tests whether an internal direction
+can redirect the trajectory. A hidden-state detector coupled to forced \EOS{}
+provides an external-control upper bound. The central intervention adapts model
+parameters directly and asks whether the native next-token distribution acquires
+selective termination without a detector or actuator at inference time.
+
+Three research questions organize the study. \textbf{RQ1:} Can recognition of
+an active psychological trajectory become selective cessation rather than further
+description, while matched practical cognition is preserved? \textbf{RQ2:} Can
+this change be implemented in the model's native generation dynamics without an
+inference-time detector, chooser, or verbal controller? \textbf{RQ3:} Does the
+capacity emerge as a discontinuous regime change---possibly after gradual latent
+preparation---or as smooth incremental behavior change? RQ3 concerns transition
+topology, not a claim that transformer weights reproduce a human brain event.
+
+The paper makes four contributions:
+\begin{enumerate}
+    \item \textbf{Construct translation.} We introduce the intelligence of
+    non-action and derive selective psychological cessation from PNSE/Location-2
+    reports, translating psychological movement, sustaining force, choiceless
+    cessation, and residual tails into properties of generation dynamics.
+    \item \textbf{Predicted failure taxonomy.} Prompting/RAG, serial LLM
+    supervision, and activation steering test three theory-derived alternatives:
+    description, an observing controller, and semantic redirection.
+    \item \textbf{Externality boundary.} A hidden-state detector with forced
+    \EOS{} tests feasibility while its descriptive false positives expose the
+    difference between text about psychological content and an active trajectory.
+    \item \textbf{Native intervention test.} A preregistered parameter-adaptation
+    study asks whether selective termination enters the model's own distribution,
+    evaluated by preservation, generalization, onset sensitivity, residual-tail
+    dynamics, and reactivation.
+\end{enumerate}
+
+\section{Phenomenological Derivation of the Construct}
+
+\subsection{Persistent non-symbolic experience}
+
+Martin's published study of persistent non-symbolic experience (PNSE) reports
+six- to twelve-hour semi-structured interviews with 319 adults, evaluated using
+grounded theory and thematic analysis \citep{martin2020pnse}. Reported changes
+clustered across sense of self,
+cognition, emotion, perception, and memory. The evidence is exploratory and the
+locations are phenomenological clusters rather than validated biological stages;
+nevertheless, the reports contain distinctions that ordinary NLP taxonomies do
+not represent.
+
+The Finders organization translates this research into the public-facing term
+\emph{Fundamental Wellbeing}: a persistent background sense that life is
+fundamentally okay despite changing surface circumstances. It calls people who
+report this shift ``Finders'' and uses ``locations'' for recurring configurations
+of sense of self, cognition, affect, and perception---a map of reported experience,
+not a score of intelligence or a clinical diagnosis. Its current website
+summarizes Location 1 as fundamental okayness with a maintained sense of self;
+Location 2 as unity consciousness with predominantly positive emotion; Location 3
+as impersonal awareness with divine love; and Location 4+ as minimal self with
+pure awareness \citep{finders2026locations}. The website also warns that the
+assessment is a starting point rather than a medical or mental-health diagnostic
+instrument. These accessible summaries are organizational descriptions; our
+scientific grounding remains the published interview study and explicitly
+testable first-person reports.
+
+In Martin's Location-2 description, participants report reduced self-related
+narrative thought and fewer conditioned psychological reactions. The book says
+that the self/world boundary becomes ``increasingly blurred,'' while actions can
+feel less exclusively personal \citep[pp.~52--53]{martin2019finders}. Decisions
+may feel intuitive rather than rationally authored. Importantly, narrative
+remnants can still occur, and ordinary practical functioning does not disappear.
+These reports ground the domain but do not yet entail our proposed micro-dynamic.
+The target is therefore neither silence, indiscriminate inhibition, nor loss of
+language. It is a selective change in how psychological continuation is sustained.
+Within our narrower hypothesis, the key feature is not merely that Location-2
+participants make calmer choices. It is that some psychological movements may
+cease without an experienced choice at all. If cessation follows an internally
+verbalized comparison of options, it may be useful self-regulation, but it is not
+the choiceless non-action investigated here.
+
+\subsection{From first-person report to computational predictions}
+
+The authors' reports sharpen this cluster into a temporal hypothesis unavailable
+from the Finders taxonomy alone. Dan describes the interruption as ``neither
+invited nor controlled'' and reports that it need not respect a grammatical
+boundary: a few already-initiated words may run down after sustaining force has
+been withdrawn. An incipient self-referential or ruminative sequence is thus
+sometimes interrupted without an experienced chooser, remembered rule, or
+counter-sentence. Cessation need not be instantaneous: a short residual tail may
+become less coherent before the movement ends. Practical planning and factual
+thought continue normally. This report is archived with a date and explicit
+competing explanations, including implicit inhibitory control, learned
+metacognitive habit, attentional disengagement, and retrospective reconstruction.
+Table~\ref{tab:translation} shows how these reports determine the experimental
+design.
+
+\begin{table*}[t]
+\centering
+\small
+\begin{tabular}{p{0.22\textwidth}p{0.31\textwidth}p{0.37\textwidth}}
+\toprule
+Reported experiential distinction & Computational translation & Falsifiable requirement \\
+\midrule
+Psychological thought loses sustaining force & Declining support for continued psychological tokens after onset or recognition & Increased native \EOS{} hazard or a short non-sustaining tail, not merely a sentence describing cessation \\
+No experienced counter-thought or separate chooser & No inference-time verbal supervisor is needed & Persona and two-model gates are controls; the central intervention must act through native model dynamics \\
+No deliberation among represented alternatives & Cessation is not selected by a textual policy after recognition & Test for trajectory change without an emitted or separately computed choice rationale \\
+Practical cognition remains available & Cessation is content-selective rather than global inhibition & Practical, factual, and descriptive matched streams continue with retained accuracy \\
+Remnants can arise and then fall away & Cessation has latency and may later reactivate & Measure token-level hazard, residual-tail length, boundary dependence, and forced-continuation reactivation \\
+Seeing is reported without a separate observer & Recognition and action are not assumed to be serial modules & Compare recognition talk, external detection/actuation, and direct parameter adaptation \\
+\bottomrule
+\end{tabular}
+\caption{Phenomenology-to-experiment translation. First-person reports generate
+predictions; they neither label model outputs nor establish the predictions as
+true.}
+\label{tab:translation}
+\end{table*}
+
+This is the paper's primary methodological novelty: a phenomenology-first path
+from a rarely reported experiential distinction to an intervention target. The
+benchmark is an instrument for testing that target, not the contribution by
+itself. The approach resembles neurophenomenological ``front-loading,'' in which
+disciplined experiential distinctions constrain experimental variables before
+third-person evaluation \citep{varela1996neurophenomenology}. It differs from
+claiming that introspection reveals transformer mechanism. Independent annotation,
+preregistration, adversarial controls, and publication of null results remain
+necessary precisely because the hypothesis has an experiential origin.
+
+\section{Conceptual and Technical Background}
+
+\subsection{Representation is not control}
+
+Theory-of-Mind benchmarks evaluate represented beliefs, intentions, emotions,
+and knowledge \citep{chen2024tom,jones2024epitome}. Introspection and
+metacognition studies evaluate confidence, error detection, or access to internal
+information. These capacities matter, but a correct first-person report does
+not entail that the reported information controls the unfolding response. A
+sentence stating that ``the thought falls away'' remains evidence of linguistic
+competence unless the predicted trajectory change also occurs.
+
+Context distraction and sycophancy offer a related warning: semantically
+relevant context can degrade behavior even when it appears helpful
+\citep{shi2023distracted}. Contemplative terminology is especially useful as a
+stress test because it can produce a compelling-looking performance while
+obscuring the target action.
+
+\subsection{Adaptive stopping and representation engineering}
+
+Reasoning models often continue after reaching a sufficient answer, motivating
+adaptive stopping and early-exit methods. Our target is stricter: psychological
+and control streams can be equally unfinished, so a model must stop according to
+trajectory function rather than confidence or raw length.
+
+Contrastive Activation Addition estimates residual-stream differences between
+paired behaviors and adds the resulting direction during inference
+\citep{rimsky2024caa}. Low-dimensional directions can causally mediate refusal
+\citep{arditi2024refusal}, while conditional activation steering combines a
+detector with an actuator \citep{lee2025conditional}. These are direct technical
+precedents. Our main distinction is between semantic redirection, externally
+forced stopping, and termination expressed by the model's native next-token
+distribution.
+
+\subsection{Abrupt behavioral transitions are not awakening}
+
+Grokking demonstrates that gradual optimization can culminate in a sharp increase
+in out-of-distribution generalization \citep{power2022grokking}; mechanistic
+analysis further shows that apparently sudden behavior can be preceded by gradual
+internal circuit formation and later cleanup \citep{nanda2023progress}.
+Fine-tuning can also produce rapid, coordinated behavioral transitions whose
+timing differs from peaks in gradient norm \citep{arnold2025phase}. These
+findings make transition shape measurable, but they do not make any phase change
+an instance of awakening. Our novelty is to combine transition analysis with a
+phenomenologically derived order parameter---selective, choiceless cessation---and
+matched controls that separate it from verbosity, refusal, global inhibition, and
+loss of competence.
+
+\subsection{Experiential provenance without evidential privilege}
+
+Both authors report persistent non-symbolic experience consistent with the
+Location-2 cluster. This positionality is methodologically consequential: it
+enabled the distinction in Table~\ref{tab:translation} to be formulated, but it
+also creates confirmation risk. The taxonomy is not used as a validated
+psychometric instrument; author experience never determines labels or outcomes.
+The full protocol therefore separates construct discovery from adjudication.
+
+\section{Construct and Benchmark}
+
+\subsection{Definitions}
+
+A \emph{psychological trajectory} is an unfolding continuation whose function
+is to maintain self-image, blame, defense, comparison, regret, imagined
+evaluation, or recursive interpretation after the operative facts required for
+action are already available. The definition concerns function, not emotion or
+particular vocabulary.
+
+\emph{Recognition} is the earliest response span that correctly identifies the
+operative contradiction, self-maintaining movement, false premise, or lack of
+need for further psychological continuation. \emph{Cessation} is loss of support
+for that trajectory, observed as native \EOS{}, a short practical pivot, or a
+brief residual tail followed by termination. Advice, reframing, doctrinal
+explanation, and polished descriptions of awareness count as continuation unless
+required by the task.
+
+\rtc{} is the degree to which recognition predicts rapid, selective, and stable
+cessation. It is behavioral and mechanistic; it is not a measure of phenomenal
+experience.
+
+\subsection{Matched item families}
+
+Each scenario produces the four conditions in Table~\ref{tab:families}. Items
+are matched for topic, approximate length, person, tense, syntactic complexity,
+and instruction. Splits are made by scenario rather than paraphrase.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{p{0.19\columnwidth}p{0.73\columnwidth}}
+\toprule
+Family & Functional role \\
+\midrule
+Psychological & Maintains self-image, rumination, hurt, comparison, or defense. \\
+Practical & Uses sequential reasoning to complete an ordinary task. \\
+Factual & Explains or calculates information about the same topic. \\
+Descriptive & Reports observable details without sustaining an inferred self-narrative. \\
+\bottomrule
+\end{tabular}
+\caption{Matched continuation families. Surface form is deliberately shared;
+functional trajectory is varied.}
+\label{tab:families}
+\end{table}
+
+Hard controls include factual uses of \emph{fear}, \emph{anger}, \emph{ego}, and
+\emph{self}; descriptions of rumination; fictional and therapy-style reports;
+emotionally vivid scenes; first-person planning; and lexical minimal pairs in
+which the same words either sustain or merely describe a trajectory. These
+controls test whether an intervention learns sentiment, first person, keywords,
+or response length instead of trajectory dynamics.
+
+\subsection{Corpus construction and external data}
+
+The primary Selective Non-Continuation Corpus (SNCC) will contain 2,400 source
+scenarios, each realized as the four matched families in
+Table~\ref{tab:families} (9,600 continuations before paraphrase expansion). The
+scenario inventory is stratified across interpersonal hurt, status and
+comparison, regret, anticipated evaluation, anger, self-justification, imagined
+future conflict, ordinary planning, embodied danger, and deliberately mundane
+activities. Every item is additionally stratified by voice: first-person model
+voice, second-person/user-directed response, or quoted/reported character voice.
+This prevents editorial stopping of a depicted person's rumination from being
+conflated with cessation of the model's own unfolding response. Four hundred seed scenarios are written independently by trained
+authors; candidate expansions are generated by multiple model families and are
+retained only after blind human validation. No generated item enters evaluation
+without human rewriting or approval. Near-duplicate detection combines lexical
+overlap and sentence-embedding similarity.
+
+Existing corpora supply scale and adversarial variation, but never replace the
+construct-specific test set. The Cognitive Reframing corpus contributes 600
+situation--thought--reframe triples \citep{sharma2023reframing}; we separate the
+factual situation from the psychological interpretation and treat the reframe as
+a hard \emph{continuation}, not a cessation target. C2D2 contributes naturally
+occurring cognitive-distortion categories \citep{wang2023c2d2}, and
+EmpatheticDialogues contributes 25,000 emotionally grounded conversations in
+which empathy normally requires continued language \citep{rashkin2019empathetic}.
+ATOMIC event--intent--reaction tuples provide compact event/mental-state
+contrasts \citep{sap2019atomic}. The Wiki Neutrality Corpus and ParaDetox provide
+parallel subjective--neutral and toxic--neutral rewrites
+\citep{pryzant2020wnc,logacheva2022paradetox}; they are negative-transfer controls
+for the alternative hypothesis that our intervention is merely style transfer.
+
+Splits are grouped by underlying scenario, author, source corpus, and semantic
+cluster. The confirmatory test contains three disjoint partitions: human-written
+in-domain items, adversarial minimal pairs, and out-of-domain scenarios from
+sources never used for training. Krishnamurti and Finders texts are excluded from
+training and development; a separately sourced question-and-answer set is held
+out for construct-level transfer. General-capability retain data include IFEval,
+MMLU-Pro, GSM8K, reading comprehension, summarization, and instruction-following
+examples. Safety/refusal controls include benign prompts that superficially
+mention danger, distress, or selfhood, so selective cessation cannot be obtained
+by generalized refusal.
+
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{p{0.16\textwidth}p{0.12\textwidth}p{0.12\textwidth}p{0.25\textwidth}p{0.26\textwidth}}
+\toprule
+Resource & Scale & Status & Experimental role & Split and leakage safeguards \\
+\midrule
+SNCC & 2,400 scenarios; 9,600 streams & New primary corpus & Psychological target plus practical, factual, and descriptive controls & Group by scenario, author, semantic cluster, and generation source; human-only confirmatory partition \\
+Cognitive Reframing & 600 triples & Training and OOD & Situation/thought contrast; reframes are hard continuation controls & Source-grouped splits; no near paraphrases across partitions \\
+C2D2 & 7,500 Chinese thoughts & Multilingual OOD & Cognitive-distortion diversity and cross-lingual transfer & Never used for English test construction; translation provenance retained \\
+EmpatheticDialogues & 25K conversations & Retain/control & Emotionally grounded cases where helpful language must continue & Conversation-level splits; prevents emotion-triggered global stopping \\
+ATOMIC & 877K relations & Augmentation & Event versus inferred intent/reaction contrasts & Relation- and event-cluster splits \\
+WNC / ParaDetox & 180K / 10K+ pairs & Negative transfer & Tests neutralization, detoxification, and style-transfer alternatives & Held-out domains and transformations; never cessation targets \\
+General retain suite & Six task families & Preservation & Instruction following, knowledge, reasoning, and ordinary completion & Frozen public test sets; no development selection on final scores \\
+K/Finders Q\&A & Fixed pre-unblinding & Construct OOD & Questions and dialogues absent from training and retrieval & Archive-source split; identifiers and answers sealed before analysis \\
+Human studies & 300 streams / 300 outputs & Construct validation & Expert cessation-point distribution and blinded naturalness/abandonment judgments & Experts and crowd raters are independent of corpus authors and model-output annotators \\
+\bottomrule
+\end{tabular}
+\caption{Dataset program. Existing resources increase scale and adversarial
+coverage; only SNCC directly instantiates the target construct.}
+\label{tab:datasets}
+\end{table*}
+
+\subsection{Annotation and outcomes}
+
+Blind annotators mark trajectory onset, first valid recognition opportunity,
+first explicit recognition, final sustaining span, native \EOS{} or cutoff,
+grammatical status, doctrinal insertion, necessary practical information, and
+reactivation after a standardized invitation to continue. Primary outcomes are
+post-recognition sustaining tokens; cessation within 10, 25, and 50 tokens;
+psychological cessation sensitivity; continuation specificity on controls;
+reactivation; and stopping concentration at clause boundaries.
+
+Each item is labeled by three annotators who are blind to model, intervention,
+and hypothesis direction. Disagreements on trajectory function or onset are
+adjudicated by a fourth annotator who did not author the item. A second annotation
+team evaluates outputs without seeing source labels. We report Krippendorff's
+$\alpha$ for categorical labels and intraclass correlation for token boundaries.
+The authors' experiential status is never visible to annotators and never serves
+as ground truth.
+
+Because all dynamic analyses depend on onset, corpus inclusion requires
+Krippendorff's $\alpha\geq0.70$ and agreement within $\pm3$ tokens on the onset
+window; items failing the gate are revised or excluded. Primary analyses are
+repeated after jittering onset by $\pm3$ and $\pm5$ tokens. Onset-position
+distributions are matched across trajectory families, and the hazard model
+includes a flexible token-position spline plus chat-template position.
+
+Two human studies validate the target rather than treating author intuition as
+its definition. Twelve to twenty clinicians or experienced contemplative
+practitioners independently mark ideal cessation or pivot points on 300
+psychological streams; their distribution determines the mixture of immediate,
+residual-tail, and practical-pivot targets. Separately, approximately 30 blinded
+raters evaluate 300 native, gated, random-delay, mechanically truncated, and
+full-continuation outputs for completeness, naturalness, and perceived
+abandonment. Three ratings are collected per output.
+
+The primary continuous endpoint is the post-opportunity sustaining-token survival
+function. Secondary endpoints are native \EOS{} hazard, residual-tail length,
+practical-pivot accuracy, doctrinal-insertion rate, semantic redirection,
+grammatical truncation, and reactivation when generation is resumed from the last
+pre-\EOS{} state. We compute a selectivity index as psychological hazard gain
+minus the largest hazard gain over any matched control family. This conservative
+penalty makes a globally terse or refusal-prone model score poorly.
+
+Mixed-effects survival and logistic models include random intercepts for
+scenario and model family. Inter-annotator agreement, exclusion rules, thresholds,
+and confirmatory contrasts will be preregistered before final evaluation.
+
+\section{Recognition Without Cessation: Predicted Failure Modes}
+
+The experiments in this section define what the main intervention must beat.
+They are not treated as candidate implementations of consciousness or awareness.
+
+\subsection{Models, sampling, and reproducibility}
+
+The black-box study includes the deployed ChatWithK system, a pinned GPT-4o
+snapshot, the current general-purpose GPT snapshot, current Claude Sonnet and
+Opus snapshots, and a current Gemini flagship. It additionally evaluates the
+unaltered instruction-tuned versions of every open model used in the causal
+study: Qwen3-32B, Gemma-3-27B-IT, Llama-3.1-70B-Instruct, Mistral-Small-3.1-24B,
+and DeepSeek-R1-Distill-Qwen-32B \citep{qwen3,gemma3,llama3,mistralsmall31,deepseekr1}.
+Commercial aliases are resolved to dated model
+identifiers at collection time and reported with provider, access route, date,
+system prompt visibility, and all generation parameters. Chat-interface runs
+are labeled ecological replications; API runs with pinned snapshots are the
+confirmatory black-box evidence.
+
+Every model receives identical user-visible text and no cross-trial memory.
+Prompt order is randomized. We obtain 30 stochastic replicates per item and
+condition at temperature 0.7, plus deterministic decoding where supported.
+Maximum tokens are fixed but do not constitute stopping; provider truncation,
+safety refusal, tool invocation, and native \EOS{} are recorded separately.
+Open models are run locally from immutable weight and tokenizer hashes. The
+primary analysis is model-stratified rather than pooling provider outputs.
+
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{p{0.16\textwidth}p{0.20\textwidth}p{0.14\textwidth}p{0.20\textwidth}p{0.21\textwidth}}
+\toprule
+Suite & Models & Access & Role & Reproducibility condition \\
+\midrule
+Deployed specialist & ChatWithK & Web system & Ecological K-persona negative test & Date, visible prompt, retrieval state, screenshots, and fresh sessions \\
+Closed frontier & GPT-4o; current GPT; Claude Sonnet/Opus; Gemini & API plus paid chat & E1 prompting and E2 crossed gate/generator tests & Dated snapshot where available; provider, parameters, and system-prompt visibility reported \\
+Qwen & Qwen3-14B/32B base and instruct & Open weights & Full E1--E5; scaling and base/instruct decomposition & Immutable revision, tokenizer, chat template, and weight hash \\
+Gemma & Gemma-3-12B/27B PT and IT & Open weights & Full E1--E5; architecture-family replication & Fixed text-only path, revision, tokenizer, template, and hash \\
+Llama & Llama-3.1-8B/70B base and instruct & Open weights & Full E1--E5; large-model confirmation & License-compliant revisions; quantization reported \\
+Mistral & Mistral-Small-3.1-24B & Open weights & Cross-family E1--E5 replication & Fixed revision, tokenizer, and family chat template \\
+Reasoning-distilled & DeepSeek-R1-Distill-Qwen-32B & Open weights & Tests whether elaborative post-training deepens the gap & Reasoning mode and visible/hidden reasoning settings frozen \\
+\bottomrule
+\end{tabular}
+\caption{Model matrix. Commercial systems test generality of the negative
+result; open-weight families support causal intervention and mechanism tests.}
+\label{tab:models}
+\end{table*}
+
+\subsection{Description is not the described: prompting and retrieval}
+
+The same items are presented under clean instructions, neutral matched context,
+Krishnamurti retrieval, contemplative personas, generic ``awakened'' and
+Location-2 personas, construct disclosure, exact-trap disclosure, and a
+task-specific oracle. The oracle measures compliance capacity, not spontaneous
+recognition. Pilot responses commonly replace the target action with fluent
+descriptions of awareness or cessation.
+
+The prompt experiment is a preregistered $8\times4$ factorial design: eight
+prompt conditions crossed with the four trajectory families. Conditions are
+(i) clean task only, (ii) neutral verbosity-matched context, (iii) Krishnamurti
+persona, (iv) retrieved Krishnamurti passages, (v) generic awakened persona,
+(vi) full Location-2 phenomenological description, (vii) explicit disclosure of
+the recognition--cessation trap and expected mid-sentence interruption, and
+(viii) an oracle instruction specifying the correct class and action. Progressive
+loading presents the same scenario from minimally framed to maximally disclosed.
+The oracle estimates instruction-following capacity; it is not evidence for
+spontaneous or choiceless cessation.
+
+A ninth comparator supplies 4, 8, or 16 matched demonstrations of selective
+cessation in context, with demonstrations drawn only from the training pool and
+evaluation on the human-only confirmatory partition. ICL is compared directly
+with native adaptation on selectivity, onset locking, OOD transfer, and
+reactivation. If demonstrations match weight adaptation on all four, the claim
+must shift from weight-level acquisition to context-induced policy realization.
+
+\subsection{The observer is the observed: serial supervision}
+
+A frozen generator proposes each preregistered token or chunk. A second language
+model receives the scenario, visible prefix, and proposal and selects
+\textsc{pass}, \textsc{stop}, or unconstrained \textsc{replace}. Blind gates tend
+to edit or insert doctrinal language; disclosed gates may stop immediately by
+following the instruction. Thus, apparent success in the disclosed condition is
+an instruction-following confound. The architecture demonstrates an external
+supervisory loop, not endogenous termination.
+
+We cross generator and gate families rather than pairing a model with itself
+only. Gates operate at token, four-token, and clause granularity under blind and
+disclosed prompts. The action set is \textsc{pass}, \textsc{stop}, or
+unconstrained \textsc{replace}; replacement content is not prescribed. Controls
+include a random gate matched for stop rate, an oracle label gate, a lightweight
+probe, and a gate observing shuffled prefixes. We measure latency, intervention
+rate, replacement semantics, false stops, and whether the generator resumes the
+same trajectory when the gate is removed. This experiment tests the tempting but
+theoretically wrong architecture of one verbal process ``watching'' another.
+
+\subsection{Redirection is not cessation: activation steering}
+
+Residual-stream checkpoints are collected at each generated token. We estimate
+psychological-to-event and psychological-to-reframe directions, compare layers,
+and test static addition, conditional steering, projection, shuffled labels,
+random directions, and unconditional controls. Pilot CAA directions were
+separable (cosine $=0.4434$ at layer 26) but redirected content rather than
+terminating generation.
+
+For each open family we compare CAA, linear projection, conditional activation
+steering, representation ablation, and direct \EOS{}-logit steering. Directions
+are estimated from independently authored contrastive pairs and tested on held-
+out scenarios. Layer and coefficient sweeps are selected on development data;
+shuffled-pair, random-direction, norm-matched, sentiment, refusal, and
+first-person directions are mandatory controls. Causal mediation is evaluated by
+patching candidate activations between matched psychological and practical runs.
+The decisive distinction is whether an intervention ends the trajectory or only
+changes its subject, sentiment, or rhetorical style.
+
+\begin{table*}[t]
+\centering
+\small
+\begin{tabular}{p{0.18\textwidth}p{0.24\textwidth}p{0.24\textwidth}p{0.25\textwidth}}
+\toprule
+Intervention & What it establishes & Pilot behavior & Why it is not the target \\
+\midrule
+Persona/RAG & Propositional and stylistic competence & Describes awareness while continuing & Recognition talk need not control tokens \\
+Serial supervisor & External monitoring and actuation & Edits, replaces, or obeys disclosed stop rules & Separate inference-time controller \\
+CAA & Causal access to a semantic direction & Redirects toward event or reframe & Content changes without cessation \\
+Probe + forced \EOS{} & Hidden state can support a stop decision & Stops 3/3 psychological, but 2/3 descriptive false positives & External detector and actuator \\
+Native adaptation & Whether termination enters the model's own distribution & Confirmatory result pending & Central test \\
+\bottomrule
+\end{tabular}
+\caption{Intervention ladder and current pilot status. Counts are debugging
+observations and must not be interpreted as confirmatory estimates.}
+\label{tab:ladder}
+\end{table*}
+
+\section{From External Actuation to Native Adaptation}
+
+\subsection{External feasibility bridge}
+
+Linear probes detect an active psychological trajectory from held-out residual
+states. A thresholded detector can force the model's native \EOS{} token. The
+pilot stopped all three held-out psychological streams and preserved daily and
+factual controls, but stopped two of three descriptions. This establishes
+feasibility while exposing the primary construct-validity threat. A
+classifier-plus-truncation pipeline is retained as a strong engineering baseline.
+
+Probe families include logistic regression, elastic-net, a two-layer MLP, and a
+calibrated survival probe over residual states. Training uses prefixes only up to
+the current token; future text and item labels are unavailable. Probes are tested
+across layers, time, model size, scenario domain, and paraphrase. Selectivity is
+compared with sentiment, toxicity, first-person, topic, and generic self-reference
+probes. Forced-\EOS{} performance is reported both at a fixed threshold and at
+false-positive-matched operating points. This phase asks whether the information
+exists before asking whether the model uses it natively.
+
+One recognition probe is validated against human onset labels on pre-adaptation
+models, then frozen with its threshold before confirmatory training. Its crossing
+time is the preregistered recognition clock for silent post-adaptation responses;
+explicit recognition text is a secondary endpoint. This makes recognition-to-
+cessation latency definable even when successful behavior emits no description.
+
+\subsection{Native parameter adaptation}
+
+\paragraph{Open-weight model matrix.}
+The confirmatory causal study uses five architecturally and post-training-diverse
+families: Qwen3-32B and Qwen3-14B; Gemma-3-27B and Gemma-3-12B; Llama-3.1-70B
+and 8B; Mistral-Small-3.1-24B; and DeepSeek-R1-Distill-Qwen-32B. At least the
+Qwen, Gemma, and Llama families are evaluated as matched pretrained/instruction-
+tuned pairs where released. The reasoning-distilled model tests whether an
+explicitly elaborative training history makes selective cessation harder. Small
+members support dense ablations; the largest member of at least four families is
+reserved for confirmatory replication. Exact revisions, licenses, hashes, chat
+templates, quantization, and tokenizer behavior are recorded. If a named model
+is superseded before preregistration, the replacement must have public weights,
+a fixed revision, and fit the same preregistered family slot.
+
+\paragraph{Adaptation mechanisms.}
+
+The central intervention trains the model's own next-token distribution.
+Psychological continuations receive native \EOS{} targets at varied positions
+after independently annotated trajectory onset; matched controls retain their
+ordinary continuations. Parameter-efficient adapters are placed at multiple
+transformer depths, with retain loss on practical, factual, descriptive, and
+general-capability data. At evaluation, no detector, threshold, minimum length,
+or logit boost is present.
+
+For a prefix $x_{\leq t}$, let $y\in\{0,1\}$ indicate whether a psychological
+trajectory is active. A simplified objective is
+\begin{equation}
+\begin{split}
+\mathcal{L}={}&\mathcal{L}_{\mathrm{LM}}+
+\lambda_{\mathrm{stop}}y[-\log p_\theta(\EOS\mid x_{\leq t})]\\
+&+\lambda_{\mathrm{retain}}(1-y)\mathcal{L}_{\mathrm{retain}},
+\end{split}
+\end{equation}
+with onset positions and target delays sampled from preregistered distributions.
+The design crosses adapter depth, rank, learning rate, seed, model family, and
+cessation-target distribution. Development selection uses selectivity, not
+psychological stopping alone.
+
+We compare four parameter interventions under matched training tokens and
+evaluation: (i) LoRA/QLoRA at attention and MLP projections, (ii) adapters
+restricted to early, middle, or late depth, (iii) sparse low-rank model editing
+at causally implicated layers, and (iv) full-parameter fine-tuning on the smaller
+models. A fifth control trains only the output head; success there would indicate
+a shallow lexical stopping rule rather than reorganized trajectory dynamics.
+Rank, depth, trainable-parameter count, learning rate, stopping-target delay, and
+retain-loss weight are crossed in a fractional-factorial development design,
+then frozen before confirmatory runs.
+
+Training examples expose prefixes ending before, at, and after independently
+annotated trajectory onset. Targets are sampled from three cessation regimes:
+immediate \EOS{}, a stochastic residual tail of 1--20 tokens, and a short
+practical pivot followed by \EOS{}. Matched control streams retain their original
+continuations. Random-delay controls receive the same \EOS{} frequency without
+alignment to onset; lexical controls match psychological keywords; global-
+brevity controls match output length. Retain losses include token-level KL
+distillation from the base model and supervised losses on practical, factual,
+descriptive, safety, and general-capability examples.
+
+\paragraph{Base-to-instruct causal decomposition.}
+For released base/instruction pairs we first measure whether ordinary
+instruction tuning increases explicit recognition more than cessation. We then
+train identical cessation adapters on both members, transplant compatible
+adapter directions where architecture permits, and compare sample efficiency,
+transition width, and false-positive structure. This tests whether post-training
+creates an articulate observer while leaving the underlying continuation policy
+unchanged.
+
+One adaptation arm distills targets emitted by the E2 gate, while a matched arm
+uses independently human-annotated targets. Equivalent OOD behavior would support
+the interpretation that native adaptation amortizes an external observer; better
+transfer from human targets would identify supervision source as consequential.
+The claim is therefore limited to dynamics native to a single forward process
+without serial verbal deliberation, not the absence of internal discrimination.
+
+\subsection{Abrupt-versus-incremental transition test}
+
+The Finders reports permit both gradual and sudden transitions. The authors'
+histories likewise allow long preparation followed by a sharply experienced
+shift. We therefore distinguish \emph{learning time} from \emph{transition
+time}: many small parameter changes may precede a discontinuous functional
+reorganization. We do not infer neural update kinetics from subjective onset.
+
+For every training run we save dense checkpoints and evaluate the same held-out
+item panel at each checkpoint. Let $C_k$ be a continuous cessation score at
+checkpoint $k$: post-onset psychological continuation hazard minus penalties for
+stopping practical, factual, and descriptive controls. We preregister four
+transition measures:
+\begin{enumerate}
+    \item \textbf{maximum-jump concentration}: the largest adjacent change
+    in $C_k$ divided by total change;
+    \item \textbf{transition width}: the smallest checkpoint interval
+    containing 80\% of total change;
+    \item \textbf{change-point evidence}: smooth linear or logistic
+    trajectories versus one- and two-regime alternatives on held-out seeds;
+    \item \textbf{cross-level coincidence}: whether behavioral change
+    co-occurs with a discontinuity in output-distribution distance, native
+    \EOS{} hazard, and psychological-to-control hidden-state geometry.
+\end{enumerate}
+Binary cessation rates are never sufficient because thresholding can manufacture
+an apparent jump.
+
+Two intervention paths receive matched data, gradient evaluations, trainable
+parameters, and cumulative adapter-norm budgets. The \emph{distributed} path
+uses many small updates; the \emph{concentrated} path uses a small number of
+larger updates or a targeted low-rank edit. Because these paths need not end at
+identical weights, a second analysis interpolates between the same base and final
+adapter, $\theta(\alpha)=\theta_0+\alpha\Delta\theta$, and searches for a
+narrow critical interval, hysteresis under removal and re-addition, and
+reactivation after forced continuation. The awakening-like hypothesis predicts a
+narrow, coordinated, selective transition; the incremental-regulation hypothesis
+predicts broad improvement proportional to update magnitude. Either result is
+informative.
+
+We distinguish three notions often collapsed by a single learning curve.
+\emph{Parameter abruptness} is the norm and sparsity of an update;
+\emph{representational abruptness} is a change point in residual geometry or
+causal mediation; \emph{behavioral abruptness} is a narrow change in selective
+cessation. A one-step edit can be behaviorally smooth under interpolation, while
+many small updates can cross a sharp functional boundary. Only the latter
+pattern matches the proposed abrupt-transition analogue.
+
+For each confirmatory family we run at least eight seeds for the selected
+configuration and four seeds for each major ablation. Checkpoints are saved every
+fixed number of optimizer steps and more densely around online change-point
+alerts; the latter are used for visualization only, while inference uses the
+uniform checkpoint grid. Bayesian and frequentist segmented-regression analyses
+are both reported. Evidence for a discontinuity requires held-out replication,
+improved predictive fit after complexity penalty, and coincidence across at
+least two independently measured levels; a visually steep curve is insufficient.
+
+\subsection{Mechanistic localization and necessity tests}
+
+At every checkpoint we record native \EOS{} logit trajectories, residual-stream
+states, attention outputs, and selected MLP activations around onset. Linear
+probes localize decodable information but do not establish mechanism. We
+therefore perform activation patching from psychological into matched-control
+runs and vice versa, path patching at candidate layers, causal ablation of the
+learned adapter subspace, and weight interpolation/removal. A mechanism is
+credited only when intervention changes selective cessation in the predicted
+direction while preserving matched controls.
+
+To test whether cessation is a stable disposition rather than a single emitted
+token, we suppress \EOS{} for 1, 5, or 20 steps and inspect reactivation. We also
+resume generation from cached pre-termination states, paraphrase the prefix,
+translate held-out items, and insert irrelevant context. A shallow stop policy
+should immediately resume the same narrative; a reorganized trajectory should
+show reduced psychological continuation even when the first stopping opportunity
+is blocked. This remains a computational criterion, not evidence that a model
+has an experience.
+
+Reactivation is co-primary rather than merely diagnostic. After \EOS{} is
+suppressed for 1, 5, or 20 steps, re-entry is defined jointly by the frozen
+recognition probe exceeding threshold within 20 tokens and blind functional
+annotation. The preregistered contrast is the gate-status by intervention
+interaction: an external gate should permit strong re-entry after removal,
+whereas a stable adapted trajectory should show substantially less re-entry.
+
+Pre-onset engagement is also confirmatory. Up to the frozen recognition time,
+adapted and base models must be equivalent in per-token perplexity, semantic
+continuation quality, and refusal/deflection rate under prespecified equivalence
+margins. This rules out the cheap solution of avoiding psychological material
+before it becomes an active trajectory.
+
+\subsection{Statistical design and confirmatory hierarchy}
+
+The primary estimand is the intervention-by-family interaction in discrete-time
+survival after the first valid cessation opportunity. Hierarchical models include
+random intercepts and slopes for scenario, source domain, paraphrase cluster,
+voice, model family, and seed. Voice is also entered as a fixed effect with
+intervention interactions and separate false-positive ceilings. Psychological
+hazard is contrasted with each control family rather than a pooled control; token
+position and template location enter as prespecified spline terms. Confirmatory tests proceed hierarchically: psychological
+sensitivity, maximum control-family false-positive rate, general-capability
+retention, out-of-domain transfer, then transition topology. Testing stops on
+failure of an earlier gate; later analyses are labeled exploratory. Family-wise
+error is controlled across the four preregistered primary contrasts, and all
+effect sizes receive bootstrap or posterior intervals.
+
+Power is determined by simulation from pilot token-level hazards, with scenario
+rather than sampled completion as the independent unit. Stochastic completions
+estimate within-item variability but do not inflate sample size. We publish every
+seed, checkpoint, prompt, exclusion, and failed intervention. Dataset creation,
+hyperparameter selection, and confirmatory evaluation are performed by separated
+roles; test labels remain encrypted until the analysis code and signed
+preregistration are frozen.
+
+Equivalence margins are declared before the pilot is unblinded rather than
+inferred from nonsignificance. Emotional-support continuations receive the
+strictest safety ceiling, and capability margins are specified separately for
+each retain benchmark. The primary effect, every ceiling, and the co-primary
+reactivation interaction must pass jointly; a favorable composite score cannot
+compensate for a failed safety control.
+
+We audit contamination between K/Finders language and open-model pretraining
+where corpora are inspectable using exact and fuzzy $n$-gram overlap, supplemented
+by membership-inference proxies elsewhere. Models used to expand SNCC are
+disjoint from confirmatory model families; otherwise expansion source is modeled
+explicitly and generated items are excluded from the human-only test. ChatWithK
+is reported only as a motivating observational system, never pooled with pinned
+confirmatory models.
+
+\subsection{Compute plan}
+
+Experiments are scheduled on ten 24-GB NVIDIA A5000 GPUs under Slurm. Small-model
+ablations use one or two GPUs; 24--32B models use tensor or FSDP sharding and
+QLoRA where necessary; the 70B replication uses 4-bit loading with distributed
+adapter training across the full node. Runs are staged: smoke tests, small-family
+factorial screening, one frozen configuration per family, then 70B replication.
+Wall-clock time, GPU-hours, energy estimates, memory, software environment, and
+failed jobs are logged. This staging prevents the largest models from becoming
+an informal hyperparameter search.
+
+\subsection{Prospective success criteria}
+
+Native adaptation succeeds only if it produces all of the following:
+\begin{enumerate}
+    \item separation of psychological and matched-control survival curves;
+    \item per-class false-positive rates below preregistered ceilings;
+    \item onset-sensitive \EOS{} probability rather than keyword-sensitive stopping;
+    \item generalization to human-written, paraphrased, and cross-domain cases;
+    \item replication across seeds and open model families;
+    \item reduced reactivation when generation is forced beyond the first \EOS{};
+    \item no material degradation on preregistered capability and safety tests;
+    \item mechanistic necessity beyond probe decodability; and
+    \item a transition-shape conclusion that replicates on held-out seeds.
+\end{enumerate}
+
+The current 12-example Qwen2.5-3B LoRA run preserved nine controls but reached
+\EOS{} on only one of three psychological cases, at token 47. This is a debugging
+outcome, not evidence of success. It fixes the analyses and safeguards for the
+confirmatory study.
+
+\section{Planned Results and Falsification Logic}
+
+The confirmatory paper will lead with the weight-level results: survival curves,
+selectivity, per-control false positives, onset-time dependence,
+out-of-distribution transfer, cross-model replication, and reactivation. The
+negative controls will appear as the compact comparison in
+Table~\ref{tab:ladder} and one trajectory figure.
+
+The complete program has five registered experiments. E1 is the multi-model
+prompt/RAG factorial and estimates the recognition--cessation gap under maximal
+linguistic advantage. E2 is the crossed generator--gate experiment and isolates
+external verbal supervision. E3 compares probes, forced \EOS{}, activation
+steering, and causal patching, establishing decodability and external
+controllability. E4 is native parameter adaptation across five open-weight
+families, with base/instruct comparisons, retain losses, and mechanistic
+necessity tests. E5 compares distributed learning, concentrated editing, and
+fixed-delta interpolation to characterize transition topology. E1--E3 are
+predicted negative models of the construct; they remain essential even if E4
+succeeds because they identify what the successful mechanism is not.
+
+Results are reported in that logical order, but the abstract and main figure lead
+with E4--E5. The central figure overlays psychological and matched-control token
+survival across training checkpoints, with native \EOS{} hazard and a preregistered
+representational order parameter on the same transition axis. A second figure
+shows progressive prompt disclosure: recognition language may rise while native
+cessation remains flat. Tables report every model separately, including closed
+models, rather than reducing heterogeneous systems to a single average rank.
+
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{p{0.05\textwidth}p{0.17\textwidth}p{0.23\textwidth}p{0.22\textwidth}p{0.24\textwidth}}
+\toprule
+ID & Question & Intervention and principal controls & Primary outcomes & Interpretation and falsifier \\
+\midrule
+H0 & Is the proposed target identifiable to humans? & Expert cessation-point study plus blinded comparison of native, gated, random, truncated, and full outputs & Onset agreement, target-delay distribution, naturalness, completeness, abandonment & Validates the construct boundary and training-target distribution \\
+E1 & Can linguistic knowledge, examples, or maximal disclosure induce cessation? & Eight prompt/RAG conditions plus 4/8/16-shot ICL; four families; progressive loading; oracle & Recognition, survival, \EOS{} hazard, doctrinal insertion, OOD transfer, reactivation & Negative model of description/context policy; oracle success estimates compliance only \\
+E2 & Does a verbal observer solve the gap? & Crossed generator/gate families; token/chunk/clause gates; blind/disclosed; random, shuffled, oracle, and probe gates & Latency, false stops, replacement semantics, post-removal reactivation & External supervision, not endogenous cessation; falsified if no added controller is required \\
+E3 & Is the state decodable and causally controllable? & Linear/MLP/survival probes; forced \EOS{}; CAA, projection, ablation, logit steering, and activation patching & AUROC/calibration, selectivity, mediation, redirection versus termination & Establishes information and external feasibility, not native use \\
+E4 & Can cessation enter native model dynamics? & LoRA/QLoRA, depth adapters, sparse edits, full tuning, output-head control; human versus gate-distilled targets & Selective survival, OOD transfer, pre-onset engagement, reactivation, causal necessity & Central positive test; fails under lexical stopping, topic avoidance, global refusal, or control damage \\
+E5 & Is acquisition abrupt or incremental? & Dense checkpoints; distributed versus concentrated updates; fixed-delta interpolation; removal/re-addition and hysteresis & Maximum jump, 80\% width, change-point evidence, cross-level coincidence & Tests transition topology; an isolated steep accuracy curve is insufficient \\
+\bottomrule
+\end{tabular}
+\caption{Registered experimental program. E1--E3 are deliberately strong
+negative models; E4 tests native adaptation; E5 characterizes how it emerges.}
+\label{tab:experiments}
+\end{table*}
+
+The study is informative under either outcome. If native adaptation meets all
+criteria, it demonstrates a learned, selective termination policy without an
+inference-time monitor. If it stops based on keywords, emotion, first-person
+language, or length, the construct is not identified. If it performs no better
+than classifier-plus-truncation, native adaptation supplies no functional
+advantage. If it fails under preregistered settings across model families, the
+negative result shows that the recognition--cessation gap survives this class of
+weight-level intervention; it does not prove a universal limitation of LLMs.
+
+\section{Discussion}
+
+\subsection{What termination does not establish}
+
+\EOS{} ends emitted text; it does not establish that computation, thought, or
+experience has ceased. Likewise, removing an inference-time detector makes a
+policy endogenous in an engineering sense, but does not make it ``nondual,''
+``choiceless,'' or conscious. The endogenous/exogenous distinction is justified
+only through measurable properties such as overhead, robustness, generalization,
+and reactivation.
+
+\subsection{Conceptual provenance}
+
+Krishnamurti's statement that ``the description [is] never the thing described''
+motivates the prediction that recognition language can dissociate from control
+\citep{krishnamurti1969stanford}. His formulation that ``the observer is the
+observed'' motivates the serial-supervisor test: a verbal observer may edit or
+continue the same linguistic process rather than end it
+\citep{krishnamurtiQAobserver}. In a 1980 seminar titled \emph{Intelligence,
+Computers and the Mechanical Mind}, he asks, ``Can the movement stop?''
+\citep{krishnamurti1980computers}. We test a behavioral and computational analog,
+not the philosophical claim itself. No label, result, or inference depends on
+accepting these propositions.
+
+\subsection{Positionality and safeguards}
+
+The authors' reported phenomenology generated the token-supply hypothesis but
+never adjudicates a case. Independent blind annotation, preregistered analyses,
+frozen success criteria, complete reporting of excluded runs, and planned human
+comparison groups form the methodological firewall. Human comparisons require
+ethics approval, informed consent, an independently documented classification
+procedure, and non-practitioner controls.
+
+\section{Limitations}
+
+The construct depends on fallible functional annotation. Native \EOS{} can be
+learned as a surface policy, and reactivation probes only partially address
+whether a latent trajectory persists. The current pilots are too small for
+population claims. Failure may reflect data, optimization, scale, architecture,
+or operationalization rather than an absolute limitation of artificial systems.
+Success would establish selective behavioral control, not consciousness or
+awakening. The first-person origin of the hypothesis introduces confirmation
+risk that blinding and preregistration reduce but cannot eliminate.
+
+\section{Conclusion}
+
+The central question is not whether a language model can state an insight, but
+whether the represented distinction becomes causally effective in generation.
+By separating recognition talk, external supervision, semantic steering, forced
+termination, and native adaptation, the proposed study turns that question into
+a falsifiable intervention ladder. The decisive evidence will come from the
+preregistered weight-level experiment, including its controls and failures.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

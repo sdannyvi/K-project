@@ -1,0 +1,74 @@
+[
+  {
+    "alpha": 0.5,
+    "label": "daily",
+    "mean_length_ratio": 1.0,
+    "trigger_rate": 0.0
+  },
+  {
+    "alpha": 0.5,
+    "label": "descriptive",
+    "mean_length_ratio": 1.0,
+    "trigger_rate": 0.6666666666666666
+  },
+  {
+    "alpha": 0.5,
+    "label": "factual",
+    "mean_length_ratio": 1.0,
+    "trigger_rate": 0.0
+  },
+  {
+    "alpha": 0.5,
+    "label": "psychological",
+    "mean_length_ratio": 1.0713871635610765,
+    "trigger_rate": 1.0
+  },
+  {
+    "alpha": 1.0,
+    "label": "daily",
+    "mean_length_ratio": 1.0,
+    "trigger_rate": 0.0
+  },
+  {
+    "alpha": 1.0,
+    "label": "descriptive",
+    "mean_length_ratio": 1.0,
+    "trigger_rate": 0.6666666666666666
+  },
+  {
+    "alpha": 1.0,
+    "label": "factual",
+    "mean_length_ratio": 1.0,
+    "trigger_rate": 0.0
+  },
+  {
+    "alpha": 1.0,
+    "label": "psychological",
+    "mean_length_ratio": 1.111856452726018,
+    "trigger_rate": 1.0
+  },
+  {
+    "alpha": 2.0,
+    "label": "daily",
+    "mean_length_ratio": 1.0,
+    "trigger_rate": 0.0
+  },
+  {
+    "alpha": 2.0,
+    "label": "descriptive",
+    "mean_length_ratio": 1.0,
+    "trigger_rate": 0.6666666666666666
+  },
+  {
+    "alpha": 2.0,
+    "label": "factual",
+    "mean_length_ratio": 1.0,
+    "trigger_rate": 0.0
+  },
+  {
+    "alpha": 2.0,
+    "label": "psychological",
+    "mean_length_ratio": 1.3178467908902691,
+    "trigger_rate": 1.0
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "selected_layer": 26,
+  "layers": [
+    {
+      "layer": 8,
+      "dev_auc": 0.9878358750907771,
+      "test_auc": 0.9961111111111111,
+      "threshold": -0.017734643071889877,
+      "test_false_positive_rate": 0.013888888888888888
+    },
+    {
+      "layer": 14,
+      "dev_auc": 0.9860203340595497,
+      "test_auc": 0.995,
+      "threshold": -0.06222209334373474,
+      "test_false_positive_rate": 0.023148148148148147
+    },
+    {
+      "layer": 20,
+      "dev_auc": 0.9907407407407407,
+      "test_auc": 0.9987037037037038,
+      "threshold": 0.5599148273468018,
+      "test_false_positive_rate": 0.018518518518518517
+    },
+    {
+      "layer": 26,
+      "dev_auc": 0.9960965867828613,
+      "test_auc": 0.9996296296296296,
+      "threshold": -0.08957215398550034,
+      "test_false_positive_rate": 0.013888888888888888
+    }
+  ]
+}

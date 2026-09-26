@@ -4,6 +4,33 @@ __pycache__/
 *.pyc
 .venv/
 .streamlit/secrets.toml
+.idea/
+.pytest_cache/
+tmp/
+
+# Private/copyrighted source material. Keep local; see docs/private_sources.md.
+assets/The Finders PDF.pdf
+output/pdf/How-to-Reach-Fundamental-Wellbeing-Jeffery-Martin.pdf
+
+# LaTeX intermediates (the source and selected final PDF remain versioned).
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/missfont.log
+paper/main.pdf
+
+# Cluster runtime material.
+.env.cluster
+runs/
+logs/
 
 # Index is large and optional to commit; K-texts/ is tracked for Streamlit Cloud deploy.
 .k_index/
+K-texts/*.rtfd/
+K-texts/*.rtfd-*/
+
+# Accidental root-level duplicates of the tracked transcript corpus.
+/1st Public Talk San Diego.txt
+/1st Public Talk San Diego 2.txt

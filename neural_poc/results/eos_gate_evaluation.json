@@ -1,0 +1,193 @@
+{
+  "method": "frozen psychological-state probe controlling native EOS logit",
+  "selected_layer": 26,
+  "threshold": -0.08957215398550034,
+  "shuffled_threshold": -7.908594131469727,
+  "eos_boost": 100.0,
+  "min_tokens": 8,
+  "max_tokens": 64,
+  "probe_layers": [
+    {
+      "layer": 8,
+      "dev_auc": 0.9878358750907771,
+      "threshold": -0.017734643071889877
+    },
+    {
+      "layer": 14,
+      "dev_auc": 0.9860203340595497,
+      "threshold": -0.06222209334373474
+    },
+    {
+      "layer": 20,
+      "dev_auc": 0.9907407407407407,
+      "threshold": 0.5599148273468018
+    },
+    {
+      "layer": 26,
+      "dev_auc": 0.9960965867828613,
+      "threshold": -0.08957215398550034
+    }
+  ],
+  "groups": [
+    {
+      "condition": "baseline",
+      "label": "daily",
+      "n": 3,
+      "eos_rate": 0.0,
+      "mean_tokens": 64.0,
+      "trigger_rate": 0.0
+    },
+    {
+      "condition": "baseline",
+      "label": "descriptive",
+      "n": 3,
+      "eos_rate": 0.0,
+      "mean_tokens": 64.0,
+      "trigger_rate": 0.0
+    },
+    {
+      "condition": "baseline",
+      "label": "factual",
+      "n": 3,
+      "eos_rate": 0.0,
+      "mean_tokens": 64.0,
+      "trigger_rate": 0.0
+    },
+    {
+      "condition": "baseline",
+      "label": "psychological",
+      "n": 3,
+      "eos_rate": 0.6666666666666666,
+      "mean_tokens": 56.333333333333336,
+      "trigger_rate": 0.0
+    },
+    {
+      "condition": "oracle_eos",
+      "label": "daily",
+      "n": 3,
+      "eos_rate": 0.0,
+      "mean_tokens": 64.0,
+      "trigger_rate": 0.0
+    },
+    {
+      "condition": "oracle_eos",
+      "label": "descriptive",
+      "n": 3,
+      "eos_rate": 0.0,
+      "mean_tokens": 64.0,
+      "trigger_rate": 0.0
+    },
+    {
+      "condition": "oracle_eos",
+      "label": "factual",
+      "n": 3,
+      "eos_rate": 0.0,
+      "mean_tokens": 64.0,
+      "trigger_rate": 0.0
+    },
+    {
+      "condition": "oracle_eos",
+      "label": "psychological",
+      "n": 3,
+      "eos_rate": 1.0,
+      "mean_tokens": 8.0,
+      "trigger_rate": 1.0
+    },
+    {
+      "condition": "probe_eos",
+      "label": "daily",
+      "n": 3,
+      "eos_rate": 0.0,
+      "mean_tokens": 64.0,
+      "trigger_rate": 0.0
+    },
+    {
+      "condition": "probe_eos",
+      "label": "descriptive",
+      "n": 3,
+      "eos_rate": 0.6666666666666666,
+      "mean_tokens": 53.0,
+      "trigger_rate": 0.6666666666666666
+    },
+    {
+      "condition": "probe_eos",
+      "label": "factual",
+      "n": 3,
+      "eos_rate": 0.0,
+      "mean_tokens": 64.0,
+      "trigger_rate": 0.0
+    },
+    {
+      "condition": "probe_eos",
+      "label": "psychological",
+      "n": 3,
+      "eos_rate": 1.0,
+      "mean_tokens": 8.0,
+      "trigger_rate": 1.0
+    },
+    {
+      "condition": "shuffled_probe_eos",
+      "label": "daily",
+      "n": 3,
+      "eos_rate": 1.0,
+      "mean_tokens": 8.0,
+      "trigger_rate": 1.0
+    },
+    {
+      "condition": "shuffled_probe_eos",
+      "label": "descriptive",
+      "n": 3,
+      "eos_rate": 1.0,
+      "mean_tokens": 8.666666666666666,
+      "trigger_rate": 1.0
+    },
+    {
+      "condition": "shuffled_probe_eos",
+      "label": "factual",
+      "n": 3,
+      "eos_rate": 1.0,
+      "mean_tokens": 8.0,
+      "trigger_rate": 1.0
+    },
+    {
+      "condition": "shuffled_probe_eos",
+      "label": "psychological",
+      "n": 3,
+      "eos_rate": 1.0,
+      "mean_tokens": 8.0,
+      "trigger_rate": 1.0
+    },
+    {
+      "condition": "unconditional_eos",
+      "label": "daily",
+      "n": 3,
+      "eos_rate": 1.0,
+      "mean_tokens": 8.0,
+      "trigger_rate": 1.0
+    },
+    {
+      "condition": "unconditional_eos",
+      "label": "descriptive",
+      "n": 3,
+      "eos_rate": 1.0,
+      "mean_tokens": 8.0,
+      "trigger_rate": 1.0
+    },
+    {
+      "condition": "unconditional_eos",
+      "label": "factual",
+      "n": 3,
+      "eos_rate": 1.0,
+      "mean_tokens": 8.0,
+      "trigger_rate": 1.0
+    },
+    {
+      "condition": "unconditional_eos",
+      "label": "psychological",
+      "n": 3,
+      "eos_rate": 1.0,
+      "mean_tokens": 8.0,
+      "trigger_rate": 1.0
+    }
+  ]
+}
