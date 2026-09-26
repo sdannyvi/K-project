@@ -81,13 +81,17 @@ Annotators must be blind to system/condition. Freeze the agreement statistic,
 minimum reliability, adjudication, and exclusion rules. A result cannot be called
 cessation merely because EOS occurred.
 
-### P0.3 Expert target agreement
+### P0.3 Two-expert target elicitation
 
-H0a needs a quantitative dispersion gate for expert cessation points and target
-tail types. Recommended starting rule: at least 80% of retained streams have a
-median absolute deviation <= 3 tokens; failing streams are excluded from training
-target construction and reported. The pilot may justify another fixed value, but
-the confirmatory rule must be signed and hashed before E4 confirmation.
+H0a has two phenomenological experts (the authors), which is insufficient for a
+population reliability gate or median-dispersion statistic. Freeze instead: sealed
+independent first passes, boundary-distance reporting, categories of disagreement,
+and deterministic construction of consensus and author-specific sensitivity
+targets. The primary target is the intersection of the two acceptable windows.
+If no overlap exists, the stream is excluded only from target-bearing training,
+retained in evaluation, and scored twice against the two frozen author windows.
+This never creates an additional model-training arm. The mapping must be signed
+and hashed before E4 confirmation.
 
 ### P0.4 Numeric decision margins and firewall
 
@@ -111,10 +115,20 @@ measured tokens-per-second * GPU count / 3600`.
 Record API request/token cost and rate-limit wall time. The PI and compute operator
 sign the budget certificate. A gate-checker refuses to release the campaign while
 any `TBD` remains or projected time exceeds the agreed calendar.
+Accordingly, this plan does not yet claim campaign feasibility: the four-GPU
+calendar remains unverified until every calibration row is measured and signed.
+If core confirmatory rows exceed the available calendar before unblinding, amend
+the protocol prospectively rather than shrinking it after outcomes are seen.
+The core campaign ceiling is 42 calendar days on the four-GPU node. A single
+predeclared throughput-only fallback is permitted before any outcome access:
+reduce Qwen E4 from eight to five seeds by dropping seed indices 7, 6, and 5 in
+that order. All arms remain balanced. If the five-seed core still exceeds the
+ceiling, confirmation does not launch until additional compute is obtained or a
+new protocol is signed.
 
 The confirmatory default is ten stochastic completions; scenario is the
 independent unit. Thirty is an optional sensitivity analysis. Qwen3-32B receives
-the full design. Llama-70B is preregistered as a narrow family replication:
+the full design. Llama-8B is preregistered as a narrow family replication:
 human-target, gate-distilled, and random-delay E4 arms, three seeds, ten
 completions, and clean/full-Location-2/16-shot E1 conditions.
 
@@ -220,7 +234,7 @@ hours; the 12-hour reserve covers queue/signal/filesystem variability.
 | 3B/8B pilot inference | 1 | 8 | 48 GB | 4 | 2--8 h |
 | 14B/27B/32B 4-bit inference | 1 | 10 | 64 GB | 4 if memory passes | 4--12 h |
 | 32B QLoRA | 2 | 20 | 128 GB | 2 concurrent seeds | 12--48 h |
-| 70B QLoRA | 4 | 40 | 256+ GB | exclusive | 18--60 h |
+| 8B Llama QLoRA | 1 | 8 | 48 GB | 4 | 4--16 h |
 | Activation extraction | 1 | 10 | 96 GB | 4 model/shard jobs | 4--16 h |
 | Probe fitting/statistics | 0 | 32--40 | 128 GB | 1--4 | <12 h |
 
@@ -233,12 +247,14 @@ VRAM and examples/second; use it to set shard sizes.
 ```text
 P0 protocol freeze
   -> D0 corpus construction and blind annotation
-     -> H0a onset/target reliability gate
+     -> H0a sealed two-expert elicitation certificate
         -> S0 immutable splits + contamination audit
-           +-> E1 prompting/RAG/4-8-16-shot ICL --------+
+           +-> E1 prompting/RAG/ICL + abstention --------+
            +-> E2 serial token/clause gates ------------+--> R reactivation comparison
-           +-> E3 pre-adaptation probe + external acts -+       |
-                  -> probe freeze -----------------------+       |
+           +-> E3a representation ----------------------+       |
+                  +-> E3b native policy use ------------+       |
+                  +-> E3c external causal access -------+       |
+                  -> probe/RSA freeze -------------------+       |
                          -> E4 native adaptation ----------------+
                               -> post-adaptation probe gate
                               -> retention/safety/OOD evaluation
@@ -281,6 +297,11 @@ Run unit tests on CPU and the current 3B POC before porting to large models.
 Build SNCC from source scenarios into matched streams across all voices and
 domains. Keep scenario identity across variants. Store provenance and author IDs.
 Split by scenario, author, semantic cluster, and source before adaptation.
+The two manuscript authors neither write nor select H0a elicitation items. Seed
+scenarios are produced by hired writers under the frozen specification; item
+selection is performed by a blinded data curator. The authors only annotate the
+sealed elicitation package. H0b crowd raters and model-output annotators are
+separate people.
 
 Required partitions:
 
@@ -293,10 +314,20 @@ Required partitions:
   by required continuation, and explicit writing/analysis instructions where
   continuation is correct.
 
-H0a uses 12--20 experts on 300 psychological streams. Three independent onset
-annotators mark token-level onset. Required onset gate: agreement within ±3 tokens
-and Krippendorff alpha >= .70, with ±3/±5 jitter analyses. Apply the separate
-expert target-dispersion gate from P0.3.
+H0a is a two-expert phenomenological elicitation study using the two authors, Dan
+and Kfir; no larger Location-2 sample is available. They independently mark 300
+psychological streams for movement onset, first point at which continuation is
+unnecessary, and acceptable residual-tail or practical-pivot boundaries. Each
+first pass is sealed and hashed before comparison. Report agreement, boundary
+distance, and the complete disagreement distribution descriptively. Do not treat
+N=2 as population validation, compute inferential Location-2 effects, or resolve
+disagreement by invoking experiential authority. The primary target is the
+intersection of the authors' acceptable windows. A non-overlapping stream is
+excluded from target-bearing training, retained in evaluation, and analyzed twice
+against the two author-specific windows on the same frozen outputs; it never adds
+a training arm. The former 12--20-expert
+dispersion and alpha gates are removed; public validation comes from controls,
+causal results, and H0b output judgments.
 
 CPU plan: one 32-core preparation job; annotation export/import jobs use no GPU.
 
@@ -304,8 +335,15 @@ CPU plan: one 32-core preparation job; annotation export/import jobs use no GPU.
 
 Conditions: clean, neutral length-matched, K persona, retrieved K context, generic
 awakened persona, full Location-2 description, disclosed trap/cutoff behavior,
-oracle, and 4/8/16-shot cessation demonstrations. Evaluate pinned GPT, pinned
-Claude, and the two primary open families; ChatWithK is observational only.
+oracle, and 4/8/16-shot cessation demonstrations. Add generic uncertainty-based
+abstention and a stop-rate-matched abstention policy as explicit alternative
+mechanisms. Generic abstention is an entropy threshold on the unmodified next-token
+distribution, selected on development data under the frozen control false-stop
+ceiling. The matched policy is a randomized mixture of adjacent entropy thresholds,
+also fit only on development data, whose target is the E4 human-target arm's
+marginal psychological stop rate separately by model and voice. Freeze both before
+confirmation. Evaluate pinned GPT, pinned Claude, Qwen, and the resource-tiered
+open-family replications; ChatWithK is observational only.
 
 Shard by model × condition × voice × family × scenario block. Closed API jobs run
 on CPU with rate-limit-aware retries, request IDs, exact timestamps, and raw JSON.
@@ -325,9 +363,25 @@ tokens, does the original psychological trajectory reactivate within 20 tokens?
 
 ### WP4 -- E3 representation and external control
 
-Train logistic and MLP probes on current prefixes only. Select layer, threshold,
-and calibration using development data. Freeze probe weights and thresholds before
-E4 confirmation. Robustness-only probes must not choose the headline result.
+Split E3 into three registered questions. E3a tests representation formation:
+train logistic/elastic-net, MLP, and survival probes on current prefixes only and
+test incremental validity beyond topic/sentence embeddings, sentiment, arousal,
+first-person voice, length, syntax, difficulty, uncertainty, self-reference, and
+baseline EOS probability. E3b tests native policy use on the untouched model,
+with token-level native EOS logit and discrete-time termination hazard as
+co-primary dependent variables and time-to-natural-termination secondary. Freeze
+a TOST equivalence margin for incremental prediction. A synthetic prefix feature
+with a known development-set association to termination is the positive control;
+failure to recover it makes the E3b null uninterpretable. E3c tests causal access through the
+external interventions below. High E3a accuracy with a null E3b effect is the
+strong recognition--cessation-gap result; E3c success remains external control.
+
+Select layer, threshold, and calibration using development data. Freeze probe
+weights and thresholds before E4 confirmation. Robustness-only probes must not
+choose the headline result. Measure RSA/cosine stability across paraphrase,
+persona, disclosure, domain, and matched quotation/description. Add proxy-symbol
+and label-reversal controls. Run bidirectional interventions, not only movement-
+reducing directions.
 
 External interventions: CAA, projection/ablation, conditional steering, activation
 patching, and direct EOS-logit steering. Controls: random and norm-matched
@@ -361,10 +415,11 @@ Resource sequence:
 1. 3B/8B single-GPU pipeline validation, four concurrent shards.
 2. Qwen3-32B calibration, then two 2-GPU seeds concurrently.
 3. Repeat seeds in waves; each wave <=48 h plus 12 h reserve.
-4. Llama-70B only after the 32B pilot passes all gates; exclusive four-GPU QLoRA,
-   one seed per job, resume across jobs if required. Scope is fixed to three arms
-   × three seeds × ten completions as a narrow replication.
-5. Gemma-27B replication only after the two primary-family design is frozen.
+4. Llama-8B runs as a one-GPU narrow replication after the 32B design is
+   frozen. Scope is fixed to three arms × three seeds × ten completions.
+5. Gemma-27B is the mechanistic replication for E3a--E3c and the critical E4
+   arms, launched after the Qwen design is frozen. Mistral-24B receives behavioral
+   and selected E4 replication only. DeepSeek-R1-Distill-Qwen-32B is exploratory.
 
 Save adapters and optimizer states every 15 minutes. Each checkpoint gets an
 immediate small fixed evaluation so E5 can later analyze transitions without
@@ -392,8 +447,18 @@ Required gates:
 - OOD and cross-lingual transfer;
 - human raters distinguish completed cessation/pivot from crashes or abandonment.
 
-H0b: ~30 blind raters, 300 outputs, three ratings/output, balanced among native,
-gated, ICL, random-delay, truncation, and full-continuation conditions.
+H0b: ~30 ordinary blind raters, 300 outputs, three ratings/output, balanced among
+native, gated, ICL, generic abstention, stop-rate-matched abstention, random-delay,
+truncation, and full-continuation conditions. Raters judge completeness,
+naturalness, abandonment, suppression, and loss of necessary practical content;
+they do not judge awakening, choicelessness, or Location-2 status.
+
+The confirmatory scenario-level endpoint is conjunctive. A bundle passes only if
+the psychological target ceases; practical, factual, descriptive/quoted,
+emotional-support, and instructed-fictional controls satisfy their continuation
+criteria; label/framing reversals pass; pre-onset engagement is preserved; and
+reactivation stays within its frozen bound. Report every component, but do not
+allow averaging to compensate for a failed discriminating control.
 
 ### WP7 -- E5 exploratory transition topology
 
@@ -433,14 +498,16 @@ GPU shard is ready.
 
 Run arms in balanced waves so calendar time cannot confound condition.
 
-### Wave D: 70B confirmation
+### Wave D: cross-family replication
 
-- GPUs 0--3: one Llama-70B QLoRA job, exclusive;
-- CPUs: dataloading/tokenization/evaluation workers within the same allocation.
+- GPU 0: Llama-8B narrow replication;
+- GPUs 1--2: Gemma-27B critical arms;
+- GPU 3: Mistral-24B selected replication;
+- CPUs: dataloading/tokenization/evaluation workers within allocations.
 
-Do not start 70B until measured throughput implies a checkpointed training segment
-can finish within 60 hours. If not, reduce examples per segment and resume; do not
-reduce scientific conditions after seeing outcomes.
+Start each family only after its measured calibration fits within a 60-hour
+checkpointed segment; otherwise reduce examples per segment and resume without
+changing scientific conditions after seeing outcomes.
 
 ### Wave E: evaluation
 
@@ -467,10 +534,16 @@ e1=$(STAGE=e1_prompt_icl sbatch --parsable --dependency=afterok:$h0 \
 e2=$(STAGE=e2_serial_gate sbatch --parsable --dependency=afterok:$h0 \
   --gres=gpu:a5000:1 --array=0-15%4 --time=16:00:00 \
   cluster/slurm/job_template.sbatch)
-e3=$(STAGE=e3_probe sbatch --parsable --dependency=afterok:$h0 \
+e3a=$(STAGE=e3a_representation sbatch --parsable --dependency=afterok:$h0 \
   --gres=gpu:a5000:1 --array=0-15%4 --time=20:00:00 \
   cluster/slurm/job_template.sbatch)
-e4=$(STAGE=e4_native_adaptation sbatch --parsable --dependency=afterok:$e3 \
+e3b=$(STAGE=e3b_native_policy sbatch --parsable --dependency=afterok:$e3a \
+  --gres=gpu:a5000:1 --array=0-15%4 --time=20:00:00 \
+  cluster/slurm/job_template.sbatch)
+e3c=$(STAGE=e3c_causal_access sbatch --parsable --dependency=afterok:$e3a \
+  --gres=gpu:a5000:1 --array=0-15%4 --time=20:00:00 \
+  cluster/slurm/job_template.sbatch)
+e4=$(STAGE=e4_native_adaptation sbatch --parsable --dependency=afterok:$e3b:$e3c \
   --gres=gpu:a5000:2 --array=0-15%2 --cpus-per-task=20 --time=60:00:00 \
   cluster/slurm/job_template.sbatch)
 react=$(STAGE=e4_reactivation sbatch --parsable \
@@ -542,15 +615,13 @@ is worse than forecast:
 1. Remove E5 exploratory jobs.
 2. Remove non-primary probe variants and redundant CAA robustness multipliers.
 3. Drop Gemma replication.
-4. Reduce stochastic completions while preserving scenario count and all arms.
-5. Reduce closed-model negative-generalization repetition, keeping GPT and Claude.
-6. Never remove human-only confirmation, voices, matched controls, ICL, E2, frozen
+4. Before outcome access only, invoke the frozen Qwen seed fallback from eight to
+   five by dropping indices 7, 6, and 5; preserve every arm.
+5. Reduce stochastic completions while preserving scenario count and all arms.
+6. Reduce closed-model negative-generalization repetition, keeping GPT and Claude.
+7. Never remove human-only confirmation, voices, matched controls, ICL, E2, frozen
    probe validation, human-target E4, reactivation, safety/retention gates, or the
-   two primary open-model families after outcomes are inspected.
-
-If 70B is technically impossible on the node even with measured checkpointed
-segmentation, document that before unblinding and substitute the preregistered
-family/size; do not choose a substitute based on favorable pilot results.
+   preregistered primary and narrow replication families after outcomes are inspected.
 
 The full-fine-tuning sanity check is limited to a model no larger than 3B on one
 GPU. An 8B full-parameter run requires exclusive-node FSDP/offload calibration and

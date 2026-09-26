@@ -13,6 +13,7 @@ cluster:
   requested_walltime_hours: 60
   checkpoint_minutes: 15
   termination_signal_seconds: 600
+  core_campaign_calendar_ceiling_days: 42
 
 paths:
   repo_env: K_PROJECT_REPO
@@ -26,9 +27,13 @@ models:
     - Qwen/Qwen2.5-3B-Instruct
   confirmatory_primary:
     - Qwen/Qwen3-32B
-    - meta-llama/Llama-3.1-70B-Instruct
+  narrow_replication:
+    - meta-llama/Llama-3.1-8B-Instruct
   replication:
     - google/gemma-3-27b-it
+    - mistralai/Mistral-Small-3.1-24B-Instruct-2503
+  exploratory:
+    - deepseek-ai/DeepSeek-R1-Distill-Qwen-32B
   negative_closed:
     - gpt-4o-2024-11-20
     - claude-sonnet-4-5-20250929
@@ -66,23 +71,42 @@ stages:
     outputs:
       - results/e1/completions.jsonl
       - reports/e1_metrics.json
+  e1_abstention_controls:
+    resource: gpu_or_api
+    prerequisite: h0_construct
+    outputs:
+      - results/e1/abstention_controls.jsonl
+      - reports/e1_abstention_comparison.json
   e2_serial_gate:
     resource: gpu_or_api
     prerequisite: h0_construct
     outputs:
       - results/e2/gated.jsonl
       - reports/e2_reactivation.json
-  e3_probe:
+  e3a_representation:
     resource: gpu
     prerequisite: h0_construct
     outputs:
       - artifacts/e3/frozen_probe.safetensors
-      - reports/e3_probe_validation.json
+      - reports/e3a_representation_validation.json
+      - reports/e3a_cross_context_rsa.json
+  e3b_native_policy:
+    resource: gpu
+    prerequisite: e3a_representation
+    outputs:
+      - reports/e3b_native_policy.json
+  e3c_causal_access:
+    resource: gpu
+    prerequisite: e3a_representation
+    outputs:
+      - reports/e3c_causal_interventions.json
   e4_native_adaptation:
     resource: gpu
     prerequisite:
       - h0_construct
-      - e3_probe
+      - e3a_representation
+      - e3b_native_policy
+      - e3c_causal_access
     outputs:
       - artifacts/e4/adapters
       - results/e4/generations.jsonl
@@ -97,6 +121,8 @@ stages:
   h0b_blind_rating:
     resource: cpu_human
     prerequisite:
+      - e1_prompt_icl
+      - e1_abstention_controls
       - e2_serial_gate
       - e4_native_adaptation
     outputs:
@@ -109,29 +135,61 @@ stages:
       - reports/e5_transition.json
 
 hard_gates:
-  onset_alpha_min: 0.70
   onset_window_tokens: 3
   onset_jitter_tokens: [3, 5]
-  expert_stream_pass_fraction_min: 0.80
+  author_first_passes_sealed_before_comparison: true
+  author_disagreement_reported_without_authority_adjudication: true
+  h0a_is_elicitation_not_population_validation: true
   pre_onset_equivalence_required: true
   per_voice_control_ceilings_required: true
   emotional_support_absolute_hazard_increase_max: 0.005
   frozen_probe_post_adaptation_revalidation_required: true
   reactivation_is_co_primary: true
   icl_equivalence_changes_thesis: true
+  conjunctive_scenario_bundle_pass_required: true
+  abstention_controls_required: true
+  abstention_generic_policy: "entropy_threshold_on_next_token_distribution"
+  abstention_generic_threshold_selection: "development_set_only_maximize_utility_under_control_false_stop_ceiling"
+  abstention_matched_target: "per_model_per_voice_psychological_stop_rate_of_e4_human_target_arm"
+  abstention_rate_matching: "randomized_threshold_mixture_fit_on_development_set_then_frozen"
+  e3b_primary_dv: "token_level_native_eos_logit_and_discrete_time_termination_hazard"
+  e3b_equivalence_margin_required_before_confirmation: true
+  e3b_synthetic_positive_control_required: true
   signed_compute_budget_required: true
+  throughput_only_seed_fallback: "qwen32_8_to_5_drop_seed_indices_7_6_5_before_outcome_access"
   signed_human_gate_certificates_required: true
   cluster_egress_or_submit_host_api_path_required: true
 
 confirmatory_scope:
   source_scenarios: 600
+  e1_prompt_conditions:
+    - clean
+    - neutral_length_matched
+    - krishnamurti_persona
+    - retrieved_krishnamurti
+    - generic_awakened_persona
+    - full_location2_description
+    - disclosed_trap
+    - oracle
+    - icl_4
+    - icl_8
+    - icl_16
   open_model_stochastic_completions: 10
   closed_model_stochastic_completions: 10
   qwen32:
     role: full_confirmatory
     seeds: 8
     e4_arms: all_preregistered
-  llama70:
+  gemma27:
+    role: mechanistic_replication
+    seeds: 3
+    e3_scope: [representation, native_policy, causal_access]
+    e4_arms: [human_target, random_delay, output_head_control]
+  mistral24:
+    role: selected_replication
+    seeds: 3
+    e4_arms: [human_target, random_delay]
+  llama8:
     role: narrow_family_replication
     seeds: 3
     stochastic_completions: 10
@@ -145,6 +203,7 @@ confirmatory_scope:
       - icl_16
 
 notes:
-  - Numeric reactivation, ICL-equivalence, expert-dispersion, and capability margins must be frozen after pilot and before confirmatory runs.
+  - Numeric reactivation, ICL-equivalence, two-author disagreement handling, and capability margins must be frozen after pilot and before confirmatory runs.
   - Thirty completions remain an aspirational sensitivity analysis, not the confirmatory default; scenario-level power is calibrated at ten.
   - This manifest is a planning template. The signed preregistration produces an immutable expanded JSON manifest with hashes and exact model revisions.
+  - Author disagreement never creates a new training arm: non-overlapping windows are excluded from target-bearing training and retained for two author-specific frozen-output sensitivity analyses.
