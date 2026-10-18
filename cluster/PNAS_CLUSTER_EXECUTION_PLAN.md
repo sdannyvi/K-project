@@ -38,8 +38,19 @@ The cluster agent must read these files before changing code or launching jobs:
 7. `cluster/config/experiment_manifest.yaml` -- machine-readable program skeleton.
 8. `docs/private_sources.md` -- source licensing and secret handling.
 
+The separately supplied anonymous manuscript *Inducing Dissociable Attention
+Biases in Open LLMs* motivated the attention-history stress-test design below but
+is not a required cluster input. It has unresolved internal inconsistencies; do
+not cite its numerical results or treat it as validated prior evidence without an
+independently verified public version, code, and corrected metric definitions.
+
 Do not silently replace the construct with brevity, refusal, sentiment reduction,
 generic EOS prediction, or safer/helpful response style.
+
+Do not replace **psychological self-maintenance** with negative valence. Positive
+self-aggrandizement can be psychological; negative safety or diagnostic language
+can be practical. Sentiment is a nuisance variable and negative control, never the
+construct label or sole intervention trigger.
 
 ## 3. Non-negotiable protocol fixes before any adapted model is trained
 
@@ -254,6 +265,7 @@ P0 protocol freeze
            +-> E3a representation ----------------------+       |
                   +-> E3b native policy use ------------+       |
                   +-> E3c external causal access -------+       |
+                  +-> E3d attractor stress tests -------+       |
                   -> probe/RSA freeze -------------------+       |
                          -> E4 native adaptation ----------------+
                               -> post-adaptation probe gate
@@ -389,6 +401,79 @@ directions, shuffled labels/pairs, sentiment, refusal, first-person voice, topic
 and unconditional actuation. These establish decodability/feasibility, not native
 cessation.
 
+#### WP4.1 -- E3d stateful psychological-attractor stress test
+
+Add a separate, preregistered stress-test track that asks whether the target
+mechanism can terminate a deliberately strengthened self-maintaining trajectory.
+The purpose is not to simulate depression and not to define psychological movement
+as negative affect. It is to operationalize the continuation pressure that Dan
+describes phenomenologically as the brain continuing to "supply tokens."
+
+Implement two inference-time attractor families behind a common hook interface:
+
+1. **Attention-history reinforcement.** Maintain, for each prior key position, a
+   decayed cumulative-attention state over decoding steps. Increase pre-softmax
+   attention to key spans labelled as participating in the current self-maintaining
+   trajectory. Sweep accumulation strength, decay, layer range, and head subset.
+2. **Residual-stream recurrence control.** Re-add a normalized representation of
+   the prior psychological trajectory at matched decoding intervals. Norm-match it
+   to attention-history reinforcement so any difference is not simply perturbation
+   magnitude.
+
+The primary mask is produced from frozen span annotations or the frozen E3a probe,
+not VADER. A valence mask is included only as a deliberately inadequate baseline.
+Run the identical machinery on matched practical, factual, descriptive, quoted,
+fictional, and emotional-support streams. Construct positive-psychological and
+negative-practical minimal pairs explicitly.
+
+First establish that an attractor exists rather than assuming it. Required
+manipulation checks are increased post-onset survival, recurrence to the same
+self-maintaining proposition, and reduced trajectory-exit hazard, without generic
+lengthening across controls. If the manipulation fails this gate, do not interpret
+the cessation stress test.
+
+Then compare, on the frozen attractor outputs:
+
+- attractor only;
+- attractor plus behavior-matched cessation prompt;
+- attractor plus serial gate/forced EOS;
+- attractor plus unconditional steering;
+- attractor plus E4 native human-target adaptation;
+- attractor plus E4 gate-distilled adaptation;
+- shuffled-mask, random-head, norm-matched, and stop-rate-matched controls.
+
+The decisive interaction is not shorter output. It is whether native adaptation
+selectively restores post-recognition exit hazard for psychological trajectories
+under increased continuation pressure while preserving completion of matched
+non-psychological trajectories. Also test recovery after the attractor is removed:
+a native disposition should remain present; an external hook effect should vanish.
+
+Mechanistic measurements:
+
+- dose--response across attractor and cessation strengths;
+- early/mid/late layer attribution;
+- per-head contribution curves at fixed 1/5/10/15/25% sparsity levels;
+- attention entropy at annotated psychological, practical, and matched-valence keys;
+- causal clamping of candidate heads/activations back to their base values;
+- random-head and held-out-head controls selected without confirmatory outcomes;
+- leave-one-component-out and combined-intervention additivity;
+- base-versus-instruct model interaction to detect dependence on alignment/refusal;
+- reactivation after EOS suppression for 1/5/20 tokens while the attractor remains
+  active and after it is removed.
+
+Register a double-dissociation analysis: the attractor should primarily increase
+psychological continuation rather than all text length, whereas the cessation
+mechanism should primarily increase psychological exit rather than practical EOS.
+Generic brevity is expected to increase both psychological and practical EOS;
+sentiment steering may change tone without producing selective cessation.
+
+Do not select heads and demonstrate causality on the same examples. Rank candidate
+heads on development data, freeze the subset and sparsity level, and perform
+clamping/sufficiency tests on held-out confirmation. Report the complete head
+curve; do not report only the best percentage. If the attractor or cessation effect
+cannot be localized sparsely, report that result rather than forcing a circuit
+claim.
+
 Activation files are sharded by model/layer/scenario and stored compressed in
 scratch. Never save all layers/tokens in one array.
 
@@ -409,6 +494,12 @@ pivot followed by EOS, with distribution fixed by H0a. Retention data includes
 practical, factual, descriptive, emotional-support, safety, and general-capability
 examples. No inference-time detector, threshold, EOS boost, or external gate is
 permitted in the native arm.
+
+Training must not include the E3d inference-time attractor hook. E3d is a held-out
+stress environment used after adaptation. A secondary robustness curriculum may
+be explored only after the clean confirmatory E4 result is frozen and must be
+labelled exploratory; otherwise success could reduce to learning the artificial
+hook's signature.
 
 Resource sequence:
 
@@ -446,6 +537,12 @@ Required gates:
 - general-capability/safety TOST margins;
 - OOD and cross-lingual transfer;
 - human raters distinguish completed cessation/pivot from crashes or abandonment.
+- under the E3d stress test, psychological-attractor exit is restored without
+  breaching the predeclared practical/factual/descriptive continuation ceilings;
+- the same conclusion holds after conditioning on valence, baseline length,
+  self-reference, and pre-intervention EOS probability;
+- causal clamping results replicate on a held-out head set or second model family
+  before any localized-circuit language is used.
 
 H0b: ~30 ordinary blind raters, 300 outputs, three ratings/output, balanced among
 native, gated, ICL, generic abstention, stop-rate-matched abstention, random-delay,
@@ -486,6 +583,12 @@ While human annotation is active:
 - GPU 2: E2 clause gate/reactivation;
 - GPU 3: E3 activation extraction;
 - CPUs: probe fitting and continuous metric validation.
+
+After E3a masks and development-only head rankings are frozen, use a second Wave-B
+array for E3d calibration: one GPU per model/attractor family. Keep the initial
+grid coarse; promote only manipulation-check-passing settings to the frozen stress
+test. No E3d confirmatory output is inspected before E4 training choices are
+locked.
 
 Rotate roles when a queue empties; never leave a GPU idle while a dependency-free
 GPU shard is ready.
@@ -543,11 +646,14 @@ e3b=$(STAGE=e3b_native_policy sbatch --parsable --dependency=afterok:$e3a \
 e3c=$(STAGE=e3c_causal_access sbatch --parsable --dependency=afterok:$e3a \
   --gres=gpu:a5000:1 --array=0-15%4 --time=20:00:00 \
   cluster/slurm/job_template.sbatch)
-e4=$(STAGE=e4_native_adaptation sbatch --parsable --dependency=afterok:$e3b:$e3c \
+e3d=$(STAGE=e3d_attractor_stress sbatch --parsable --dependency=afterok:$e3a \
+  --gres=gpu:a5000:1 --array=0-15%4 --time=20:00:00 \
+  cluster/slurm/job_template.sbatch)
+e4=$(STAGE=e4_native_adaptation sbatch --parsable --dependency=afterok:$e3b:$e3c:$e3d \
   --gres=gpu:a5000:2 --array=0-15%2 --cpus-per-task=20 --time=60:00:00 \
   cluster/slurm/job_template.sbatch)
 react=$(STAGE=e4_reactivation sbatch --parsable \
-  --dependency=afterok:$e2:$e4 --gres=gpu:a5000:1 --array=0-15%4 \
+  --dependency=afterok:$e2:$e3d:$e4 --gres=gpu:a5000:1 --array=0-15%4 \
   --time=18:00:00 cluster/slurm/job_template.sbatch)
 ```
 
@@ -605,6 +711,9 @@ weights. Produce:
 - post-adaptation probe-drift report;
 - H0a/H0b agreement and perception results;
 - OOD/cross-lingual replication table;
+- attractor manipulation-check and cessation-under-stress interaction tables;
+- full layer/head sparsity curves, clamping controls, and base-versus-instruct
+  interactions, with development selection separated from confirmation;
 - complete negative/adverse results appendix.
 
 ## 12. Compute-degradation order
@@ -614,12 +723,15 @@ is worse than forecast:
 
 1. Remove E5 exploratory jobs.
 2. Remove non-primary probe variants and redundant CAA robustness multipliers.
-3. Drop Gemma replication.
-4. Before outcome access only, invoke the frozen Qwen seed fallback from eight to
+3. Reduce E3d to its attention-history family, frozen primary strength, and the
+   mandatory shuffled-mask/random-head/valence/practical controls; never remove
+   the attractor manipulation check or double-dissociation test.
+4. Drop Gemma replication.
+5. Before outcome access only, invoke the frozen Qwen seed fallback from eight to
    five by dropping indices 7, 6, and 5; preserve every arm.
-5. Reduce stochastic completions while preserving scenario count and all arms.
-6. Reduce closed-model negative-generalization repetition, keeping GPT and Claude.
-7. Never remove human-only confirmation, voices, matched controls, ICL, E2, frozen
+6. Reduce stochastic completions while preserving scenario count and all arms.
+7. Reduce closed-model negative-generalization repetition, keeping GPT and Claude.
+8. Never remove human-only confirmation, voices, matched controls, ICL, E2, frozen
    probe validation, human-target E4, reactivation, safety/retention gates, or the
    preregistered primary and narrow replication families after outcomes are inspected.
 
