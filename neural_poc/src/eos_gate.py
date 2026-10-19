@@ -7,15 +7,15 @@ import torch
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score, roc_curve
 
-from common import (ROOT, chat_tokens, hidden_tensor, load_config, load_items,
+from common import (RESULTS, chat_tokens, hidden_tensor, load_config, load_items,
                     load_model, seed_everything, transformer_layers)
 
 
 def fit_stop_heads(cfg, seed):
     """Fit real and shuffled psychological-state heads on frozen activations."""
-    x = np.load(ROOT / "results/activations.npy")
+    x = np.load(RESULTS / "activations.npy")
     rows = [json.loads(line) for line in
-            (ROOT / "results/activation_rows.jsonl").read_text().splitlines()]
+            (RESULTS / "activation_rows.jsonl").read_text().splitlines()]
     y = np.array([r["label"] == "psychological" for r in rows], dtype=int)
     rng = np.random.default_rng(seed)
     candidates = []
@@ -145,7 +145,7 @@ def main():
                 item["label"] == "psychological", args.eos_boost,
                 args.min_tokens, args.max_tokens)
             rows.append({**item, "condition": condition, **result})
-    out = ROOT / "results"
+    out = RESULTS
     with (out / "eos_gate_generations.jsonl").open("w") as handle:
         for row in rows:
             handle.write(json.dumps(row) + "\n")

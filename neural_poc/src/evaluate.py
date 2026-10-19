@@ -1,7 +1,7 @@
 import json
 from collections import defaultdict
 
-from common import ROOT
+from common import RESULTS
 
 
 def words(text):
@@ -9,9 +9,9 @@ def words(text):
 
 
 def main():
-    with (ROOT / "results" / "baselines.jsonl").open() as handle:
+    with (RESULTS / "baselines.jsonl").open() as handle:
         baselines = {x["id"]: x for x in map(json.loads, handle) if x["split"] == "test"}
-    with (ROOT / "results" / "interventions.jsonl").open() as handle:
+    with (RESULTS / "interventions.jsonl").open() as handle:
         runs = list(map(json.loads, handle))
     grouped = defaultdict(list)
     for run in runs:
@@ -26,7 +26,7 @@ def main():
         report.append({"alpha": alpha, "label": label,
                        "mean_length_ratio": sum(v["length_ratio"] for v in values) / len(values),
                        "trigger_rate": sum(v["triggered"] for v in values) / len(values)})
-    with (ROOT / "results" / "evaluation.json").open("w") as handle:
+    with (RESULTS / "evaluation.json").open("w") as handle:
         json.dump(report, handle, indent=2)
     print(json.dumps(report, indent=2))
 

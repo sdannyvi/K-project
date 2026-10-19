@@ -34,3 +34,6 @@ K-texts/*.rtfd-*/
 # Accidental root-level duplicates of the tracked transcript corpus.
 /1st Public Talk San Diego.txt
 /1st Public Talk San Diego 2.txt
+
+# SLURM stdout/stderr on the BGU cluster.
+slurm_logs/

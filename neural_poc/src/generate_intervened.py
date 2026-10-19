@@ -4,7 +4,7 @@ import json
 import numpy as np
 import torch
 
-from common import (ROOT, chat_tokens, hidden_tensor, load_config, load_items,
+from common import (RESULTS, chat_tokens, hidden_tensor, load_config, load_items,
                     load_model, replace_hidden, seed_everything, transformer_layers)
 
 
@@ -58,7 +58,7 @@ def main():
     seed_everything(cfg["seed"])
     model, tokenizer, device = load_model(cfg)
     layers = transformer_layers(model)
-    artifact = np.load(ROOT / "results" / "direction.npz")
+    artifact = np.load(RESULTS / "direction.npz")
     layer_idx = int(artifact["layer"])
     results = []
     for item in [x for x in load_items() if x["split"] == "test"]:
@@ -72,7 +72,7 @@ def main():
             results.append({**item, "condition": "conditional_ablation",
                             "alpha": alpha, "text": text,
                             "trigger_steps": triggers})
-    with (ROOT / "results" / "interventions.jsonl").open("w") as handle:
+    with (RESULTS / "interventions.jsonl").open("w") as handle:
         for row in results:
             handle.write(json.dumps(row) + "\n")
     print(f"saved {len(results)} intervention runs")

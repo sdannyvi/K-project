@@ -4,7 +4,7 @@ import json
 import numpy as np
 import torch
 
-from common import ROOT, hidden_tensor, load_config, load_model, transformer_layers
+from common import ROOT, hidden_tensor, load_config, load_model, transformer_layers, RESULTS
 
 
 def encode_pair(tokenizer, question, answer, device):
@@ -50,7 +50,7 @@ def main():
             diffs[i].append((acts["positive"][i] - acts["negative"][i]).numpy())
     payload = {f"layer_{i}": np.mean(diffs[i], axis=0).astype(np.float32) for i in layer_ids}
     payload["layers"] = np.array(layer_ids)
-    np.savez(ROOT / "results/caa_vectors.npz", **payload)
+    np.savez(RESULTS / "caa_vectors.npz", **payload)
     print({i: {"pairs": len(diffs[i]), "norm": float(np.linalg.norm(payload[f'layer_{i}']))} for i in layer_ids})
 
 

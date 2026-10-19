@@ -68,5 +68,5 @@ Streamlit injects these into `st.secrets`; `app.py` copies them into `os.environ
 | `benchmark/` | Construct development, negative results, prompts, and pilot records |
 | `neural_poc/` | Open-weight activation, gate, CAA, and native LoRA pilot code |
 | `paper/` | LaTeX manuscript, bibliography, and editorial review trail |
-| `cluster/` | 4×A5000 SLURM execution plan, manifest, and restart-safe templates |
+| `cluster/` | SLURM execution plan, manifest, templates; BGU cluster guide in `cluster/CLUSTER.md` |
 | `docs/` | Phenomenology, literature positioning, sources, and licensing notes |

@@ -1,16 +1,26 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=kproj-stage
+#SBATCH --account=research_vilenchik
+#SBATCH --partition=vilenchik_part
+#SBATCH --qos=vilenchik_owned
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=10
-#SBATCH --gres=gpu:a5000:1
-#SBATCH --mem=96G
-#SBATCH --time=60:00:00
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=45G
+#SBATCH --time=2-12:00:00
 #SBATCH --signal=B:USR1@600
-#SBATCH --output=logs/%x-%A_%a.out
-#SBATCH --error=logs/%x-%A_%a.err
+#SBATCH --output=slurm_logs/%x-%A_%a.out
+#SBATCH --error=slurm_logs/%x-%A_%a.err
+
+# Defaults are one A5000 on vilenchik_part (8 CPUs + 45 GB per GPU). Scale with
+# sbatch flags, e.g. 2-GPU QLoRA: --gres=gpu:2 --cpus-per-task=16 --mem=90G.
+# hpc-vilenchik: 9x A5000, 96 CPUs, 500 GB; QOS caps 4 concurrent jobs/user.
+# CPU-only stages: --partition=CPUonly --gres=none (account/QOS still valid).
 
 set -euo pipefail
+
+source /truenas/home/vilenchi/K-project/cluster/env.sh
 
 : "${K_PROJECT_REPO:?Set K_PROJECT_REPO to the checked-out repository}"
 : "${K_PROJECT_SCRATCH:?Set K_PROJECT_SCRATCH to node-local or parallel scratch}"
@@ -21,10 +31,8 @@ set -euo pipefail
 mkdir -p "${K_PROJECT_SCRATCH}/logs" "${K_PROJECT_SCRATCH}/runs"
 cd "${K_PROJECT_REPO}"
 
-export TOKENIZERS_PARALLELISM=false
-export PYTHONUNBUFFERED=1
-export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-10}"
-export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-10}"
+export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
+export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 
 if [[ -n "${K_PROJECT_SECRETS_FILE:-}" ]]; then
   # shellcheck disable=SC1090

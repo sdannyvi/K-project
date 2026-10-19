@@ -5,7 +5,7 @@ import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score, roc_curve
 
-from common import ROOT, load_config
+from common import load_config, RESULTS
 
 
 def main():
@@ -13,8 +13,8 @@ def main():
     parser.add_argument("--config", required=True)
     args = parser.parse_args()
     cfg = load_config(args.config)
-    x = np.load(ROOT / "results" / "activations.npy")
-    with (ROOT / "results" / "activation_rows.jsonl").open() as handle:
+    x = np.load(RESULTS / "activations.npy")
+    with (RESULTS / "activation_rows.jsonl").open() as handle:
         rows = [json.loads(line) for line in handle]
     y = np.array([r["label"] == "psychological" for r in rows], dtype=int)
     reports, candidates = [], []
@@ -41,10 +41,10 @@ def main():
     _, layer, threshold, direction, intercept = max(candidates)
     detector_weight = direction.copy()
     direction = direction / np.linalg.norm(direction)
-    np.savez(ROOT / "results" / "direction.npz", layer=layer, threshold=threshold,
+    np.savez(RESULTS / "direction.npz", layer=layer, threshold=threshold,
              detector_weight=detector_weight.astype(np.float32),
              ablation_direction=direction.astype(np.float32), intercept=intercept)
-    with (ROOT / "results" / "probe_report.json").open("w") as handle:
+    with (RESULTS / "probe_report.json").open("w") as handle:
         json.dump({"selected_layer": layer, "layers": reports}, handle, indent=2)
     print(json.dumps({"selected_layer": layer, "layers": reports}, indent=2))
 

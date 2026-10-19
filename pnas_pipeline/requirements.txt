@@ -1,0 +1,9 @@
+# On top of neural_poc/requirements.txt (see cluster/CLUSTER.md for the env build).
+pyyaml>=6
+huggingface_hub>=0.25
+peft
+bitsandbytes
+pandas
+scipy
+statsmodels
+zstandard

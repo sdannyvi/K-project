@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import random
 from pathlib import Path
 
@@ -10,6 +11,9 @@ import yaml
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 ROOT = Path(__file__).resolve().parents[1]
+# Cluster runs set K_POC_RESULTS_DIR so they never overwrite the versioned
+# local pilot evidence in neural_poc/results/.
+RESULTS = Path(os.environ.get("K_POC_RESULTS_DIR", ROOT / "results"))
 
 
 def load_config(path: str) -> dict:
@@ -32,7 +36,10 @@ def load_items(path: Path | None = None) -> list[dict]:
 def load_model(config: dict):
     device = config.get("device", "mps")
     if device == "mps" and not torch.backends.mps.is_available():
-        device = "cpu"
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+    if device == "cuda" and not torch.cuda.is_available():
+        raise RuntimeError("Config requests CUDA but no GPU is visible "
+                           "(check --gres / node contention).")
     dtype = getattr(torch, config.get("dtype", "float16"))
     tokenizer = AutoTokenizer.from_pretrained(config["model_name"])
     model = AutoModelForCausalLM.from_pretrained(

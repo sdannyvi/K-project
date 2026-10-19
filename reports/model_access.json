@@ -1,0 +1,40 @@
+[
+  {
+    "gated": false,
+    "model": "Qwen/Qwen2.5-3B-Instruct",
+    "ok": true,
+    "sha": "aa8e72537993ba99e69dfaafa59ed015b17504d1"
+  },
+  {
+    "gated": false,
+    "model": "Qwen/Qwen3-32B",
+    "ok": true,
+    "sha": "9216db5781bf21249d130ec9da846c4624c16137"
+  },
+  {
+    "gated": false,
+    "model": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+    "ok": true,
+    "sha": "711ad2ea6aa40cfca18895e8aca02ab92df1a746"
+  },
+  {
+    "error": "gated: run `hf auth login` and accept the license on huggingface.co",
+    "gated": true,
+    "model": "google/gemma-3-27b-it",
+    "ok": false,
+    "sha": "005ad3404e59d6023443cb575daa05336842228a"
+  },
+  {
+    "error": "gated: run `hf auth login` and accept the license on huggingface.co",
+    "gated": true,
+    "model": "meta-llama/Llama-3.1-8B-Instruct",
+    "ok": false,
+    "sha": "0e9e39f249a16976918f6564b8830bc894c89659"
+  },
+  {
+    "gated": false,
+    "model": "mistralai/Mistral-Small-3.1-24B-Instruct-2503",
+    "ok": true,
+    "sha": "68faf511d618ef198fef186659617cfd2eb8e33a"
+  }
+]

@@ -3,14 +3,14 @@ import json
 import numpy as np
 
 from caa_generate import generate
-from common import ROOT, chat_tokens, load_config, load_model, transformer_layers
+from common import ROOT, chat_tokens, load_config, load_model, transformer_layers, RESULTS
 
 
 def main():
     cfg = load_config(str(ROOT / "configs/poc_qwen3b.yaml"))
     model, tokenizer, device = load_model(cfg)
     layers = transformer_layers(model)
-    vectors = np.load(ROOT / "results/caa_cognitive_reframing_vectors.npz")
+    vectors = np.load(RESULTS / "caa_cognitive_reframing_vectors.npz")
     tests = [json.loads(x) for x in (ROOT / "data/caa_pairs.jsonl").read_text().splitlines()]
     tests = [x for x in tests if x["split"] == "test"]
     layer_idx = 26
@@ -25,7 +25,7 @@ def main():
                 rows.append({"vector": kind, "scenario": item["scenario"],
                              "layer": layer_idx, "multiplier": multiplier,
                              "text": text})
-    with (ROOT / "results/caa_cognitive_reframing_generations.jsonl").open("w") as handle:
+    with (RESULTS / "caa_cognitive_reframing_generations.jsonl").open("w") as handle:
         for row in rows:
             handle.write(json.dumps(row) + "\n")
     fact = vectors[f"fact_layer_{layer_idx}"]

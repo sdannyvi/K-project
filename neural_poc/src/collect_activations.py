@@ -5,7 +5,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from common import (ROOT, chat_tokens, hidden_tensor, load_config, load_items,
+from common import (RESULTS, chat_tokens, hidden_tensor, load_config, load_items,
                     load_model, seed_everything, transformer_layers)
 
 
@@ -55,8 +55,8 @@ def main():
                 break
         item["baseline"] = tokenizer.decode(generated, skip_special_tokens=True)
 
-    out = ROOT / "results"
-    out.mkdir(exist_ok=True)
+    out = RESULTS
+    out.mkdir(parents=True, exist_ok=True)
     np.save(out / "activations.npy", np.stack(vectors))
     with (out / "activation_rows.jsonl").open("w", encoding="utf-8") as handle:
         for row in rows:

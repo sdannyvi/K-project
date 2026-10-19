@@ -5,7 +5,14 @@
 This document is the operational handoff for the paper **The Intelligence of
 Non-Action: Can a Language Model Cease Without a Verbal Controller?** It converts
 the manuscript's H0--E5 design into a restartable SLURM program for one node with
-four NVIDIA A5000 GPUs (24 GB each), 40 CPU cores, and a hard 72-hour job limit.
+NVIDIA A5000 GPUs (24 GB each) and a hard 72-hour job limit: `hpc-vilenchik` on
+the BGU ECE cluster (`vilenchik_part`). The plan was written for four GPUs; as of
+2026-10-19 the node has nine A5000s, 96 CPUs and 500 GB RAM, with the group QOS
+allowing up to nine GPUs but at most four concurrent jobs per user. The four-GPU
+wave schedule below remains valid and is now conservative; the calendar estimate
+must be re-derived from measured throughput, not by scaling. Site
+specifics -- account/QOS flags, paths, conda env, known node quirks -- are in
+`cluster/CLUSTER.md`.
 
 The confirmatory claim is deliberately narrow:
 
@@ -37,6 +44,7 @@ The cluster agent must read these files before changing code or launching jobs:
 6. `neural_poc/README.md` and `neural_poc/src/` -- working pilot implementation.
 7. `cluster/config/experiment_manifest.yaml` -- machine-readable program skeleton.
 8. `docs/private_sources.md` -- source licensing and secret handling.
+9. `cluster/CLUSTER.md` -- BGU cluster access, partition flags, and quirks.
 
 The separately supplied anonymous manuscript *Inducing Dissociable Attention
 Biases in Open LLMs* motivated the attention-history stress-test design below but
@@ -208,12 +216,14 @@ batching, are the evidential record.
 ### Storage
 
 - Git checkout: source, compact reports, schemas, frozen manifests.
-- Persistent `$HF_HOME`: model/tokenizer cache; never duplicate per job.
-- `$K_PROJECT_SCRATCH`: checkpoints, activations, generations, logs.
+- Persistent `$HF_HOME` (`/truenas/projects/vilenchik_shared/hf_cache`):
+  model/tokenizer cache; never duplicate per job.
+- `$K_PROJECT_SCRATCH` (`/truenas/projects/vilenchik_shared/k-project`):
+  checkpoints, activations, generations, logs.
 - Repository `runs/`: synced compact reports/manifests only. Large tensors and
   checkpoints go to institutional object storage with checksums, not Git.
-- Never run heavy jobs from the OneDrive-mounted checkout. Stage code to scratch
-  or use a cluster-native clone.
+- Never run heavy jobs from the OneDrive-mounted checkout. The cluster-native
+  clone is `/truenas/home/vilenchi/K-project`.
 - P0 records scratch filesystem, absolute quota, peak write budget, and the
   largest checkpoint-write time under contention. `K_PROJECT_SCRATCH_QUOTA_GB`
   is mandatory. Stagger checkpoint clocks by array index and verify the worst
@@ -238,16 +248,25 @@ hours; the 12-hour reserve covers queue/signal/filesystem variability.
 
 ### Allocation patterns
 
-| Work | GPUs | CPUs | RAM | Array concurrency | Target duration |
-|---|---:|---:|---:|---:|---:|
-| Corpus, splits, metrics | 0 | 32--40 | 128 GB | 1 | <12 h |
-| Closed-model/API generation | 0 | 20--32 | 64 GB | 2--8 shards | 2--12 h |
-| 3B/8B pilot inference | 1 | 8 | 48 GB | 4 | 2--8 h |
-| 14B/27B/32B 4-bit inference | 1 | 10 | 64 GB | 4 if memory passes | 4--12 h |
-| 32B QLoRA | 2 | 20 | 128 GB | 2 concurrent seeds | 12--48 h |
-| 8B Llama QLoRA | 1 | 8 | 48 GB | 4 | 4--16 h |
-| Activation extraction | 1 | 10 | 96 GB | 4 model/shard jobs | 4--16 h |
-| Probe fitting/statistics | 0 | 32--40 | 128 GB | 1--4 | <12 h |
+GPU work runs on `vilenchik_part` (budget 8 CPUs and 45 GB RAM per GPU; at most
+four concurrent jobs per user, array tasks counted individually, so prefer
+multi-GPU jobs that shard internally over wide arrays). CPU-only work runs
+on `CPUonly` (1-day limit) so it never occupies a group GPU slot.
+
+| Work | Partition | GPUs | CPUs | RAM | Array concurrency | Target duration |
+|---|---|---:|---:|---:|---:|---:|
+| Corpus, splits, metrics | CPUonly | 0 | 32 | 128 GB | 1 | <12 h |
+| Closed-model/API generation | CPUonly | 0 | 16 | 32 GB | 2--4 shards | 2--12 h |
+| 3B/8B pilot inference | vilenchik_part | 1 | 8 | 45 GB | 4 | 2--8 h |
+| 14B/27B/32B 4-bit inference | vilenchik_part | 1 | 8 | 45 GB | 4 if memory passes | 4--12 h |
+| 32B QLoRA | vilenchik_part | 2 | 16 | 90 GB | 2 concurrent seeds | 12--48 h |
+| 8B Llama QLoRA | vilenchik_part | 1 | 8 | 45 GB | 4 | 4--16 h |
+| Activation extraction | vilenchik_part | 1 | 8 | 45 GB | 4 model/shard jobs | 4--16 h |
+| Probe fitting/statistics | CPUonly | 0 | 32 | 128 GB | 1--4 | <12 h |
+
+Host RAM is the binding constraint relative to the original plan (45 GB/GPU, not
+64--128 GB): stream activations to disk per shard rather than holding them in
+memory, and load 32B checkpoints with `low_cpu_mem_usage`.
 
 The table is a launch hypothesis, not permission to OOM. Run a 100-example memory
 and throughput calibration for every model/configuration. Store observed peak
@@ -571,10 +590,9 @@ preregistered.
 
 While human annotation is active:
 
-- CPU 0--19: corpus/split/contamination work;
-- CPU 20--31: API E1 pilot and annotation packaging;
-- CPU 32--39: tests, environment lock, report generation;
-- GPU 0--3: four independent 3B/8B smoke-test shards.
+- `CPUonly` jobs: corpus/split/contamination work, API E1 pilot, annotation
+  packaging, tests, environment lock, report generation;
+- GPU 0--3 (`vilenchik_part`): four independent 3B/8B smoke-test shards.
 
 ### Wave B: negative models and probes
 
@@ -622,40 +640,40 @@ tables only after every shard checksum and sample count passes validation.
 The provided `cluster/slurm/job_template.sbatch` is deliberately generic. Copy it
 per resource class or override resources with `sbatch` flags. Example:
 
+The template already carries `--account=research_vilenchik
+--partition=vilenchik_part --qos=vilenchik_owned` and one-GPU defaults; CPU-only
+stages override the partition. The cluster QOS allows four concurrent jobs per
+user, so keep array throttles at `%4` or below across all live arrays.
+
 ```bash
-export K_PROJECT_REPO=/cluster/work/$USER/K-project
-export K_PROJECT_SCRATCH=/scratch/$USER/k-project
-export HF_HOME=/cluster/cache/$USER/huggingface
-
+source cluster/env.sh          # repo, scratch, HF cache, conda env
 bash cluster/scripts/preflight.sh
+T=cluster/slurm/job_template.sbatch
 
-h0=$(STAGE=h0_construct sbatch --parsable --gres=gpu:0 --cpus-per-task=32 \
-  --time=12:00:00 cluster/slurm/job_template.sbatch)
+h0=$(STAGE=h0_construct sbatch --parsable --partition=CPUonly --gres=none \
+  --cpus-per-task=32 --mem=128G --time=12:00:00 $T)
 e1=$(STAGE=e1_prompt_icl sbatch --parsable --dependency=afterok:$h0 \
-  --gres=gpu:a5000:1 --array=0-31%4 --time=12:00:00 \
-  cluster/slurm/job_template.sbatch)
+  --array=0-31%4 --time=12:00:00 $T)
 e2=$(STAGE=e2_serial_gate sbatch --parsable --dependency=afterok:$h0 \
-  --gres=gpu:a5000:1 --array=0-15%4 --time=16:00:00 \
-  cluster/slurm/job_template.sbatch)
+  --array=0-15%4 --time=16:00:00 $T)
 e3a=$(STAGE=e3a_representation sbatch --parsable --dependency=afterok:$h0 \
-  --gres=gpu:a5000:1 --array=0-15%4 --time=20:00:00 \
-  cluster/slurm/job_template.sbatch)
+  --array=0-15%4 --time=20:00:00 $T)
 e3b=$(STAGE=e3b_native_policy sbatch --parsable --dependency=afterok:$e3a \
-  --gres=gpu:a5000:1 --array=0-15%4 --time=20:00:00 \
-  cluster/slurm/job_template.sbatch)
+  --array=0-15%4 --time=20:00:00 $T)
 e3c=$(STAGE=e3c_causal_access sbatch --parsable --dependency=afterok:$e3a \
-  --gres=gpu:a5000:1 --array=0-15%4 --time=20:00:00 \
-  cluster/slurm/job_template.sbatch)
+  --array=0-15%4 --time=20:00:00 $T)
 e3d=$(STAGE=e3d_attractor_stress sbatch --parsable --dependency=afterok:$e3a \
-  --gres=gpu:a5000:1 --array=0-15%4 --time=20:00:00 \
-  cluster/slurm/job_template.sbatch)
+  --array=0-15%4 --time=20:00:00 $T)
 e4=$(STAGE=e4_native_adaptation sbatch --parsable --dependency=afterok:$e3b:$e3c:$e3d \
-  --gres=gpu:a5000:2 --array=0-15%2 --cpus-per-task=20 --time=60:00:00 \
-  cluster/slurm/job_template.sbatch)
+  --gres=gpu:2 --cpus-per-task=16 --mem=90G --array=0-15%2 --time=60:00:00 $T)
 react=$(STAGE=e4_reactivation sbatch --parsable \
-  --dependency=afterok:$e2:$e3d:$e4 --gres=gpu:a5000:1 --array=0-15%4 \
-  --time=18:00:00 cluster/slurm/job_template.sbatch)
+  --dependency=afterok:$e2:$e3d:$e4 --array=0-15%4 --time=18:00:00 $T)
 ```
+
+Because the four-job QOS cap is per user, submitting E1, E2 and E3a arrays in
+parallel serializes them in practice; the waves in Section 8 are the real
+schedule. `afterok` on a job that has already finished and aged out of the Slurm
+table fails at submission time -- only depend on jobs still visible in `squeue`.
 
 Actual array maps must be generated from the frozen manifest and saved before
 submission. Never type array indices ad hoc for confirmation.
@@ -778,19 +796,17 @@ The cluster agent is finished only when:
 
 ## 15. First commands for the cluster agent
 
+The repository is already cloned at `/truenas/home/vilenchi/K-project` and the
+`kproject` conda env exists (see `cluster/CLUSTER.md`).
+
 ```bash
-git clone https://github.com/sdannyvi/K-project.git
-cd K-project
-export K_PROJECT_REPO=$PWD
-export K_PROJECT_SCRATCH=/scratch/$USER/k-project
-export HF_HOME=/cluster/cache/$USER/huggingface
+cd /truenas/home/vilenchi/K-project
+source cluster/env.sh
 bash cluster/scripts/preflight.sh
 
-# Inspect the current validated small-model path.
-python -m venv .venv
-.venv/bin/python -m pip install -r neural_poc/requirements.txt
-.venv/bin/python neural_poc/src/smoke_test.py \
-  --config neural_poc/configs/poc_qwen3b.yaml
+# Rerun the validated 3B pilot on one A5000; also yields first throughput rows.
+mkdir -p slurm_logs
+sbatch cluster/slurm/poc_qwen3b.sbatch
 
 # Then implement WP0/P0 and open a reviewable commit before any large run.
 ```

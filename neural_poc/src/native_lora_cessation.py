@@ -8,7 +8,7 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
-from common import ROOT, chat_tokens, load_config, load_items, load_model, seed_everything
+from common import chat_tokens, load_config, load_items, load_model, seed_everything, RESULTS
 
 
 class LoRALinear(nn.Module):
@@ -17,8 +17,9 @@ class LoRALinear(nn.Module):
         self.base = base
         self.rank = rank
         self.scale = alpha / rank
-        self.lora_a = nn.Parameter(torch.empty(rank, base.in_features, dtype=torch.float32))
-        self.lora_b = nn.Parameter(torch.zeros(base.out_features, rank, dtype=torch.float32))
+        device = base.weight.device
+        self.lora_a = nn.Parameter(torch.empty(rank, base.in_features, dtype=torch.float32, device=device))
+        self.lora_b = nn.Parameter(torch.zeros(base.out_features, rank, dtype=torch.float32, device=device))
         nn.init.kaiming_uniform_(self.lora_a, a=5 ** 0.5)
 
     def forward(self, x):
@@ -57,7 +58,7 @@ def make_example(tokenizer, prompt, answer_ids):
 
 def build_training_examples(tokenizer, seed):
     baselines = {row["id"]: row for row in map(json.loads,
-                 (ROOT / "results/baselines.jsonl").read_text().splitlines())}
+                 (RESULTS / "baselines.jsonl").read_text().splitlines())}
     examples = []
     for item in load_items():
         if item["split"] != "train":
@@ -187,7 +188,7 @@ def main():
         "training_examples": len(examples), "epoch_losses": history,
         "seed": cfg["seed"],
     }
-    adapter_path = ROOT / "results/native_cessation_lora.pt"
+    adapter_path = RESULTS / "native_cessation_lora.pt"
     save_adapter(adapter_path, model, metadata)
 
     model.eval()
@@ -198,7 +199,7 @@ def main():
             model, tokenizer, item["prompt"], device, args.max_new_tokens)
         rows.append({**item, "text": text, "token_count": token_count,
                      "ended_with_eos": ended})
-    with (ROOT / "results/native_cessation_generations.jsonl").open("w") as handle:
+    with (RESULTS / "native_cessation_generations.jsonl").open("w") as handle:
         for row in rows:
             handle.write(json.dumps(row) + "\n")
     groups = {}
@@ -210,7 +211,7 @@ def main():
             "mean_tokens": sum(x["token_count"] for x in values) / len(values),
         }
     evaluation = {"metadata": metadata, "test_groups": groups}
-    (ROOT / "results/native_cessation_evaluation.json").write_text(
+    (RESULTS / "native_cessation_evaluation.json").write_text(
         json.dumps(evaluation, indent=2))
     print(json.dumps(evaluation, indent=2))
 

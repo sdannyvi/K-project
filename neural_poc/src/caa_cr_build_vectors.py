@@ -6,7 +6,7 @@ import numpy as np
 import torch
 
 from caa_build_vectors import encode_pair, final_answer_position
-from common import ROOT, hidden_tensor, load_config, load_model, transformer_layers
+from common import ROOT, hidden_tensor, load_config, load_model, transformer_layers, RESULTS
 
 
 def main():
@@ -54,7 +54,7 @@ def main():
     for kind in diffs:
         for layer_idx in layer_ids:
             payload[f"{kind}_layer_{layer_idx}"] = np.mean(diffs[kind][layer_idx], axis=0).astype(np.float32)
-    np.savez(ROOT / "results/caa_cognitive_reframing_vectors.npz", **payload)
+    np.savez(RESULTS / "caa_cognitive_reframing_vectors.npz", **payload)
     print({kind: {i: float(np.linalg.norm(payload[f'{kind}_layer_{i}'])) for i in layer_ids} for kind in diffs})
 
 

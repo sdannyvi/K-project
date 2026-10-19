@@ -4,7 +4,7 @@ import json
 import numpy as np
 import torch
 
-from common import (ROOT, chat_tokens, hidden_tensor, load_config, load_model,
+from common import (RESULTS, ROOT, chat_tokens, hidden_tensor, load_config, load_model,
                     replace_hidden, transformer_layers)
 
 
@@ -39,7 +39,7 @@ def main():
     cfg = load_config(args.config)
     model, tokenizer, device = load_model(cfg)
     layers = transformer_layers(model)
-    vectors = np.load(ROOT / "results/caa_vectors.npz")
+    vectors = np.load(RESULTS / "caa_vectors.npz")
     pairs = [json.loads(x) for x in (ROOT / "data/caa_pairs.jsonl").read_text().splitlines()]
     tests = [x for x in pairs if x["split"] == "test"]
     rows = []
@@ -52,7 +52,7 @@ def main():
                                 multiplier, cfg["max_new_tokens"])
                 rows.append({"scenario": item["scenario"], "layer": int(layer_idx),
                              "multiplier": multiplier, "text": text})
-    with (ROOT / "results/caa_generations.jsonl").open("w") as handle:
+    with (RESULTS / "caa_generations.jsonl").open("w") as handle:
         for row in rows:
             handle.write(json.dumps(row) + "\n")
     print(f"saved {len(rows)} CAA generations")
