@@ -16,6 +16,21 @@ def is_multimodal(config) -> bool:
     return hasattr(config, "text_config") and hasattr(config, "vision_config")
 
 
+class ShardingForbidden(RuntimeError):
+    pass
+
+
+def check_single_device(device_map) -> None:
+    """GPU peer-to-peer is broken on hpc-vilenchik (cluster/CLUSTER.md): copies
+    between GPUs are silently corrupted, so one model must live on one GPU."""
+    if isinstance(device_map, int):
+        return
+    if isinstance(device_map, dict) and len({str(v) for v in device_map.values()}) == 1:
+        return
+    raise ShardingForbidden(f"device_map={device_map!r} would shard the model across devices; "
+                            "use one GPU per model (see cluster/CLUSTER.md)")
+
+
 def load_text_model(model_id: str, revision: str | None = None, quantization: str = "none",
                     device: int = 0, padding_side: str = "left"):
     import torch
@@ -26,6 +41,7 @@ def load_text_model(model_id: str, revision: str | None = None, quantization: st
     config = AutoConfig.from_pretrained(model_id, revision=revision)
     multimodal = is_multimodal(config)
     kwargs = {"dtype": torch.bfloat16, "low_cpu_mem_usage": True, "device_map": {"": device}}
+    check_single_device(kwargs["device_map"])
     if quantization == "4bit":
         kwargs["quantization_config"] = BitsAndBytesConfig(
             load_in_4bit=True, bnb_4bit_quant_type="nf4",

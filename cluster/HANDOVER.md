@@ -11,7 +11,8 @@ commit tokens, API keys, or confirmatory label keys.
 1. `cluster/CLUSTER.md`: site facts, env, partitions, and the GPU P2P hazard.
 2. `cluster/PNAS_CLUSTER_EXECUTION_PLAN.md`: the operational plan, including
    **Amendment A1** in §1.
-3. `cluster/P0_PROTOCOL_DRAFT.md`: the open protocol decisions (DRAFT, awaiting the PI).
+3. `cluster/P0_PROTOCOL_DRAFT.md`: the open protocol decisions (DRAFT v2, revised after an
+   external review; awaiting the PI. Its "Review status" table says what is settled).
 4. `cluster/config/experiment_manifest.yaml` and `cluster/COMPUTE_BUDGET.csv`.
 5. `paper/main.tex`: the manuscript (methods/preregistration draft).
 
@@ -38,7 +39,7 @@ commit tokens, API keys, or confirmatory label keys.
 1. **Never shard one model across GPUs** (`device_map="auto"`, tensor/pipeline
    parallel). GPU peer-to-peer on `hpc-vilenchik` is broken: `cuda:i -> cuda:j`
    tensor copies are **silently corrupted**, and NCCL hangs unless P2P is
-   disabled. One model per GPU; extra GPUs run independent seeds/shards or DDP
+   disabled. `models.check_single_device` rejects any multi-device `device_map`. One model per GPU; extra GPUs run independent seeds/shards or DDP
    (NCCL is correct with `NCCL_P2P_DISABLE=1`). Diagnostics:
    `pnas_pipeline/diagnostics/{peer_copy,nccl_smoke}.py`.
 2. GPU jobs: 8 CPUs + 45 GB RAM per GPU on `vilenchik_part`. CPU-only work never

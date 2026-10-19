@@ -190,7 +190,14 @@ confirmatory_scope:
   qwen14:
     role: full_confirmatory
     seeds: 8
-    e4_arms: all_preregistered
+    # WP5 arms 1-6; arm 7 (LoRA vs full fine-tuning) runs only on a <=3B model.
+    e4_arms:
+      - human_target
+      - gate_distilled
+      - random_delay
+      - lexical_trigger
+      - global_brevity
+      - output_head_control
   qwen32:
     role: inference_only_scale_check
     experiments: [e1_prompt_icl, e2_serial_gate, e3a_representation, e3b_native_policy, e3c_causal_access]

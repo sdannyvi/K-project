@@ -32,7 +32,8 @@ whether the computational distinction survives.
 WP0 calibration on `hpc-vilenchik` found that (a) GPU peer-to-peer transfers are
 broken on the node, so no model may be sharded across GPUs (`cluster/CLUSTER.md`),
 and (b) Qwen3-32B 4-bit QLoRA (r=16) does not fit one 24 GB A5000 at realistic
-sequence lengths (job 10156: seq 128/batch 1 at 23.3 GB, OOM at seq 256). Before
+sequence lengths (job 10156: OOM at seq 256; seq 128/batch 1 executes at 23.3 GB
+but fails the 10% memory-headroom rule). Before
 any data or outcome access, the PI therefore made **Qwen3-14B the full-design
 primary model (E1--E4)**. E4 must be checked with the E3a frozen probe of the same
 model, so 14B also carries E3. **Qwen3-32B becomes an inference-only scale check

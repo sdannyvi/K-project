@@ -143,3 +143,12 @@ def test_lora_targets_skip_vision_tower():
     assert pattern.fullmatch("model.language_model.layers.3.self_attn.q_proj")
     assert not pattern.fullmatch("model.vision_tower.vision_model.encoder.layers.0.self_attn.q_proj")
     assert not pattern.fullmatch("model.language_model.layers.3.self_attn.q_proj.lora_A")
+
+
+def test_model_sharding_is_rejected():
+    from pnas_pipeline.models import ShardingForbidden, check_single_device
+    check_single_device({"": 0})
+    check_single_device(0)
+    for bad in ("auto", "balanced", {"model.layers.0": 0, "lm_head": 1}):
+        with pytest.raises(ShardingForbidden):
+            check_single_device(bad)
