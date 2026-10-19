@@ -26,3 +26,5 @@ H0-E5,CPU,statistics_and_reports,600,6,1,1,1,1,0,N/A,0,TBD,calibrate_person_peri
 WP0-calibration,Qwen2.5-3B-Instruct,pilot_throughput_bf16_batch8,100,1,1,1,1,1,150,167.53,1,0.02,measured_job_10130_peak_vram_6.3GB
 WP0-calibration,Qwen3-32B,pilot_throughput_4bit_batch8,100,1,1,1,1,1,150,50.76,1,0.08,measured_job_10151
 WP0-calibration,Qwen3-32B,qlora_r16_1gpu_A5000,1,1,1,1,1,1,128,N/A,1,0,measured_job_10156_fits_only_seq128_bs1_23.3GB_OOM_at_seq256
+WP0-calibration,Qwen3-14B,pilot_throughput_4bit_batch8,100,1,1,1,1,1,150,105.0,1,0.04,measured_job_10165_peak_vram_10.3GB
+WP0-calibration,Qwen3-14B,qlora_r16_1gpu_A5000,1,1,1,1,1,1,384,N/A,1,0,measured_job_10166_fits_seq384_bs2_20.7GB_828_train_tok_per_s

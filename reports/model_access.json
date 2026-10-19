@@ -7,6 +7,12 @@
   },
   {
     "gated": false,
+    "model": "Qwen/Qwen3-14B",
+    "ok": true,
+    "sha": "40c069824f4251a91eefaf281ebe4c544efd3e18"
+  },
+  {
+    "gated": false,
     "model": "Qwen/Qwen3-32B",
     "ok": true,
     "sha": "9216db5781bf21249d130ec9da846c4624c16137"
@@ -18,10 +24,9 @@
     "sha": "711ad2ea6aa40cfca18895e8aca02ab92df1a746"
   },
   {
-    "error": "gated: run `hf auth login` and accept the license on huggingface.co",
     "gated": true,
     "model": "google/gemma-3-27b-it",
-    "ok": false,
+    "ok": true,
     "sha": "005ad3404e59d6023443cb575daa05336842228a"
   },
   {
