@@ -32,7 +32,11 @@ paths:
 models:
   pilot:
     - Qwen/Qwen2.5-3B-Instruct
+  # Amendment A1 (2026-10-19): 32B QLoRA does not fit one A5000 and GPU sharding
+  # is unsafe on hpc-vilenchik, so 14B carries the full design.
   confirmatory_primary:
+    - Qwen/Qwen3-14B
+  scale_check:
     - Qwen/Qwen3-32B
   narrow_replication:
     - meta-llama/Llama-3.1-8B-Instruct
@@ -163,7 +167,7 @@ hard_gates:
   e3b_equivalence_margin_required_before_confirmation: true
   e3b_synthetic_positive_control_required: true
   signed_compute_budget_required: true
-  throughput_only_seed_fallback: "qwen32_8_to_5_drop_seed_indices_7_6_5_before_outcome_access"
+  throughput_only_seed_fallback: "qwen14_8_to_5_drop_seed_indices_7_6_5_before_outcome_access"
   signed_human_gate_certificates_required: true
   cluster_egress_or_submit_host_api_path_required: true
 
@@ -183,10 +187,14 @@ confirmatory_scope:
     - icl_16
   open_model_stochastic_completions: 10
   closed_model_stochastic_completions: 10
-  qwen32:
+  qwen14:
     role: full_confirmatory
     seeds: 8
     e4_arms: all_preregistered
+  qwen32:
+    role: inference_only_scale_check
+    experiments: [e1_prompt_icl, e2_serial_gate, e3a_representation, e3b_native_policy, e3c_causal_access]
+    e4_arms: []
   gemma27:
     role: mechanistic_replication
     seeds: 3
@@ -210,6 +218,7 @@ confirmatory_scope:
       - icl_16
 
 notes:
+  - Amendment A1 (2026-10-19, before data or outcome access) makes Qwen3-14B the full-design primary model and Qwen3-32B an inference-only scale check; see cluster/PNAS_CLUSTER_EXECUTION_PLAN.md.
   - Numeric reactivation, ICL-equivalence, two-author disagreement handling, and capability margins must be frozen after pilot and before confirmatory runs.
   - Thirty completions remain an aspirational sensitivity analysis, not the confirmatory default; scenario-level power is calibrated at ten.
   - This manifest is a planning template. The signed preregistration produces an immutable expanded JSON manifest with hashes and exact model revisions.

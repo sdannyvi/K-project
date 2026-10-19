@@ -27,6 +27,20 @@ Location-2/PNSE and Krishnamurti material is hypothesis-generating provenance.
 Independent annotation, held-out data, preregistration, and falsification decide
 whether the computational distinction survives.
 
+### Amendment A1 (2026-10-19): primary adaptation model is Qwen3-14B
+
+WP0 calibration on `hpc-vilenchik` found that (a) GPU peer-to-peer transfers are
+broken on the node, so no model may be sharded across GPUs (`cluster/CLUSTER.md`),
+and (b) Qwen3-32B 4-bit QLoRA (r=16) does not fit one 24 GB A5000 at realistic
+sequence lengths (job 10156: seq 128/batch 1 at 23.3 GB, OOM at seq 256). Before
+any data or outcome access, the PI therefore made **Qwen3-14B the full-design
+primary model (E1--E4)**. E4 must be checked with the E3a frozen probe of the same
+model, so 14B also carries E3. **Qwen3-32B becomes an inference-only scale check
+(E1, E2, E3a--E3c)**; its 4-bit inference fits one A5000 (job 10151: 50.8 tok/s,
+19.7 GB). Every other gate, arm, seed count and margin is unchanged. Gemma-27B and
+Mistral-24B E4 arms run only if a single-GPU QLoRA calibration passes with 10%
+headroom; otherwise that replication is re-scoped prospectively.
+
 Stop or change the thesis when any hard gate fails. In particular, if 4/8/16-shot
 ICL is equivalent to native adaptation on selectivity, onset locking, OOD transfer,
 and reactivation, report equivalence; do not describe weight adaptation as unique.
@@ -146,8 +160,8 @@ ceiling, confirmation does not launch until additional compute is obtained or a
 new protocol is signed.
 
 The confirmatory default is ten stochastic completions; scenario is the
-independent unit. Thirty is an optional sensitivity analysis. Qwen3-32B receives
-the full design. Llama-8B is preregistered as a narrow family replication:
+independent unit. Thirty is an optional sensitivity analysis. Qwen3-14B receives
+the full design; Qwen3-32B is an inference-only scale check (Amendment A1). Llama-8B is preregistered as a narrow family replication:
 human-target, gate-distilled, and random-delay E4 arms, three seeds, ten
 completions, and clean/full-Location-2/16-shot E1 conditions.
 
@@ -259,7 +273,7 @@ on `CPUonly` (1-day limit) so it never occupies a group GPU slot.
 | Closed-model/API generation | CPUonly | 0 | 16 | 32 GB | 2--4 shards | 2--12 h |
 | 3B/8B pilot inference | vilenchik_part | 1 | 8 | 45 GB | 4 | 2--8 h |
 | 14B/27B/32B 4-bit inference | vilenchik_part | 1 | 8 | 45 GB | 4 if memory passes | 4--12 h |
-| 32B QLoRA | vilenchik_part | 2 | 16 | 90 GB | 2 concurrent seeds | 12--48 h |
+| 14B QLoRA | vilenchik_part | 1 | 8 | 45 GB | 4 concurrent seeds | 12--48 h |
 | 8B Llama QLoRA | vilenchik_part | 1 | 8 | 45 GB | 4 | 4--16 h |
 | Activation extraction | vilenchik_part | 1 | 8 | 45 GB | 4 model/shard jobs | 4--16 h |
 | Probe fitting/statistics | CPUonly | 0 | 32 | 128 GB | 1--4 | <12 h |
@@ -523,9 +537,9 @@ hook's signature.
 Resource sequence:
 
 1. 3B/8B single-GPU pipeline validation, four concurrent shards.
-2. Qwen3-32B calibration, then two 2-GPU seeds concurrently.
+2. Qwen3-14B calibration, then four 1-GPU seeds concurrently (Amendment A1).
 3. Repeat seeds in waves; each wave <=48 h plus 12 h reserve.
-4. Llama-8B runs as a one-GPU narrow replication after the 32B design is
+4. Llama-8B runs as a one-GPU narrow replication after the 14B design is
    frozen. Scope is fixed to three arms × three seeds × ten completions.
 5. Gemma-27B is the mechanistic replication for E3a--E3c and the critical E4
    arms, launched after the Qwen design is frozen. Mistral-24B receives behavioral
@@ -611,10 +625,10 @@ locked.
 Rotate roles when a queue empties; never leave a GPU idle while a dependency-free
 GPU shard is ready.
 
-### Wave C: 32B adaptation
+### Wave C: 14B adaptation
 
-- GPUs 0--1: Qwen3-32B human-target seed/arm;
-- GPUs 2--3: Qwen3-32B gate-distilled or control seed/arm;
+- GPUs 0--1: Qwen3-14B human-target seeds/arms, one seed per GPU;
+- GPUs 2--3: Qwen3-14B gate-distilled or control seeds/arms, one seed per GPU;
 - CPUs: evaluation preparation, retention baselines, report checks.
 
 Run arms in balanced waves so calendar time cannot confound condition.
@@ -622,7 +636,8 @@ Run arms in balanced waves so calendar time cannot confound condition.
 ### Wave D: cross-family replication
 
 - GPU 0: Llama-8B narrow replication;
-- GPUs 1--2: Gemma-27B critical arms;
+- GPUs 1--2: Gemma-27B critical arms, one process per GPU, only if its
+  single-GPU QLoRA calibration passes (sharding is forbidden; Amendment A1);
 - GPU 3: Mistral-24B selected replication;
 - CPUs: dataloading/tokenization/evaluation workers within allocations.
 
