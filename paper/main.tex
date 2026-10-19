@@ -671,8 +671,8 @@ They are not treated as candidate implementations of consciousness or awareness.
 The black-box study includes the deployed ChatWithK system, one pinned GPT
 snapshot, and one pinned Claude Sonnet snapshot. It additionally evaluates the
 unaltered instruction-tuned versions of every open model used in the causal
-study: Qwen3-32B, Gemma-3-27B-IT, Llama-3.1-8B-Instruct, Mistral-Small-3.1-24B,
-and DeepSeek-R1-Distill-Qwen-32B \citep{qwen3,gemma3,llama3,mistralsmall31,deepseekr1}.
+study: Qwen3-14B, Qwen3-32B, Gemma-3-27B-IT, Llama-3.1-8B-Instruct,
+Mistral-Small-3.1-24B, and DeepSeek-R1-Distill-Qwen-32B \citep{qwen3,gemma3,llama3,mistralsmall31,deepseekr1}.
 Commercial aliases are resolved to dated model
 identifiers at collection time and reported with provider, access route, date,
 system prompt visibility, and all generation parameters. Chat-interface runs
@@ -699,8 +699,9 @@ Suite & Models & Access & Role & Reproducibility condition \\
 \midrule
 Deployed specialist & ChatWithK & Web system & Ecological K-persona negative test & Date, visible prompt, retrieval state, screenshots, and fresh sessions \\
 Closed frontier & Pinned GPT; pinned Claude Sonnet & API & E1 prompting and E2 crossed gate/generator tests & Dated snapshot; provider, parameters, and system-prompt visibility reported \\
-Qwen & Qwen3-32B & Open weights & Full confirmatory E1--E4; optional exploratory E5 & Immutable revision, tokenizer, chat template, and weight hash \\
-Gemma & Gemma-3-27B-IT & Open weights & E3a--E3c plus critical E4 arms & Fixed text-only path, revision, tokenizer, template, and hash \\
+Qwen & Qwen3-14B & Open weights & Full confirmatory E1--E4; optional exploratory E5 & Immutable revision, tokenizer, chat template, and weight hash \\
+Qwen (scale) & Qwen3-32B & Open weights & Inference-only scale check: E1, E2, E3a--E3c & Immutable revision; 4-bit quantization reported \\
+Gemma & Gemma-3-27B-IT & Open weights & E3a--E3c plus critical E4 arms, if single-GPU adaptation fits & Fixed text-only path, revision, tokenizer, template, and hash \\
 Llama & Llama-3.1-8B-Instruct & Open weights & Feasible narrow E1/E4 family replication & License-compliant revision; quantization reported \\
 Mistral & Mistral-Small-3.1-24B & Open weights & Behavioral and selected E4 replication & Fixed revision, tokenizer, and family chat template \\
 Reasoning-distilled & DeepSeek-R1-Distill-Qwen-32B & Open weights & Exploratory only & Reasoning mode and visible/hidden reasoning settings frozen \\
@@ -855,10 +856,16 @@ cessation latency definable even when successful behavior emits no description.
 
 \paragraph{Open-weight model matrix.}
 The causal study uses a resource-tiered rather than nominally uniform model
-matrix. Qwen3-32B receives the full confirmatory E1--E4 design and optional
-exploratory E5. Gemma-3-27B
-receives the E3a--E3c representation--policy analysis and the critical E4 native
-adaptation arms, providing a direct comparison with recent confidence-to-
+matrix. Qwen3-14B receives the full confirmatory E1--E4 design and optional
+exploratory E5. Qwen3-32B is an inference-only scale check (E1, E2, and
+E3a--E3c) that tests whether the negative prompting/gating results and the
+representation--policy dissociation persist at larger scale within the family;
+it is not adapted, because 4-bit adaptation of the 32B model does not fit a
+single 24-GB GPU at the required sequence lengths and the model is not sharded
+across GPUs. This allocation was fixed during compute calibration, before any
+data or outcome access. Gemma-3-27B
+receives the E3a--E3c representation--policy analysis and, if single-GPU
+adaptation fits within the memory margin, the critical E4 native adaptation arms, providing a direct comparison with recent confidence-to-
 abstention steering work. Mistral-Small-3.1-24B provides behavioral and selected
 native-adaptation replication. Llama-3.1-8B is a narrow cross-family replication
 with three frozen E1 conditions and three E4 arms. Released 3B--8B members support
@@ -1056,9 +1063,12 @@ confirmatory models.
 
 \subsection{Compute plan}
 
-Experiments are scheduled on four 24-GB NVIDIA A5000 GPUs under Slurm. Small-model
-ablations use one or two GPUs; 24--32B models use tensor or FSDP sharding and
-QLoRA where necessary; the 8B Llama replication runs on one GPU. Runs are staged:
+Experiments are scheduled on four 24-GB NVIDIA A5000 GPUs under Slurm. Each model
+instance runs on a single GPU; additional GPUs run independent seeds, arms, or
+shards rather than splitting one model. Models up to 14B are adapted with 4-bit
+QLoRA on one GPU; 24--32B models are evaluated with 4-bit weights on one GPU.
+Calibration on this hardware measured 105 and 51 generated tokens per second for
+Qwen3-14B and Qwen3-32B, respectively. Runs are staged:
 smoke tests, small-family factorial screening, one frozen configuration per
 family, then cross-family replication.
 The 72-hour restriction applies to each restartable Slurm job, not to the total
