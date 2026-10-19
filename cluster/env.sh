@@ -12,6 +12,8 @@ export K_PROJECT_SCRATCH_QUOTA_GB="${K_PROJECT_SCRATCH_QUOTA_GB:-2000}"
 # not defaulted: ~/.bashrc exports the read-only global cache, which sbatch
 # would otherwise inherit.
 export HF_HOME=/truenas/projects/vilenchik_shared/hf_cache
+# Keep the login token private: by default it would land in the group-readable $HF_HOME.
+export HF_TOKEN_PATH="${HOME}/.cache/huggingface/token"
 # Optional mode-600 file with API keys for closed-model E1 runs.
 export K_PROJECT_SECRETS_FILE="${K_PROJECT_SECRETS_FILE:-}"
 
