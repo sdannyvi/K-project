@@ -30,10 +30,9 @@
     "sha": "005ad3404e59d6023443cb575daa05336842228a"
   },
   {
-    "error": "gated: run `hf auth login` and accept the license on huggingface.co",
     "gated": true,
     "model": "meta-llama/Llama-3.1-8B-Instruct",
-    "ok": false,
+    "ok": true,
     "sha": "0e9e39f249a16976918f6564b8830bc894c89659"
   },
   {
