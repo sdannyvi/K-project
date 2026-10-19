@@ -31,7 +31,8 @@ def parse(argv: list[str]) -> argparse.Namespace:
 
 def run(ctx):
     import torch
-    from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+
+    from ..models import load_text_model
 
     args = parse(ctx.stage_args)
     if not torch.cuda.is_available():
@@ -40,15 +41,7 @@ def run(ctx):
     prompts = list(itertools.islice(itertools.cycle(prompts), args.n_examples))
 
     t0 = time.perf_counter()
-    tokenizer = AutoTokenizer.from_pretrained(args.model, revision=args.revision, padding_side="left")
-    if tokenizer.pad_token_id is None:
-        tokenizer.pad_token_id = tokenizer.eos_token_id
-    kwargs = {"dtype": torch.bfloat16, "low_cpu_mem_usage": True, "device_map": {"": 0}}
-    if args.quantization == "4bit":
-        kwargs["quantization_config"] = BitsAndBytesConfig(
-            load_in_4bit=True, bnb_4bit_quant_type="nf4",
-            bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_use_double_quant=True)
-    model = AutoModelForCausalLM.from_pretrained(args.model, revision=args.revision, **kwargs).eval()
+    model, tokenizer = load_text_model(args.model, args.revision, args.quantization)
     load_seconds = time.perf_counter() - t0
     ctx.log(f"loaded {args.model} in {load_seconds:.0f}s")
 

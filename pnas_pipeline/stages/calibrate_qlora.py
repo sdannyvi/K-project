@@ -31,33 +31,29 @@ def parse(argv: list[str]) -> argparse.Namespace:
 def run(ctx):
     import torch
     from peft import LoraConfig, get_peft_model
-    from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+
+    from ..models import load_text_model, lora_targets, text_config
 
     args = parse(ctx.stage_args)
     if not torch.cuda.is_available():
         raise RuntimeError("calibrate_qlora needs a visible GPU")
     t0 = time.perf_counter()
-    model = AutoModelForCausalLM.from_pretrained(
-        args.model, revision=args.revision, dtype=torch.bfloat16, low_cpu_mem_usage=True,
-        device_map={"": 0},
-        quantization_config=BitsAndBytesConfig(
-            load_in_4bit=True, bnb_4bit_quant_type="nf4",
-            bnb_4bit_compute_dtype=torch.bfloat16, bnb_4bit_use_double_quant=True))
+    model, _ = load_text_model(args.model, args.revision, "4bit")
     # Not peft.prepare_model_for_kbit_training: it upcasts embeddings and lm_head
     # to fp32 (~6 GB extra at 32B), which alone can break the 24 GB budget.
-    model.config.use_cache = False
+    model.config.use_cache = text_config(model).use_cache = False
     model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
     model.enable_input_require_grads()
     model = get_peft_model(model, LoraConfig(
         r=args.rank, lora_alpha=2 * args.rank, lora_dropout=0.0,
-        target_modules=args.target_modules.split(","), task_type="CAUSAL_LM"))
+        target_modules=lora_targets(model, args.target_modules.split(",")), task_type="CAUSAL_LM"))
     load_seconds = time.perf_counter() - t0
     weights_gb = torch.cuda.memory_allocated() / 1e9
     trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
     ctx.log(f"loaded in {load_seconds:.0f}s, {weights_gb:.1f} GB, {trainable / 1e6:.1f}M trainable")
 
     optimizer = torch.optim.AdamW([p for p in model.parameters() if p.requires_grad], lr=1e-4)
-    vocab = model.config.vocab_size
+    vocab = text_config(model).vocab_size
     results = []
     for seq_len in map(int, args.seq_lens.split(",")):
         results += sweep_batches(ctx, model, optimizer, vocab, seq_len, args)

@@ -17,7 +17,9 @@ source cluster/env.sh
 python -u - <<PY
 from huggingface_hub import snapshot_download
 path = snapshot_download("${MODEL}", revision="${REVISION:-main}", max_workers=8,
-                         allow_patterns=["*.json", "*.safetensors", "*.model", "*.txt", "*.jinja", "*.py"])
+                         allow_patterns=["*.json", "*.safetensors", "*.model", "*.txt", "*.jinja", "*.py"],
+                         # Mistral/Llama also ship consolidated copies of the same weights.
+                         ignore_patterns=["consolidated*", "original/*"])
 print("cached", path)
 PY
 du -sh "${HF_HOME}/hub/models--${MODEL//\//--}"

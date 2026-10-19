@@ -130,3 +130,16 @@ def test_gate_certificate(tmp_path):
     assert gates.check(path, tmp_path, manifest_sha256="other") == ["certificate signs a different manifest"]
     artifact.write_text("tampered")
     assert gates.check(path, tmp_path) == ["artifact hash mismatch: a.json"]
+
+
+def test_lora_targets_skip_vision_tower():
+    import re
+    from types import SimpleNamespace
+    from pnas_pipeline.models import lora_targets
+    text_only = SimpleNamespace(config=SimpleNamespace())
+    assert lora_targets(text_only, ["q_proj"]) == ["q_proj"]
+    mm = SimpleNamespace(config=SimpleNamespace(text_config=1, vision_config=1))
+    pattern = re.compile(lora_targets(mm, ["q_proj", "v_proj"]))
+    assert pattern.fullmatch("model.language_model.layers.3.self_attn.q_proj")
+    assert not pattern.fullmatch("model.vision_tower.vision_model.encoder.layers.0.self_attn.q_proj")
+    assert not pattern.fullmatch("model.language_model.layers.3.self_attn.q_proj.lora_A")
