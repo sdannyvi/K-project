@@ -155,12 +155,16 @@ def test_model_sharding_is_rejected():
 
 
 def test_unused_vision_modules_are_disabled_without_touching_language_model():
+    import torch.nn as nn
     from types import SimpleNamespace
     from pnas_pipeline.models import disable_unused_vision_modules
 
-    vision, projector, language = object(), object(), object()
-    model = SimpleNamespace(model=SimpleNamespace(
-        vision_tower=vision, multi_modal_projector=projector, language_model=language))
+    vision, projector, language = nn.Identity(), nn.Identity(), nn.Identity()
+    inner = nn.Module()
+    inner.vision_tower = vision
+    inner.multi_modal_projector = projector
+    inner.language_model = language
+    model = SimpleNamespace(model=inner)
     assert disable_unused_vision_modules(model) == [
         "model.vision_tower", "model.multi_modal_projector"]
     assert model.model.vision_tower is None

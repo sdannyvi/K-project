@@ -48,8 +48,10 @@ def disable_unused_vision_modules(model) -> list[str]:
         containers.append(("model.", inner))
     for prefix, container in containers:
         for name in VISION_MODULES:
-            module = getattr(container, name, None)
-            if module is not None:
+            # Some HF wrappers expose read-only proxy properties with these
+            # names. Mutate only the parent that actually registered the
+            # torch module, normally ``model.model``.
+            if getattr(container, "_modules", {}).get(name) is not None:
                 setattr(container, name, None)
                 removed.append(prefix + name)
     return removed
