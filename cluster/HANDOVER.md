@@ -82,7 +82,7 @@ commit tokens, API keys, or confirmatory label keys.
 | Qwen3-14B | 105.0 tok/s, 10.3 GB | seq 384 / batch 2, 20.7 GB, 828 train tok/s |
 | Qwen3-32B | 50.8 tok/s, 19.7 GB | **does not fit**: OOM at seq 256 |
 | Llama-3.1-8B | 207.5 tok/s | seq 384 / batch 4, 19.0 GB, 1,670 train tok/s |
-| Gemma-3-27B | 61.0 tok/s, 17.9 GB | **fails 10% headroom**: seq 256 / batch 1 reaches 23.7 GB; seq 384 OOM |
+| Gemma-3-27B | 61.0 tok/s, 17.9 GB | **fails 10% headroom after validated vision removal**: seq 256 / batch 1 reaches 22.87 GB (threshold 22.77 GB); seq 384 OOM |
 | Mistral-Small-3.1-24B | 72.0 tok/s, 16.0 GB | seq 384 / batch 1, 21.3 GB, 499 train tok/s |
 
 The 3B neural POC reran on the cluster and matches the Mac pilot. Amendment A1
@@ -99,10 +99,22 @@ the same pinned revisions and completed successfully. Results are recorded in
 `cluster/COMPUTE_BUDGET.csv` and the table above. No calibration jobs remain in
 flight.
 
+Text-only Gemma follow-up: job 10196 failed before measurement because the
+outer Hugging Face wrapper exposes `vision_tower` as a read-only proxy. That
+engineering defect was fixed in commit `3c8937b`. Job 10197 then verified that
+removing `model.vision_tower` and `model.multi_modal_projector` frees 0.848 GB
+and leaves text logits exactly unchanged (`max_abs_diff=0.0`). Job 10198 reran
+4-bit QLoRA r=16: persistent weights fell to 16.22 GB and sequence 256 / batch 1
+fell to 22.87 GB, but this remains 0.10 GB above the unchanged 10% headroom
+threshold (22.77 GB); sequence 384 / batch 1 still OOMs at 24.82 GB. Therefore
+vision removal is now the correct text-only loader behavior but does not make
+Gemma pass Amendment A1's E4 hardware-fit gate.
+
 ## Your next tasks
 
-1. Present the completed Gemma/Mistral fit facts to the PI. Gemma fails the
-   one-A5000 10% headroom gate; Mistral fits at sequence 256 and 384 with batch 1.
+1. Present the completed Gemma/Mistral fit facts to the PI. Gemma still fails the
+   one-A5000 10% headroom gate after exact-logit-preserving vision removal;
+   Mistral fits at sequence 256 and 384 with batch 1.
    Any resulting E4 scope change remains a PI scientific decision under Amendment A1.
 2. Implement P0.5 in code once the PI accepts it: a single prompt-rendering
    function with a fixed system prompt, Llama `date_string` pinned, and Qwen3
