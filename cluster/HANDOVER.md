@@ -82,25 +82,28 @@ commit tokens, API keys, or confirmatory label keys.
 | Qwen3-14B | 105.0 tok/s, 10.3 GB | seq 384 / batch 2, 20.7 GB, 828 train tok/s |
 | Qwen3-32B | 50.8 tok/s, 19.7 GB | **does not fit**: OOM at seq 256 |
 | Llama-3.1-8B | 207.5 tok/s | seq 384 / batch 4, 19.0 GB, 1,670 train tok/s |
+| Gemma-3-27B | 61.0 tok/s, 17.9 GB | **fails 10% headroom**: seq 256 / batch 1 reaches 23.7 GB; seq 384 OOM |
+| Mistral-Small-3.1-24B | 72.0 tok/s, 16.0 GB | seq 384 / batch 1, 21.3 GB, 499 train tok/s |
 
 The 3B neural POC reran on the cluster and matches the Mac pilot. Amendment A1
 follows from this table: **Qwen3-14B carries the full design (E1–E4); Qwen3-32B is
 inference-only (E1, E2, E3a–c).**
 
-## In flight when handed over (check first)
+## Calibration completion update (2026-10-20)
 
-Slurm jobs 10176/10177 (CPU prefetch of Gemma-3-27B and Mistral-Small-3.1-24B), then
-10178/10179 (Gemma calibrate_throughput / calibrate_qlora, `RUN_ID=wp0-calibration-gemma27`)
-and 10180/10181 (Mistral, `RUN_ID=wp0-calibration-mistral24`).
-`sacct -j 10176,10177,10178,10179,10180,10181 -X --format=JobID,JobName%28,State,Elapsed`
+Prefetch jobs 10176/10177 completed. The first Gemma/Mistral calibration jobs
+10178--10181 failed before model loading because Transformers attempted an online
+Hugging Face metadata request and the compute-node proxy returned HTTP 500. Their
+logs and failed provenance are retained. Offline-cache retries 10190--10193 used
+the same pinned revisions and completed successfully. Results are recorded in
+`cluster/COMPUTE_BUDGET.csv` and the table above. No calibration jobs remain in
+flight.
 
 ## Your next tasks
 
-1. Collect the Gemma/Mistral (and Llama) calibration results and add
-   `WP0-calibration` rows to `cluster/COMPUTE_BUDGET.csv` (pattern: see the
-   existing Qwen rows). Report whether Gemma-27B and Mistral-24B QLoRA fit one
-   A5000 with 10% headroom at seq 256–384. That decides their E4 arms under
-   Amendment A1; give the PI the facts, not the decision.
+1. Present the completed Gemma/Mistral fit facts to the PI. Gemma fails the
+   one-A5000 10% headroom gate; Mistral fits at sequence 256 and 384 with batch 1.
+   Any resulting E4 scope change remains a PI scientific decision under Amendment A1.
 2. Implement P0.5 in code once the PI accepts it: a single prompt-rendering
    function with a fixed system prompt, Llama `date_string` pinned, and Qwen3
    `enable_thinking=False`. Store a hash of each rendered prompt. Use it in

@@ -28,3 +28,9 @@ WP0-calibration,Qwen3-32B,pilot_throughput_4bit_batch8,100,1,1,1,1,1,150,50.76,1
 WP0-calibration,Qwen3-32B,qlora_r16_1gpu_A5000,1,1,1,1,1,1,128,N/A,1,0,measured_job_10156_fits_only_seq128_bs1_23.3GB_OOM_at_seq256
 WP0-calibration,Qwen3-14B,pilot_throughput_4bit_batch8,100,1,1,1,1,1,150,105.0,1,0.04,measured_job_10165_peak_vram_10.3GB
 WP0-calibration,Qwen3-14B,qlora_r16_1gpu_A5000,1,1,1,1,1,1,384,N/A,1,0,measured_job_10166_fits_seq384_bs2_20.7GB_828_train_tok_per_s
+WP0-calibration,Llama-3.1-8B,pilot_throughput_4bit_batch8,100,1,1,1,1,1,150,207.53,1,0.02,measured_job_10169_peak_vram_6.01GB
+WP0-calibration,Llama-3.1-8B,qlora_r16_1gpu_A5000,1,1,1,1,1,1,384,N/A,1,0,measured_job_10170_fits_seq384_bs4_19.02GB_1669.6_train_tok_per_s
+WP0-calibration,Gemma-3-27B,pilot_throughput_4bit_batch8,100,1,1,1,1,1,150,61.02,1,0.07,measured_job_10190_peak_vram_17.88GB_offline_retry_after_10178_proxy_failure
+WP0-calibration,Gemma-3-27B,qlora_r16_1gpu_A5000,1,1,1,1,1,1,384,N/A,1,0,measured_job_10191_no_10pct_headroom_seq256_bs1_23.71GB_seq384_bs1_OOM
+WP0-calibration,Mistral-Small-3.1-24B,pilot_throughput_4bit_batch8,100,1,1,1,1,1,150,72.00,1,0.06,measured_job_10192_peak_vram_15.98GB_offline_retry_after_10180_proxy_failure
+WP0-calibration,Mistral-Small-3.1-24B,qlora_r16_1gpu_A5000,1,1,1,1,1,1,384,N/A,1,0,measured_job_10193_fits_seq256_and_seq384_bs1_seq384_peak_21.33GB_499.4_train_tok_per_s
