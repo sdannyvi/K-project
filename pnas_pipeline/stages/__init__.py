@@ -3,11 +3,12 @@
 Scientific stages mirror `stages:` in the manifest. Until their P0/H0 protocol
 inputs are frozen they are registered as blocked, so a submission fails fast
 with the reason instead of running unreviewed code. Utility stages (dry_run,
-calibrate_throughput, calibrate_qlora) are engineering-only and need no prerequisites.
+calibrate_throughput, calibrate_qlora, validate_text_only) are engineering-only
+and need no prerequisites.
 """
 from __future__ import annotations
 
-from . import calibrate, calibrate_qlora
+from . import calibrate, calibrate_qlora, validate_text_only
 
 
 class StageBlocked(RuntimeError):
@@ -29,6 +30,7 @@ UTILITY = {
     "dry_run": dry_run,
     "calibrate_throughput": calibrate.run,
     "calibrate_qlora": calibrate_qlora.run,
+    "validate_text_only": validate_text_only.run,
 }
 
 SCIENTIFIC = {

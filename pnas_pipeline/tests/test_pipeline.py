@@ -152,3 +152,18 @@ def test_model_sharding_is_rejected():
     for bad in ("auto", "balanced", {"model.layers.0": 0, "lm_head": 1}):
         with pytest.raises(ShardingForbidden):
             check_single_device(bad)
+
+
+def test_unused_vision_modules_are_disabled_without_touching_language_model():
+    from types import SimpleNamespace
+    from pnas_pipeline.models import disable_unused_vision_modules
+
+    vision, projector, language = object(), object(), object()
+    model = SimpleNamespace(model=SimpleNamespace(
+        vision_tower=vision, multi_modal_projector=projector, language_model=language))
+    assert disable_unused_vision_modules(model) == [
+        "model.vision_tower", "model.multi_modal_projector"]
+    assert model.model.vision_tower is None
+    assert model.model.multi_modal_projector is None
+    assert model.model.language_model is language
+    assert disable_unused_vision_modules(model) == []

@@ -2,8 +2,9 @@
 
 Gemma-3 and Mistral-Small-3.1 ship as vision-language checkpoints
 (Gemma3ForConditionalGeneration, Mistral3ForConditionalGeneration). The study
-uses their text path only: the vision tower is loaded but never fed, it is not
-quantized, and LoRA adapters attach to language-model layers only.
+uses their text path only. After loading, the unused vision tower and projector
+are removed so that their unquantized weights do not consume GPU memory. LoRA
+adapters attach to language-model layers only.
 """
 from __future__ import annotations
 
@@ -31,8 +32,31 @@ def check_single_device(device_map) -> None:
                             "use one GPU per model (see cluster/CLUSTER.md)")
 
 
+def disable_unused_vision_modules(model) -> list[str]:
+    """Remove image-only modules from a multimodal checkpoint used for text.
+
+    Transformers' Gemma-3 and Mistral-3 text-only forwards do not access these
+    modules unless image inputs are supplied. Setting them to ``None`` releases
+    their parameters and also prevents an accidental image call from silently
+    moving tensors between CPU and GPU. The multimodal config is retained so
+    language-only LoRA target selection remains correctly scoped.
+    """
+    removed = []
+    containers = [("", model)]
+    inner = getattr(model, "model", None)
+    if inner is not None:
+        containers.append(("model.", inner))
+    for prefix, container in containers:
+        for name in VISION_MODULES:
+            module = getattr(container, name, None)
+            if module is not None:
+                setattr(container, name, None)
+                removed.append(prefix + name)
+    return removed
+
+
 def load_text_model(model_id: str, revision: str | None = None, quantization: str = "none",
-                    device: int = 0, padding_side: str = "left"):
+                    device: int = 0, padding_side: str = "left", disable_vision: bool = True):
     import torch
     from transformers import (AutoConfig, AutoModelForCausalLM, AutoModelForImageTextToText,
                               AutoTokenizer, BitsAndBytesConfig)
@@ -51,6 +75,16 @@ def load_text_model(model_id: str, revision: str | None = None, quantization: st
     loader = (AutoModelForCausalLM if config.model_type in MODEL_FOR_CAUSAL_LM_MAPPING_NAMES
               else AutoModelForImageTextToText)
     model = loader.from_pretrained(model_id, revision=revision, **kwargs).eval()
+    if multimodal and disable_vision:
+        removed = disable_unused_vision_modules(model)
+        if not removed:
+            raise RuntimeError(f"{model_id}: multimodal config but no known vision modules found")
+        # Release the modules immediately; calibration measures the remaining
+        # text model rather than allocator state left by checkpoint loading.
+        import gc
+        gc.collect()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
 
     tokenizer = load_tokenizer(model_id, revision, config, padding_side)
     return model, tokenizer
