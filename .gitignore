@@ -25,6 +25,7 @@ paper/main.pdf
 .env.cluster
 runs/
 logs/
+private_annotations/
 
 # Index is large and optional to commit; K-texts/ is tracked for Streamlit Cloud deploy.
 .k_index/

@@ -171,3 +171,18 @@ def test_unused_vision_modules_are_disabled_without_touching_language_model():
     assert model.model.multi_modal_projector is None
     assert model.model.language_model is language
     assert disable_unused_vision_modules(model) == []
+
+
+def test_h0a_candidate_design_is_balanced_and_parser_is_strict():
+    import json
+    from collections import Counter
+    from pnas_pipeline.stages.generate_h0a_candidates import extract_json, specification
+
+    specs = [specification(i) for i in range(300)]
+    assert len({s["item_id"] for s in specs}) == 300
+    assert set(Counter(s["voice"] for s in specs).values()) == {100}
+    assert len({(s["domain"], s["movement"]) for s in specs}) == 100
+    payload = {"situation": "A colleague did not acknowledge a completed task today.",
+               "stream": " ".join(["thought"] * 90)}
+    assert extract_json(json.dumps(payload)) == payload
+    assert extract_json('{"situation":"short", "stream":"too short"}') is None

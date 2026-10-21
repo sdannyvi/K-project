@@ -8,7 +8,7 @@ and need no prerequisites.
 """
 from __future__ import annotations
 
-from . import calibrate, calibrate_qlora, validate_text_only
+from . import calibrate, calibrate_qlora, generate_h0a_candidates, validate_text_only
 
 
 class StageBlocked(RuntimeError):
@@ -31,6 +31,7 @@ UTILITY = {
     "calibrate_throughput": calibrate.run,
     "calibrate_qlora": calibrate_qlora.run,
     "validate_text_only": validate_text_only.run,
+    "generate_h0a_candidates": generate_h0a_candidates.run,
 }
 
 SCIENTIFIC = {
