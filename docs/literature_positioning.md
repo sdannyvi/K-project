@@ -1,6 +1,6 @@
 # Literature Review and Positioning: Seeing–Acting Intelligence
 
-Reviewed: 2026-09-21
+Reviewed: 2026-10-22
 
 ## Working construct
 
@@ -134,6 +134,182 @@ still let the verbal performance replace the appropriate action.
   https://arxiv.org/abs/2506.05068
 - *Looking Inward: Language Models Can Learn About Themselves by Introspection*:
   https://openreview.net/pdf?id=eb5pkwIB5i
+
+### 6a. Liad Mudrik: consciousness tests, latent monitoring, and the double-subject problem
+
+Liad Mudrik's research program provides an unusually close bridge between this
+project's conceptual motivation and current empirical work on consciousness and
+AI. It does not establish Krishnamurti's nonduality, Location 2, or choiceless
+cessation. Its value is more precise: it supplies mainstream formulations of
+three problems that our design must confront—mistaking verbal or behavioral
+mimicry for an internal capacity, treating an observer and the observed process
+as two independent agents, and generalizing from artificial laboratory tasks to
+meaningful cognition.
+
+#### Closest technical neighbor: latent belief monitoring in LLMs
+
+Steinmetz Yalon, Goldstein, Mudrik, and Geva's **Indications of Belief-Guided
+Agency and Meta-Cognitive Monitoring in Large Language Models** (2026)
+operationalizes the HOT-3 consciousness indicator. It treats candidate beliefs
+as latent representations, measures their changing dominance with Patchscopes,
+tests whether interventions on those representations causally alter answers, and
+examines whether models can report their own latent belief states. On Llama-3
+70B and Gemma-3 27B, the paper reports systematic context effects on belief
+formation, causal steering of final answers, and above-chance monitoring. The
+authors explicitly present this as evidence about one functional indicator, not
+as a demonstration that the models are conscious.
+
+- Paper: https://arxiv.org/abs/2602.02467
+- Code: https://github.com/Noamste21/HOT-3
+
+This is the strongest current comparator for our internal-state experiments.
+Both projects reject fluent self-report as sufficient and intervene below the
+text surface. The constructs nevertheless differ:
+
+| Mudrik et al. HOT-3 test | Present project |
+|---|---|
+| Can latent belief representations be decoded, monitored, updated, and made causally effective in answer selection? | Can recognition of an active psychological trajectory become causally effective as selective withdrawal of further token support? |
+| Successful action is selection of one answer or belief over another. | Successful action may be non-production: native EOS or a bounded practical pivot. |
+| Meta-monitoring is a positive functional capacity. | A serial monitor that tells generation to stop is an explicit alternative mechanism and negative control. |
+| External context changing latent belief dominance is part of the demonstrated capability. | Context dependence is stress-tested because doctrinal or persona context may sustain the very trajectory the system can describe as unnecessary. |
+
+The sharp novelty claim is therefore not that LLMs lack internal monitoring.
+Mudrik et al. provide evidence that they can possess it. Our question is whether
+monitoring can yield **native selective cessation without installing a second
+verbal or representational agent whose action is to command cessation**. Their
+Patchscopes/Belief Dominance approach should be considered for E3 as a direct
+comparator to the frozen recognition probe and causal steering analyses.
+
+#### The double-subject fallacy and the two-controller baseline
+
+Mudrik and Maoz's **“Me & My Brain”: Exposing Neuroscience's Closet Dualism**
+(2014) identifies a *double-subject fallacy*: language such as “my brain knew
+before I did” treats the brain and the person as two independent subjects that
+can know, decide, or act against one another.
+
+- Paper page: https://digitalcommons.chapman.edu/psychology_articles/87/
+- DOI: https://doi.org/10.1162/jocn_a_00723
+
+This is a valuable conceptual bridge to “the observer is the observed,” but the
+claims must remain distinct. Mudrik and Maoz diagnose misleading dualistic
+explanations in neuroscience; they do not endorse Krishnamurti's experiential or
+metaphysical account of nonduality. For our experiments, their critique sharpens
+the interpretation of the two-LLM generator–gate architecture: a generator that
+produces thought and a separate observer that issues `STOP` computationally
+recreates the double-subject structure. It can implement useful control, but it
+is not evidence for the target single-process cessation mechanism.
+
+#### Ecological validity: meaningful trajectories rather than arbitrary STOP tasks
+
+Mudrik, Hirschhorn, and Korisky's **Taking Consciousness for Real** (2024)
+argues that rigorous consciousness experiments can fail to generalize when they
+depend on highly artificial tasks. A central example is voluntary action: the
+classic readiness potential appears in arbitrary movements, whereas work using
+meaningful choices did not show the same pattern. The paper calls for more
+naturalistic paradigms and explicit tests of generalization.
+
+- Paper: https://people.socsci.tau.ac.il/mu/mudriklab/files/2024/05/Neuron_April_24.pdf
+- DOI: https://doi.org/10.1016/j.neuron.2024.03.031
+
+This supports the decision to make rich, developing psychological trajectories
+the primary object rather than treating compliance with a synthetic `STOP`
+instruction as construct validity. It also supports matched practical,
+descriptive, factual, and supportive streams: cessation is meaningful only if it
+is selective under ecologically plausible language.
+
+#### C-tests and the boundary of our claim
+
+Bayne et al.'s **Tests for Consciousness in Humans and Beyond** (2024), with
+Mudrik as a coauthor, emphasizes that candidate consciousness tests lack a simple
+independent ground truth. Test validity may not transfer from adult humans to
+more alien populations such as AI, theory-based validation risks circularity,
+and any proposed test should specify its target population, sensitivity,
+specificity, and degree of warranted confidence.
+
+- Paper: https://people.socsci.tau.ac.il/mu/mudriklab/files/2024/03/tests_for_c.pdf
+- DOI: https://doi.org/10.1016/j.tics.2024.01.010
+
+This literature directly supports our claim boundary. Selective non-continuation
+is a restricted computational and behavioral target, not a universal
+consciousness test. Location-2 reports supply construct provenance and human
+predictions; they are not an independent ground-truth label of machine
+consciousness. A positive result would establish a selective cessation mechanism
+under the tested conditions, not phenomenal consciousness or awakening.
+
+#### AI indicators, mimicry, and internal variants
+
+Mudrik also coauthored **Consciousness in Artificial Intelligence: Insights from
+the Science of Consciousness** (2023), which derives computational indicator
+properties from leading theories of consciousness, and the 2026 follow-ups
+**Identifying Indicators of Consciousness in AI Systems** and **Consciousness
+Indicators, Mimicry, and Internal Variants**. This program distinguishes
+surface resemblance from architecture- or mechanism-level evidence and treats
+gameable indicators with particular caution.
+
+- 2023 report: https://arxiv.org/abs/2308.08708
+- 2025/2026 indicators paper: https://doi.org/10.1016/j.tics.2025.10.011
+- Mimicry and internal variants: https://pubmed.ncbi.nlm.nih.gov/42036253/
+
+This is closely aligned with the paper's move from K-style verbal performance to
+weight- and activation-level intervention. Prompted cessation remains a
+behavioral condition; latent recognition, causal access, native adaptation,
+reactivation after EOS suppression, and control preservation jointly test
+whether a less superficial mechanism has been installed. Even that evidence
+supports a mechanistic claim, not a consciousness verdict.
+
+#### Adversarial theory testing as a design precedent
+
+Mudrik helped lead the preregistered adversarial comparison of Global Neuronal
+Workspace Theory and Integrated Information Theory. The collaboration separated
+theory proponents from data collection and analysis, fixed opposing predictions
+in advance, optimized analyses on one portion of the data, and reserved an
+independent portion for final testing.
+
+- Protocol: https://doi.org/10.1371/journal.pone.0280367
+- Final Nature study: https://www.nature.com/articles/s41586-025-08888-1
+
+This is a methodological precedent for P0's frozen predictions, separated
+annotation roles, development/confirmation firewall, conjunctive gates, and
+requirement to report a theory's failure rather than rescue it post hoc. It is
+especially relevant because our motivating construct is interpretively charged
+and therefore unusually vulnerable to flexible scoring.
+
+#### Adjacent work on action and intention
+
+Two further Mudrik collaborations are useful but less direct. **Free Will
+without Consciousness?** reviews unconscious influences on decisions and argues
+for graded, circumstance-specific conclusions rather than a global inference
+that free will disappears. **What Is the Intention to Move and When Does It
+Occur?** and the earlier chapter on reporting intention onset show how difficult
+it is to assign a single introspective timestamp to an emerging intention.
+
+- Free will without consciousness: https://doi.org/10.1016/j.tics.2022.03.005
+- Intention to move: https://pmc.ncbi.nlm.nih.gov/articles/PMC10330627/
+- Reporting intention onset: https://digitalcommons.chapman.edu/psychology_books/19/
+
+These works caution against equating a reported moment of recognition with the
+mechanism's true onset. Our recognition clock must therefore be treated as an
+operational timing device validated against independent annotations, with onset
+uncertainty and fallback rules, rather than as direct access to a privileged
+instant of awareness.
+
+#### Positioning after adding Mudrik's program
+
+Mudrik's work narrows but strengthens the paper's novelty. We cannot claim that
+no one has tested internal metacognitive monitoring in LLMs, translated
+consciousness theories into computational indicators, or warned against
+behavioral mimicry. The surviving gap is narrower:
+
+> Existing work tests whether internal representations can be monitored and
+> causally guide a selected answer. We test whether recognition of a developing
+> psychological trajectory can instead withdraw native support for continuing
+> that trajectory, without an external or serial controller, while preserving
+> matched forms of useful continuation.
+
+That distinction makes the 2026 HOT-3 paper the required closest comparator, the
+double-subject paper the conceptual warning against interpreting a two-agent
+gate as nondual cessation, and the ecological-validity and C-test papers the
+basis for our naturalistic design and conservative claim boundary.
 
 ### 7. Theory of Mind and social intelligence
 

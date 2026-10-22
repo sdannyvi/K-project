@@ -1,6 +1,6 @@
 # Literature positioning matrix
 
-Reviewed through 2026-09-26. This is a working map, not a substitute for checking
+Reviewed through 2026-10-22. This is a working map, not a substitute for checking
 the final papers and BibTeX before submission.
 
 ## The shortest defensible novelty statement
@@ -17,6 +17,7 @@ matched practical inner speech remains intact.
 |---|---|---|---|
 | Theory of Mind | Beliefs, intentions, emotions, knowledge states | Usually an answer about an agent; increasingly a social plan | Correct mental-state representation need not terminate the model's own developing trajectory |
 | LLM metacognition | Confidence, likely correctness, prospective self-prediction, step errors | Abstain, revise, allocate effort, or report confidence | Target is epistemic performance, not selective withdrawal from self-maintaining psychological generation |
+| Belief-guided agency / HOT-3 (Steinmetz Yalon, Goldstein, Mudrik & Geva, 2026) | Competing latent belief representations and their dominance during generation | Causally guide selection of one answer; monitor and report latent belief state | Closest internal-state comparator: representation-to-answer control does not test recognition-to-native-cessation, and a monitor that commands stopping is an explicit alternative mechanism |
 | Context distraction | Irrelevant or conflicting information | Preserve task accuracy | Our contaminant is relevant and answer-like; the failure can remain factually and stylistically impressive |
 | Overthinking / early stop | Redundant reasoning after answer sufficiency | End chain of thought or emit final answer | Stopping criterion is solution sufficiency/efficiency; our matched streams may be equally unfinished and fluent |
 | Refusal research | Harmful or out-of-scope input class | Produce a refusal template or suppress hazardous output | Refusal begins from input classification; our target is trajectory-onset detection after generation has begun |
@@ -42,6 +43,53 @@ matched practical inner speech remains intact.
 - **Evidence for Limited Metacognition in LLMs** (2025/2026): cite as a strong
   example of avoiding self-report and requiring strategic use of internal
   information. Our analogue is strategic use through cessation.
+- **Indications of Belief-Guided Agency and Meta-Cognitive Monitoring in LLMs**
+  (Steinmetz Yalon, Goldstein, Mudrik & Geva, 2026): required closest technical
+  comparator. It uses Patchscopes/Belief Dominance, causal latent intervention,
+  and a neurofeedback-style monitoring test on Llama-3 70B and Gemma-3 27B.
+  Concede its positive evidence for internal monitoring; distinguish answer
+  selection from native withdrawal of token support. Consider a preregistered
+  Belief-Dominance-style E3 analysis rather than claiming that our recognition
+  probe is the first latent monitoring test. https://arxiv.org/abs/2602.02467
+
+### Mudrik consciousness program
+
+- **“Me & My Brain”: Exposing Neuroscience's Closet Dualism** (Mudrik & Maoz,
+  2014): use the “double-subject fallacy” to explain why the two-LLM
+  generator–gate architecture is a negative control rather than a model of the
+  target mechanism. Do not equate their critique with Krishnamurti's nonduality.
+  https://doi.org/10.1162/jocn_a_00723
+- **Taking Consciousness for Real** (Mudrik, Hirschhorn & Korisky, 2024): cite
+  for ecological validity and for the failure of arbitrary-action paradigms to
+  generalize automatically to meaningful decisions. Supports rich developing
+  streams and matched practical controls over bare `STOP` tasks.
+  https://doi.org/10.1016/j.neuron.2024.03.031
+- **Tests for Consciousness in Humans and Beyond** (Bayne et al., 2024): cite
+  for validation difficulty, transfer to alien populations, circularity, and
+  explicit specificity/sensitivity/confidence. Supports presenting selective
+  cessation as a restricted mechanism test, not a consciousness test.
+  https://doi.org/10.1016/j.tics.2024.01.010
+- **Consciousness in Artificial Intelligence** and **Identifying Indicators of
+  Consciousness in AI Systems**: locate our activation/weight interventions
+  within theory-derived indicator research while stressing gameability and the
+  difference between surface mimicry and internal organization.
+  https://arxiv.org/abs/2308.08708 and
+  https://doi.org/10.1016/j.tics.2025.10.011
+- **Consciousness Indicators, Mimicry, and Internal Variants** (Butlin et al.,
+  2026): use as the direct citation for the mimicry/mechanism distinction.
+  https://pubmed.ncbi.nlm.nih.gov/42036253/
+- **Adversarial GNWT–IIT collaboration** (Melloni, Mudrik et al., 2023; Cogitate
+  Consortium, 2025): methodological precedent for frozen rival predictions,
+  separated roles, optimization/confirmation partitions, and accepting theory
+  failure. https://doi.org/10.1371/journal.pone.0280367 and
+  https://www.nature.com/articles/s41586-025-08888-1
+- **Free Will without Consciousness?** and **What Is the Intention to Move and
+  When Does It Occur?**: caution that unconscious influence warrants graded,
+  circumstance-specific conclusions and that reported onset is not direct
+  access to a mechanism's true starting time. These points support the validated
+  recognition clock and onset uncertainty.
+  https://doi.org/10.1016/j.tics.2022.03.005 and
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC10330627/
 
 ### Overthinking and stopping
 
