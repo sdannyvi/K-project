@@ -32,4 +32,4 @@ train_args=(
 if [[ -n "${TRAIN_LIMIT:-}" ]]; then
   train_args+=(--limit "${TRAIN_LIMIT}")
 fi
-python -u synthetic_preliminary/train_qlora.py "${train_args[@]}"
+python -u -m synthetic_preliminary.train_qlora "${train_args[@]}"
