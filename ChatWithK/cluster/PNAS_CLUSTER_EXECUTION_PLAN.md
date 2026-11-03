@@ -238,7 +238,8 @@ batching, are the evidential record.
 - Repository `runs/`: synced compact reports/manifests only. Large tensors and
   checkpoints go to institutional object storage with checksums, not Git.
 - Never run heavy jobs from the OneDrive-mounted checkout. The cluster-native
-  clone is `/truenas/home/vilenchi/K-project`.
+  repository root is `/truenas/home/vilenchi/K-project` and the ChatWithK
+  project root is `/truenas/home/vilenchi/K-project/ChatWithK`.
 - P0 records scratch filesystem, absolute quota, peak write budget, and the
   largest checkpoint-write time under contention. `K_PROJECT_SCRATCH_QUOTA_GB`
   is mandatory. Stagger checkpoint clocks by array index and verify the worst
@@ -812,11 +813,12 @@ The cluster agent is finished only when:
 
 ## 15. First commands for the cluster agent
 
-The repository is already cloned at `/truenas/home/vilenchi/K-project` and the
+The repository is already cloned at `/truenas/home/vilenchi/K-project`; this
+project lives at `/truenas/home/vilenchi/K-project/ChatWithK`, and the
 `kproject` conda env exists (see `cluster/CLUSTER.md`).
 
 ```bash
-cd /truenas/home/vilenchi/K-project
+cd /truenas/home/vilenchi/K-project/ChatWithK
 source cluster/env.sh
 bash cluster/scripts/preflight.sh
 

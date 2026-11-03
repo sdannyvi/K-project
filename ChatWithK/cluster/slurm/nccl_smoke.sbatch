@@ -13,7 +13,7 @@
 # WP0 4-GPU NCCL smoke test: all_reduce correctness and bus bandwidth.
 #   sbatch cluster/slurm/nccl_smoke.sbatch
 set -uo pipefail
-cd /truenas/home/vilenchi/K-project
+cd /truenas/home/vilenchi/K-project/ChatWithK
 source cluster/env.sh
 nvidia-smi topo -m || true
 export NCCL_DEBUG=WARN

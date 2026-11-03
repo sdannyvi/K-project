@@ -2,7 +2,7 @@
 # ECE HPC cluster (ece-hpc.bgu.ac.il):   source cluster/env.sh
 # See cluster/CLUSTER.md for the rationale behind each value.
 
-export K_PROJECT_REPO="${K_PROJECT_REPO:-/truenas/home/vilenchi/K-project}"
+export K_PROJECT_REPO="${K_PROJECT_REPO:-/truenas/home/vilenchi/K-project/ChatWithK}"
 # Large artifacts (activations, checkpoints, generations). /truenas/projects has
 # >100 TB free; home is shared with other projects, so keep heavy output here.
 export K_PROJECT_SCRATCH="${K_PROJECT_SCRATCH:-/truenas/projects/vilenchik_shared/k-project}"

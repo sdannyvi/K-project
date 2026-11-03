@@ -20,7 +20,7 @@
 
 set -euo pipefail
 
-source /truenas/home/vilenchi/K-project/cluster/env.sh
+source /truenas/home/vilenchi/K-project/ChatWithK/cluster/env.sh
 
 : "${K_PROJECT_REPO:?Set K_PROJECT_REPO to the checked-out repository}"
 : "${K_PROJECT_SCRATCH:?Set K_PROJECT_SCRATCH to node-local or parallel scratch}"

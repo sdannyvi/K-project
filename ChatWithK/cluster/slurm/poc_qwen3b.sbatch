@@ -21,7 +21,7 @@
 # Resume:   K_POC_RESULTS_DIR=$K_PROJECT_SCRATCH/poc_qwen3b/<jobid> STEPS="native_lora" sbatch ...
 
 set -euo pipefail
-cd /truenas/home/vilenchi/K-project
+cd /truenas/home/vilenchi/K-project/ChatWithK
 source cluster/env.sh
 
 # Preset K_POC_RESULTS_DIR to resume steps into an earlier job's directory.

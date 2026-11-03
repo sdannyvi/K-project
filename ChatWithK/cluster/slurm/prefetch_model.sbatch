@@ -11,7 +11,7 @@
 # revision into the shared $HF_HOME once, so GPU jobs never wait on downloads.
 #   MODEL=Qwen/Qwen3-32B REVISION=<sha> sbatch cluster/slurm/prefetch_model.sbatch
 set -euo pipefail
-cd /truenas/home/vilenchi/K-project
+cd /truenas/home/vilenchi/K-project/ChatWithK
 source cluster/env.sh
 : "${MODEL:?Set MODEL}"
 python -u - <<PY

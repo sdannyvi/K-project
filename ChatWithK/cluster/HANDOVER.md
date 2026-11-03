@@ -22,7 +22,8 @@ commit tokens, API keys, or confirmatory label keys.
   24 GB, 96 CPUs, 500 GB RAM). Slurm, account `research_vilenchik`, partition
   `vilenchik_part`, QOS `vilenchik_owned`, **max 4 concurrent jobs per user**,
   3-day walltime. CPU-only work goes to `CPUonly` (1-day limit).
-- Repo clone: `/truenas/home/vilenchi/K-project`. Every shell and job runs
+- Repository root: `/truenas/home/vilenchi/K-project`; ChatWithK project root:
+  `/truenas/home/vilenchi/K-project/ChatWithK`. Every shell and job runs
   `source cluster/env.sh` first, which activates conda env `kproject` and pins
   `HF_HOME`, the HF token path and `NCCL_P2P_DISABLE=1`.
 - Heavy outputs: `$K_PROJECT_SCRATCH=/truenas/projects/vilenchik_shared/k-project`.

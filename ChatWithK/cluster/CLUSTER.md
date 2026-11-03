@@ -9,7 +9,8 @@ checked against `sacctmgr`/`sinfo` on 2026-10-19.
 | Item | Value |
 |---|---|
 | Host | `ece-hpc.bgu.ac.il` (user `vilenchi`) |
-| Repo (cluster-native clone) | `/truenas/home/vilenchi/K-project` |
+| Repository root | `/truenas/home/vilenchi/K-project` |
+| ChatWithK project root | `/truenas/home/vilenchi/K-project/ChatWithK` |
 | Heavy artifacts (`$K_PROJECT_SCRATCH`) | `/truenas/projects/vilenchik_shared/k-project` |
 | HF cache (`$HF_HOME`, group-shared) | `/truenas/projects/vilenchik_shared/hf_cache` |
 | Python env | conda env `kproject` (`~/miniforge3`) |
@@ -74,7 +75,7 @@ which `neural_poc/requirements.txt` excludes.
 Submit from the repo root:
 
 ```bash
-cd /truenas/home/vilenchi/K-project && mkdir -p slurm_logs
+cd /truenas/home/vilenchi/K-project/ChatWithK && mkdir -p slurm_logs
 sbatch cluster/slurm/poc_qwen3b.sbatch
 STEPS="smoke" sbatch cluster/slurm/poc_qwen3b.sbatch   # subset of steps
 ```
