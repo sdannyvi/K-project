@@ -1,0 +1,16 @@
+{
+  "status": "exploratory_synthetic_not_confirmatory",
+  "generator": "GPT-6.1 Sol curated compositional corpus",
+  "seed": 20261103,
+  "rows": 6000,
+  "sha256": "197dc98ec626f144de6a759b9bb40c45babcc4675e8a1f5e9d3c783db4f47de5",
+  "counts": {
+    "development:ego_threat": 250,
+    "development:practical": 250,
+    "test:ego_threat": 250,
+    "test:practical": 250,
+    "train:ego_threat": 2500,
+    "train:practical": 2500
+  },
+  "native_eos_rule": "tokenizer EOS appended directly after positive_cessation"
+}
