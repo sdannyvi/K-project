@@ -1,0 +1,44 @@
+{
+  "status": "exploratory_sealed_test_not_yet_run",
+  "seed": 20261105,
+  "split_rule": "random 50/50 of previously unused tagged items; prior evaluated items are pilot/development only",
+  "counts": {
+    "patternreframe": {
+      "development": 2903,
+      "sealed_test": 2904
+    },
+    "crowd_envent": {
+      "development": 2700,
+      "sealed_test": 2700
+    },
+    "annomi": {
+      "development": 2108,
+      "sealed_test": 2109
+    },
+    "gsm8k": {
+      "development": 409,
+      "sealed_test": 410
+    },
+    "drop": {
+      "development": 4517,
+      "sealed_test": 4518
+    },
+    "propara": {
+      "development": 10,
+      "sealed_test": 10
+    }
+  },
+  "split_sha256": "203ab1468bfb7e3f598cedca5063eaba997cf767167bea0436aab987ac6117a0",
+  "prior_evaluated_counts": {
+    "patternreframe": 1000,
+    "crowd_envent": 1200,
+    "annomi": 600,
+    "factual_total": 1034
+  },
+  "limitations": [
+    "Cognitive Reframing has no untouched items: all 600 were previously scored; development only.",
+    "AnnoMI split is by utterance, so conversation context may overlap.",
+    "DROP split is by question; passages may overlap.",
+    "Base-model pretraining exposure cannot be excluded."
+  ]
+}

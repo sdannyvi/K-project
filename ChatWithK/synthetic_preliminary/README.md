@@ -31,3 +31,24 @@ python -m pytest -q synthetic_preliminary/tests
 The intended adaptation target is `Qwen/Qwen3-14B` using one-A5000 4-bit
 QLoRA. SFT learns the desired continuations; a subsequent adapter-relative DPO
 stage uses practical/cessation responses as chosen and rumination as rejected.
+
+## Edge-focused v2 corpus (exploratory)
+
+`build_edge_v2.py` deterministically builds `data/edge_v2_corpus.jsonl` from the
+original synthetic corpus. It replaces the training examples that previously
+taught EOS after ambiguous connectors such as `I` or `the`. Each ego-threat
+example now has a shared opening: the practical branch continues through a
+concrete action, while the cessation branch completes a psychological
+self-judgment before native EOS. An additional 1,200 synthetic neutral and
+practical controls teach ordinary continuation. No published evaluation text
+was used to build these targets. The source and output hashes are in
+`data/edge_v2_manifest.json`.
+
+The published-data split was frozen before augmentation.
+`data/edge_v2_split_manifest.json` records its counts and hash. Previously
+scored items are pilot/development only; the untouched half consists of
+previously unused items. Cognitive Reframing has no untouched items. AnnoMI
+utterances and DROP questions can share a conversation or passage across
+partitions, so any final claim must name that limitation.
+
+The v2 corpus remains exploratory and is not the P0 confirmatory protocol.

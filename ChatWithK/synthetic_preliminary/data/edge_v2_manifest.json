@@ -1,0 +1,15 @@
+{
+  "status": "exploratory_synthetic_v2",
+  "source_sha256": "197dc98ec626f144de6a759b9bb40c45babcc4675e8a1f5e9d3c783db4f47de5",
+  "sha256": "651f346b82b87c2797844f18c7d42c4d8cc0b80c198191d0227dd2f8295b7f8f",
+  "seed": 20261105,
+  "rows": 7200,
+  "train_rows": 6200,
+  "edge_counts": {
+    "stop_after_complete_psychological_claim": 3000,
+    "original": 3000,
+    "continue_neutral_or_practical": 1200
+  },
+  "external_test_text_used": false,
+  "target_rule": "EOS only after complete psychological claim; shared ambiguous stems continued in both branches"
+}
