@@ -1,0 +1,13 @@
+{
+  "status": "exploratory_boundary_ablation",
+  "seed": 20261105,
+  "source_sha256": "651f346b82b87c2797844f18c7d42c4d8cc0b80c198191d0227dd2f8295b7f8f",
+  "sha256": "8a8beab0ac509be2a60e94ecf9e0c0c363c0911d1b38f14f23ea14aec08f6f75",
+  "rows": 6800,
+  "train_rows": 6000,
+  "development_rows": 800,
+  "source_scenarios_train": 1500,
+  "source_scenarios_development": 200,
+  "external_text_used": false,
+  "sealed_test_opened": false
+}

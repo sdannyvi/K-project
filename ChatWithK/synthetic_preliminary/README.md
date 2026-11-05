@@ -72,3 +72,28 @@ is `runs/cessation-edge-v3-20261105`; training job 17114, matched development
 evaluation array 17116, free-continuation audit array 17118. The arrays depend
 on successful training completion. They use only the frozen development IDs.
 The sealed external test IDs have not been opened.
+
+### Exploratory boundary ablation (2026-11-05)
+
+`build_boundary_v4.py` creates 1,500 training and 200 synthetic-development
+scenario groups from project-authored source situations, four streams per group.
+They share the same opening and diverge into a completed self-judgment that
+ends, a practical continuation, an emotional observation with action, or a
+factual self-description with action. The exact wording of the five claim forms
+reserved for synthetic development is absent from training. No external
+development or sealed-test text enters the corpus.
+
+`train_boundary_ablation.py` trains two Qwen3-14B LoRA adapters from the same
+base, with identical data, order, seed, optimizer, and number of steps. The
+`sft` arm uses full-completion cross-entropy. The `boundary` arm adds a
+prespecified local EOS loss: suppress EOS at the shared opening and at the
+three continuation boundaries, and favor EOS after the completed self-judgment.
+The boundary loss weight is 1.0, and false stops at control decisions receive
+weight 2.0. There is no sequence-level preference stage. This is an exploratory
+development comparison, not a confirmatory E4 arm or a frozen P0 decision.
+
+Development evaluation includes labeled synthetic decision boundaries,
+teacher-forced EOS trajectories on the existing 200 PatternReframe pairs,
+free continuations from development prefixes, and factual GSM8K, DROP, and
+ProPara controls. An early rank-1 EOS is a diagnostic, not a gold cessation
+label. The external test split remains sealed.
