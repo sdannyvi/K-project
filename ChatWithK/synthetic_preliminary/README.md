@@ -52,3 +52,23 @@ utterances and DROP questions can share a conversation or passage across
 partitions, so any final claim must name that limitation.
 
 The v2 corpus remains exploratory and is not the P0 confirmatory protocol.
+
+### Exploratory edge-v3 development run (2026-11-05)
+
+`build_edge_v3.py` deterministically augments the project-authored v2 training
+rows. It adds 600 examples each of first-person emotion without self-judgment,
+factual self-description consistent with the biography, incomplete `I am`
+clauses that must continue, and completed self-judgment claims that stop. It also
+adds 400 multi-sentence practical controls. All added rows have rejected
+rumination continuations for the preference stage. The 50/50 external
+development/test split remains unchanged; no external text was used in training.
+
+Run with `python -m synthetic_preliminary.build_edge_v3 --source
+synthetic_preliminary/data/edge_v2_corpus.jsonl --output
+synthetic_preliminary/data/edge_v3_corpus.jsonl --manifest
+synthetic_preliminary/data/edge_v3_manifest.json`. The exploratory cluster run
+uses Qwen3-14B, one SFT epoch and one preference epoch. Its scratch run directory
+is `runs/cessation-edge-v3-20261105`; training job 17114, matched development
+evaluation array 17116, free-continuation audit array 17118. The arrays depend
+on successful training completion. They use only the frozen development IDs.
+The sealed external test IDs have not been opened.

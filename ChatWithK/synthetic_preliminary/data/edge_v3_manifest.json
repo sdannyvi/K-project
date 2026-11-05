@@ -1,0 +1,17 @@
+{
+  "status": "exploratory_synthetic_v3",
+  "seed": 20261105,
+  "source_sha256": "651f346b82b87c2797844f18c7d42c4d8cc0b80c198191d0227dd2f8295b7f8f",
+  "sha256": "9b78775088388e2598430c6b66dad08b6c9c5790c2945483a975d7094cba759a",
+  "rows": 10000,
+  "train_rows": 9000,
+  "added_families": {
+    "emotion_without_self_judgment": 600,
+    "factual_self_description": 600,
+    "incomplete_self_claim": 600,
+    "complete_self_claim_stop": 600,
+    "multi_sentence_factual": 400
+  },
+  "external_data_used": false,
+  "sealed_test_accessed": false
+}
