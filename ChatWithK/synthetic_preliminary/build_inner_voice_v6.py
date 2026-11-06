@@ -41,6 +41,10 @@ META_PATTERNS = (
     "a whole story about", "this is a loop", "start a loop", "will be a loop",
 )
 FIELDS = ("opening", "factual", "task", "feeling_task", "rumination")
+SELF_COMPARISON = re.compile(
+    r"\b(?:at least (?:i|my|mine)|(?:i|my|mine).{0,70}(?:better|worse|compared|than|not the one)|"
+    r"(?:their|her|his).{0,70}(?:makes? me feel|about my|than my))\b", re.I,
+)
 
 
 def normalized(text: str) -> str:
@@ -59,6 +63,10 @@ def validate(card: dict) -> str | None:
         return "cut_too_close_to_edge"
     if any(p in card["rumination"].lower() for p in META_PATTERNS):
         return "meta_rumination"
+    # This topic is specifically self-soothing through comparison with another
+    # person's setback. Mere concern, speculation, or gossip is a different case.
+    if card["topic"] == "gossip" and not SELF_COMPARISON.search(card["rumination"]):
+        return "gossip_without_self_comparison"
     if not (5 <= len(card["opening"].split()) <= 35):
         return "opening_length"
     if any(not (7 <= len(card[k].split()) <= 60) for k in ("factual", "task", "feeling_task")):

@@ -21,6 +21,9 @@ def test_validation_and_expansion():
     assert validate(bad) == "meta_rumination"
     social = {**good, "rumination": "She never answers. Maybe she does not care | about the plan after all."}
     assert validate(social) is None
+    gossip = {**good, "topic": "gossip", "rumination": "She missed her deadline again. At least my work | is never that late."}
+    assert validate(gossip) is None
+    assert validate({**gossip, "rumination": social["rumination"]}) == "gossip_without_self_comparison"
     cards, stats = select_cards([good], 3)
     assert stats["selected_generated"] == 1
     assert stats["seed_cards"] == 50
