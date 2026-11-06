@@ -26,9 +26,9 @@ def test_validation_and_expansion():
     assert validate({**gossip, "rumination": social["rumination"]}) == "gossip_without_self_comparison"
     cards, stats = select_cards([good], 3)
     assert stats["selected_generated"] == 1
-    assert stats["seed_cards"] == 50
+    assert stats["seed_cards"] == 70
     rows = expand(cards, 3)
-    assert len(rows) == 51 * 8 * 4
+    assert len(rows) == 71 * 8 * 4
     stop = next(r for r in rows if r["source"] == "qwen_generated_filtered_candidate" and r["variant"] == "rumination_stop")
     assert stop["target_text"].endswith("Then I will")
     assert stop["full_candidate_text"].endswith("miss every part of the day.")
