@@ -114,6 +114,12 @@ def select_cards(raw: list[dict], seed: int, max_generated: int = 550) -> tuple[
     for card in shuffled:
         if generated >= max_generated:
             break
+        # The exploratory generator rarely expressed the intended self-soothing
+        # comparison, even when its surface words passed the lexical screen.
+        # Keep its raw output for audit; use the authored social cards for v6.
+        if card.get("requested_topic") == "gossip":
+            rejected["gossip_generated_requires_review"] += 1
+            continue
         reason = validate(card)
         if reason:
             rejected[reason] += 1
