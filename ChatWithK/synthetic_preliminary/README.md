@@ -145,8 +145,9 @@ provenance for the original wording and is not silently remapped to new text.
 `build_inner_voice_v5b.py` replaces all 40 ruminative streams with directly
 voiced ones, preserving situation cards, train/development split, personas,
 and every no-cessation control. Proposed word cutoffs are newly synthetic and
-require fresh PI review. The v5b review form shows those 40 stop streams only.
-Neither version is approved for training yet.
+required fresh PI review. The v5b review form shows those 40 stop streams only.
+The PI subsequently approved all 40 v5b cutoffs and the no-cessation controls
+for exploratory training. The original v5 wording is not the training source.
 
 Build with `python -m synthetic_preliminary.build_inner_voice_v5b --output
 synthetic_preliminary/data/inner_voice_v5b_pilot.jsonl --manifest
@@ -161,3 +162,20 @@ until validated and sampled for direct-voice quality, novelty, correct
 word-boundary marking, and factual/practical controls. The generator reads no
 external development or sealed-test text. `inner_voice_card_generation.sbatch`
 runs it on one GPU, with one model confined to that GPU.
+
+`build_inner_voice_v6.py` filters candidates for required fields, marker
+placement, direct-voice phrasing, length, and opening near-duplicates, then
+expands each distinct card across eight neutral persona/prompt settings.
+Whole generator requests stay on one side of the train/development split.
+The output is still labelled a *candidate* until actual rows are sampled and
+read for semantic contradictions and practical-control quality. The count of
+expanded rows is never reported as the number of independent situations.
+
+`train_inner_voice_v6.py` starts a fresh Qwen3-14B LoRA adapter for every arm
+and seed. The ordinary and local-EOS arms use the same data, order, optimizer,
+and retention mix, with three matched seeds each. Synthetic arithmetic answers
+receive cross-entropy and base-model KL retention in both arms. The boundary
+arm adds selective EOS pressure at the proposed cessation point and suppresses
+EOS within continuing streams. A one-GPU smoke job verifies the full training
+path before the six-job array runs. No generated card or adapter enters the
+sealed evaluation.
