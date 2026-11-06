@@ -199,15 +199,20 @@ def main() -> None:
     p.add_argument("--manifest", type=Path, required=True)
     p.add_argument("--seed", type=int, default=20261106)
     p.add_argument("--max-generated", type=int, default=550)
+    p.add_argument("--min-generated", type=int, default=0,
+                   help="Fail the automated build if too few generated cards survive filtering")
     a = p.parse_args()
     raw = [json.loads(line) for line in a.raw.open(encoding="utf-8")]
     cards, stats = select_cards(raw, a.seed, a.max_generated)
+    if stats["selected_generated"] < a.min_generated:
+        raise ValueError(f"only {stats['selected_generated']} generated cards passed filtering; "
+                         f"required at least {a.min_generated}")
     rows = expand(cards, a.seed)
     payload = "".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows)
     a.output.parent.mkdir(parents=True, exist_ok=True)
     a.output.write_text(payload, encoding="utf-8")
     manifest = {
-        "status": "filtered_generated_candidate_awaiting_manual_sample_audit",
+        "status": "exploratory_filtered_candidates_not_gold_labels",
         "seed": a.seed, **stats,
         "rows": len(rows), "train_rows": sum(r["split"] == "train" for r in rows),
         "development_rows": sum(r["split"] == "development" for r in rows),
