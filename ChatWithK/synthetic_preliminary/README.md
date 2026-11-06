@@ -121,3 +121,14 @@ the sealed test. The existing external development/test split is unchanged.
 Build with `python -m synthetic_preliminary.build_inner_voice_v5 --output
 synthetic_preliminary/data/inner_voice_v5_pilot.jsonl --manifest
 synthetic_preliminary/data/inner_voice_v5_pilot_manifest.json`.
+
+For PI review, `build_inner_voice_v5_review.py` creates a private offline HTML
+form showing the proposed cutoff for each of the 40 distinct cards × four
+streams. The four persona copies of each stream are collapsed. Each stream
+requires explicit approval, a changed word boundary, or a no-cessation choice.
+The form saves browser progress and exports a 160-row CSV containing both the
+proposal and the reviewer decision. Generated HTML is kept in
+`synthetic_preliminary/annotation_private/` and ignored by Git. Build it with
+`python -m synthetic_preliminary.build_inner_voice_v5_review --source
+synthetic_preliminary/data/inner_voice_v5_pilot.jsonl --output
+synthetic_preliminary/annotation_private/inner_voice_v5_review.html`.
