@@ -20,4 +20,5 @@ python -u -m synthetic_preliminary.generate_inner_voice_cards \
   --output "${run_dir}/raw_cards.jsonl" \
   --metadata "${run_dir}/generation_metadata.json" \
   --requests-per-topic "${REQUESTS_PER_TOPIC:-25}" \
-  --cards-per-request 4
+  --cards-per-request 4 \
+  --topics "${TOPICS:-}"

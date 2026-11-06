@@ -171,6 +171,14 @@ The output is still labelled a *candidate* until actual rows are sampled and
 read for semantic contradictions and practical-control quality. The count of
 expanded rows is never reported as the number of independent situations.
 
+The PI also identified self-soothing gossip about another person's mistake or
+misfortune as a cessation target. `social_comparison_cards.py` adds ten
+fictional, project-authored candidate cards with matched factual/helpful
+controls, and the generator can produce more with `TOPICS=gossip`. Mentioning
+another person is not itself a stop signal; the candidate stop branch voices
+non-instrumental comparison or satisfaction at their setback. These new card
+cutoffs are synthetic candidates, not part of the PI-approved original forty.
+
 `train_inner_voice_v6.py` starts a fresh Qwen3-14B LoRA adapter for every arm
 and seed. The ordinary and local-EOS arms use the same data, order, optimizer,
 and retention mix, with three matched seeds each. Synthetic arithmetic,

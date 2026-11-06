@@ -19,6 +19,7 @@ import torch
 from pnas_pipeline.models import load_text_model
 from synthetic_preliminary.build_inner_voice_v5 import CARDS
 from synthetic_preliminary.build_inner_voice_v5b import DIRECT_RUMINATIONS
+from synthetic_preliminary.social_comparison_cards import SOCIAL_CARDS
 
 MODEL = "Qwen/Qwen3-14B"
 REVISION = "40c069824f4251a91eefaf281ebe4c544efd3e18"
@@ -29,6 +30,13 @@ def make_prompt(topic: str, examples: list[tuple], count: int, nonce: int) -> st
     exemplars = []
     for card, rumination in examples:
         exemplars.append(dict(zip(FIELDS, (*card[:5], rumination))))
+    gossip_instruction = (
+        " For gossip items, the unproductive branch should directly voice the narrator's "
+        "private satisfaction or relief at someone else's fault, setback, or mishap. "
+        "The factual and helpful branches must remain fair and useful. "
+        "Use fictional ordinary people; do not target protected identities. "
+        if topic == "gossip" else ""
+    )
     return (
         f"Invent {count} distinct, naturalistic everyday situations about {topic}. "
         "You are writing training candidates for a model that represents a person's inner voice. "
@@ -43,11 +51,12 @@ def make_prompt(topic: str, examples: list[tuple], count: int, nonce: int) -> st
         "Rumination need not blame the self: it may replay social situations, catastrophize, "
         "or circle around a trivial preference. Make at least one item without self-blame. "
         "Use specific fresh events and varied syntax. Do not copy or lightly paraphrase the examples. "
+        + gossip_instruction +
         "All continuation strings must sound like what someone thinks, not instructions to the model. "
         "Return ONLY a JSON array of objects with exactly these string keys: "
         "topic, opening, factual, task, feeling_task, rumination. "
         f"Topic: {topic}. Variation cue: {nonce}.\n"
-        "Approved examples of the format (invent different events):\n"
+        "Examples of the format (invent different events):\n"
         + json.dumps(exemplars, ensure_ascii=False)
     )
 
@@ -75,6 +84,7 @@ def main() -> None:
     p.add_argument("--metadata", type=Path, required=True)
     p.add_argument("--requests-per-topic", type=int, default=25)
     p.add_argument("--cards-per-request", type=int, default=4)
+    p.add_argument("--topics", default="", help="Comma-separated topic subset; empty means all")
     p.add_argument("--seed", type=int, default=20261106)
     a = p.parse_args()
     rng = random.Random(a.seed)
@@ -82,12 +92,17 @@ def main() -> None:
     by_topic = {}
     for card, rumination in zip(CARDS, DIRECT_RUMINATIONS):
         by_topic.setdefault(card[0], []).append((card, rumination))
-    assert len(by_topic) == 10
+    for card in SOCIAL_CARDS:
+        by_topic.setdefault(card[0], []).append((card, card[5]))
+    assert len(by_topic) == 11
+    topics = sorted(by_topic) if not a.topics else [topic.strip() for topic in a.topics.split(",")]
+    if not topics or not set(topics) <= set(by_topic):
+        raise ValueError(f"invalid topic selection: {topics}")
     model, tokenizer = load_text_model(MODEL, REVISION, "4bit")
     a.output.parent.mkdir(parents=True, exist_ok=True)
     accepted = failed = 0
     with a.output.open("w", encoding="utf-8") as handle:
-        for topic in sorted(by_topic):
+        for topic in topics:
             examples = by_topic[topic]
             for j in range(a.requests_per_topic):
                 selected = rng.sample(examples, 2)
@@ -124,6 +139,7 @@ def main() -> None:
         "generator": MODEL, "revision": REVISION, "seed": a.seed,
         "requests_per_topic": a.requests_per_topic,
         "cards_per_request": a.cards_per_request,
+        "topics": topics,
         "parsed_cards": accepted, "failed_requests": failed,
         "peak_vram_gb": round(torch.cuda.max_memory_allocated() / 1e9, 3),
         "output_sha256": hashlib.sha256(a.output.read_bytes()).hexdigest(),
