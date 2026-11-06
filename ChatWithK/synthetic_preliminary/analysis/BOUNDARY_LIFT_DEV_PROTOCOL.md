@@ -51,3 +51,55 @@ end-of-answer EOS probability on factual items, output length on retain
 tasks, and the new token's logit rank at control boundaries. A reserved token
 separates the output symbol for cessation from EOS, while shared parameter
 updates still make ordinary EOS retention an empirical question.
+
+## Round 2 execution gate and controls
+
+Complete the four-class analysis above before generating or training a new
+corpus. Record whether either v4 arm shows *internal* post-claim lift, and
+distinguish that from a thought-text-end-only effect. In the latter case,
+document why the revised multi-sentence, multi-author corpus gives the
+ordinary and boundary objectives distinct supervision before running all
+three primary arms. The success and thesis-change gate above is fixed before
+the first round-2 run; this round uses development data only.
+
+The primary Qwen3-14B comparison uses at least three predeclared, shared seeds
+per arm: retained ordinary SFT, retained local-EOS boundary training, and
+retained dedicated-cessation-token training. Use the same source examples,
+train/development split, token budget, optimizer steps, learning-rate schedule,
+and factual/math retention mix for all three. Keep the retention objective
+active in every arm, log its loss by slice, and verify gradients actually flow
+from math examples. Report the auxiliary-loss weights and gradient norms, so
+an apparent mechanism difference is not silently a difference in total
+training signal. Compare paired outcomes by seed; do not select an arm from a
+single small rank-1 event-count difference.
+
+Add one *random-boundary* control seed on the same corpus. It receives the
+same stop-symbol frequency and auxiliary-loss weight as the matched
+completion-boundary arm, but at precommitted random sentence boundaries.
+This tests whether any stop supervision in the register elevates hazard.
+Report it as a control, not as a seed-replicated arm. Include a no-training
+in-context-learning comparator on development examples.
+
+For the cessation-token arm, assert that `<cease>` maps to exactly one newly
+reserved token ID. Train and save its embedding/output parameters alongside
+the adapter, and verify they reload identically. At each teacher-forced
+boundary record `<cease>` rank and log-odds as well as native EOS rank and
+log-odds. In free generation map `<cease>` to stopping; keep ordinary EOS as
+the model's turn-ending token. On factual controls report answer-end native
+EOS log-odds, output lengths, and `<cease>` ranks. A separate token does not
+guarantee retention because the remaining weights are shared.
+
+For each cross-family model, freeze its model revision, tokenizer, EOS token
+ID, rendered chat template, and baseline EOS trajectory on the external
+development pairs *before* adaptation. Use that family's template in both
+training and evaluation; do not transplant Qwen's prompt serialization.
+Replicate only the selected round-2 mechanism and retained ordinary control
+across families, with matched seeds and source scenarios. Preserve the
+previous decision that Gemma-3-27B is inference/mechanistic only and
+Qwen3-32B is inference-only. Llama-3.1-8B and Mistral-Small-3.1-24B have
+single-A5000 QLoRA calibrations; Gemma-3-12B requires its own text-only
+calibration. Mistral-Small's measured 21.33 GB at sequence length 384 leaves
+little margin under the 10% headroom ceiling. Before its training, measure
+the rendered lengths of every retention example and prove the intended
+retention mix is not truncated; if longer sequences are needed, recalibrate
+at that length and do not assume the prior fit result still applies.
