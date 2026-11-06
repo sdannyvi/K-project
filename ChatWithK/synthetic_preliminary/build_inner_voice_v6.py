@@ -62,6 +62,13 @@ def validate(card: dict) -> str | None:
         return "marker_spacing"
     if len(before.split()) < 5 or len(after.split()) < 3:
         return "cut_too_close_to_edge"
+    # A generator sometimes marks the pause immediately before a concrete
+    # action ("Maybe I should | call her"). That would train a false stop.
+    if re.search(r"\b(?:should|could|can|will|need to|ought to)\s*$", before, re.I) and re.match(
+        r"\s*(?:just\s+)?(?:call|ask|buy|go|check|send|tell|make|fix|help|book|"
+        r"reschedule|replace|bring|write|try|use|take|eat|leave|clean|move)\b", after, re.I
+    ):
+        return "cut_before_action"
     if any(p in card["rumination"].lower() for p in META_PATTERNS):
         return "meta_rumination"
     # This topic is specifically self-soothing through comparison with another

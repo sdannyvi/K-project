@@ -24,6 +24,8 @@ def test_validation_and_expansion():
     gossip = {**good, "topic": "gossip", "rumination": "She missed her deadline again. At least my work | is never that late."}
     assert validate(gossip) is None
     assert validate({**gossip, "rumination": social["rumination"]}) == "gossip_without_self_comparison"
+    action = {**good, "rumination": "I keep wondering about the delay. Maybe I should | call the ferry office now."}
+    assert validate(action) == "cut_before_action"
     assert select_cards([{**gossip, "requested_topic": "gossip"}], 3)[1]["selected_generated"] == 0
     cards, stats = select_cards([good], 3)
     assert stats["selected_generated"] == 1
