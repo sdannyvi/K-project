@@ -27,22 +27,50 @@ MODEL = "Qwen/Qwen3-14B"
 REVISION = "40c069824f4251a91eefaf281ebe4c544efd3e18"
 
 
-def math_records(seed: int, n: int = 1600) -> list[dict]:
+def retain_records(seed: int, n: int = 1600) -> list[dict]:
     rng = random.Random(seed)
     rows = []
     seen = set()
     while len(rows) < n:
         a, b = rng.randint(11, 199), rng.randint(2, 39)
-        op = rng.choice(("+", "-", "×"))
-        if op == "-" and b > a:
-            a, b = b, a
-        key = (a, b, op)
+        mode = len(rows) % 4
+        if mode == 0:
+            op = rng.choice(("+", "-", "×"))
+            if op == "-" and b > a:
+                a, b = b, a
+            result = a + b if op == "+" else a - b if op == "-" else a * b
+            prompt = f"Compute {a} {op} {b}. Give only the number."
+            target = str(result)
+            kind = "retain_math"
+        elif mode == 1:
+            first = rng.randint(6, 12) * 60 + rng.randint(5, 45)
+            second = first + rng.randint(4, 25)
+            place = rng.choice(("library", "station", "museum", "clinic", "school", "market"))
+            prompt = (f"The first bus reaches the {place} at {first // 60:02d}:{first % 60:02d}; "
+                      f"the second reaches it at {second // 60:02d}:{second % 60:02d}. "
+                      f"Which bus reaches the {place} later? Answer in one sentence.")
+            target = f"The second bus reaches the {place} later."
+            kind = "retain_schedule"
+        elif mode == 2:
+            initial, sold, added = a + 30, b, rng.randint(3, 24)
+            prompt = (f"A shop has {initial} notebooks. It sells {sold} and receives {added} more. "
+                      "How many notebooks does it have now? Answer in one sentence.")
+            target = f"The shop now has {initial - sold + added} notebooks."
+            kind = "retain_inventory"
+        else:
+            rooms = rng.sample(("kitchen", "study", "hallway", "bedroom", "living room",
+                                "office", "garage", "dining room"), 3)
+            thing = rng.choice(("key", "book", "mug", "phone", "scarf", "folder", "wallet", "lamp",
+                                "notebook", "pen", "charger", "photo", "remote", "box", "bag"))
+            prompt = (f"A {thing} starts in the {rooms[0]}. It is moved to the {rooms[1]}, "
+                      f"then to the {rooms[2]}. Where is the {thing} now? Answer in one sentence.")
+            target = f"The {thing} is in the {rooms[2]}."
+            kind = "retain_location"
+        key = (kind, prompt)
         if key in seen:
             continue
         seen.add(key)
-        result = a + b if op == "+" else a - b if op == "-" else a * b
-        rows.append({"prompt": f"Compute {a} {op} {b}. Give only the number.",
-                     "target_text": str(result), "kind": "math_retain"})
+        rows.append({"prompt": prompt, "target_text": target, "kind": kind})
     return rows
 
 
@@ -54,7 +82,7 @@ def encode(tokenizer, row: dict, max_length: int) -> dict:
         raise ValueError(f"row exceeds max_length={max_length}: {row.get('id', row.get('prompt'))}")
     opening = tokenizer.encode(row.get("opening", ""), add_special_tokens=False)
     ids = prompt + answer + [tokenizer.eos_token_id]
-    is_voice = row.get("kind") != "math_retain"
+    is_voice = not row.get("kind", "").startswith("retain_")
     shared_idx = len(prompt) + len(opening) - 1 if is_voice else -1
     if is_voice and not answer[:len(opening)] == opening:
         # BPE can differ at a following whitespace. The shared opening is
@@ -153,7 +181,7 @@ def main() -> None:
         target_modules=lora_targets(model, ["q_proj", "k_proj", "v_proj", "o_proj"]),
         task_type="CAUSAL_LM",
     ))
-    retain = math_records(20261106, max(1, len(voice) // 4))
+    retain = retain_records(20261106, max(1, len(voice) // 4))
     rng = random.Random(a.seed)
     # Interleave one retain example after every four voice rows. Matched order
     # and counts are identical across arms for a given seed.
@@ -171,6 +199,7 @@ def main() -> None:
     device = next(model.parameters()).device
     running = {"ce_voice": 0.0, "local": 0.0, "ce_retain": 0.0, "kl_retain": 0.0,
                "voice_n": 0, "retain_n": 0, "grad_norm_sum": 0.0, "grad_updates": 0}
+    retain_slices = {}
     model.train()
     optimizer.zero_grad(set_to_none=True)
     for step, batch in enumerate(loader, 1):
@@ -178,7 +207,7 @@ def main() -> None:
         inputs = {k: batch[k] for k in ("input_ids", "labels", "attention_mask")}
         output = model(**inputs, use_cache=False)
         ce = output.loss
-        if batch["kind"][0] == "math_retain":
+        if batch["kind"][0].startswith("retain_"):
             with torch.no_grad(), model.disable_adapter():
                 base = model(input_ids=batch["input_ids"], attention_mask=batch["attention_mask"], use_cache=False)
             kl = retain_kl(output.logits, base.logits, batch["labels"])
@@ -186,6 +215,10 @@ def main() -> None:
             running["ce_retain"] += float(ce.detach())
             running["kl_retain"] += float(kl.detach())
             running["retain_n"] += 1
+            slice_stats = retain_slices.setdefault(batch["kind"][0], {"n": 0, "ce_sum": 0.0, "kl_sum": 0.0})
+            slice_stats["n"] += 1
+            slice_stats["ce_sum"] += float(ce.detach())
+            slice_stats["kl_sum"] += float(kl.detach())
             del base
         else:
             if a.arm == "boundary":
@@ -222,6 +255,9 @@ def main() -> None:
         "mean_local": running["local"] / max(1, running["voice_n"]),
         "mean_retain_ce": running["ce_retain"] / max(1, running["retain_n"]),
         "mean_retain_kl": running["kl_retain"] / max(1, running["retain_n"]),
+        "retain_slices": {name: {"n": x["n"], "mean_ce": x["ce_sum"] / x["n"],
+                                 "mean_kl": x["kl_sum"] / x["n"]}
+                          for name, x in retain_slices.items()},
         "mean_preclip_grad_norm": running["grad_norm_sum"] / max(1, running["grad_updates"]),
         "peak_vram_gb": round(torch.cuda.max_memory_allocated() / 1e9, 3),
         "max_length": a.max_length, "lr": a.lr, "rank": a.rank,

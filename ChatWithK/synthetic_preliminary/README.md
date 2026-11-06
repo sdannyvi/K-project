@@ -173,8 +173,9 @@ expanded rows is never reported as the number of independent situations.
 
 `train_inner_voice_v6.py` starts a fresh Qwen3-14B LoRA adapter for every arm
 and seed. The ordinary and local-EOS arms use the same data, order, optimizer,
-and retention mix, with three matched seeds each. Synthetic arithmetic answers
-receive cross-entropy and base-model KL retention in both arms. The boundary
+and retention mix, with three matched seeds each. Synthetic arithmetic,
+schedule, inventory, and object-location answers receive cross-entropy and
+base-model KL retention in both arms. The boundary
 arm adds selective EOS pressure at the proposed cessation point and suppresses
 EOS within continuing streams. A one-GPU smoke job verifies the full training
 path before the six-job array runs. No generated card or adapter enters the
