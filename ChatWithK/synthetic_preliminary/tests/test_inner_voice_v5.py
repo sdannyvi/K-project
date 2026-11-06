@@ -34,8 +34,8 @@ def test_review_collapses_personas_and_preserves_cutoffs(tmp_path):
     cards = build_review(source, tmp_path / "review.html")
     assert len(cards) == 40
     streams = [stream for card in cards for stream in card["streams"]]
-    assert len(streams) == 160
-    assert sum(stream["proposed_decision"] == "cut" for stream in streams) == 40
+    assert len(streams) == 40
+    assert all(stream["proposed_decision"] == "cut" for stream in streams)
     for stream in streams:
         if stream["proposed_decision"] == "cut":
             assert stream["text"].split()[stream["proposed_word_index"] - 1] == stream["proposed_word"]

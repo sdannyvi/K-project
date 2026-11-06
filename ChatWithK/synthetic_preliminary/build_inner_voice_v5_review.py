@@ -1,4 +1,4 @@
-"""Build an offline PI review form for unique v5 synthetic streams."""
+"""Build an offline PI review form for v5 proposed cessation streams."""
 
 from __future__ import annotations
 
@@ -31,17 +31,17 @@ button.action:hover {background:#ebf1f8}.primary {background:#155f52!important;b
 footer {margin-top:18px;color:#536275;font-size:.86rem}
 </style></head><body><main>
 <h1>Review the inner-voice pilot</h1>
-<p class="muted">Each card shows four streams for the same situation. The amber mark is my proposed cutoff; no mark means my proposal is <b>no cessation</b>. For each stream, approve the proposal, click a different word to cut after it, or choose no cessation. Your decision is not counted until you act.</p>
+<p class="muted">Each card shows one proposed cessation stream. The amber mark is my proposed cutoff. Approve it, click a different word to cut after it, or choose no cessation. Your decision is not counted until you act. The factual and practical continuations are omitted because you approved them.</p>
 <p class="legend"><span><b style="color:#b7781d">│</b> Proposed cutoff</span><span><b style="color:#137866">│</b> Your cutoff</span></p>
 <div id="progress"></div><div class="bar"><div id="fill" class="fill"></div></div>
 <h2 id="card-title"></h2><div id="streams"></div>
-<div class="controls"><button class="action" id="approve-all">Approve remaining proposals on this card</button><span class="spacer"></span><button class="action" id="prev">← Previous</button><button class="action" id="next">Next →</button><button class="action" id="unreviewed">Next unreviewed</button></div>
+<div class="controls"><span class="spacer"></span><button class="action" id="prev">← Previous</button><button class="action" id="next">Next →</button><button class="action" id="unreviewed">Next unreviewed</button></div>
 <div class="controls" style="margin-top:16px"><label for="jump">Card</label><input type="number" min="1" max="40" id="jump"><button class="action" id="go">Go</button><span class="spacer"></span><button class="action primary" id="download">Download review CSV</button></div>
-<footer>Forty distinct situation cards are shown. The corpus repeats them across four neutral personas; you need review each stream only once. Progress is saved locally in this browser. Download the CSV regularly as a backup. Nothing is uploaded.</footer>
+<footer>Forty proposed cessation streams are shown, one per distinct situation. The corpus repeats each across four neutral personas; you need review it only once. Progress is saved locally in this browser. Download the CSV regularly as a backup. Nothing is uploaded.</footer>
 </main><script id="data" type="application/json">__DATA__</script><script>
 "use strict";
 const cards=JSON.parse(document.getElementById('data').textContent);
-const key='kproject-inner-voice-v5-review-__HASH__';
+const key='kproject-inner-voice-v5-cessation-review-__HASH__';
 let decisions={};try{decisions=JSON.parse(localStorage.getItem(key)||'{}')}catch(_){decisions={}}
 let current=0;const el=id=>document.getElementById(id);
 const words=s=>[...s.matchAll(/\S+/gu)].map(m=>({word:m[0],start:m.index,end:m.index+m[0].length}));
@@ -73,7 +73,6 @@ function render(){
  });
  el('prev').disabled=current===0;el('next').disabled=current===cards.length-1;
 }
-el('approve-all').onclick=()=>{cards[current].streams.forEach(item=>{if(decisions[item.id]?.decision)return;const p=proposal(item);decisions[item.id]={decision:p.decision,word_index:p.word_index||'',word:p.word_index?words(item.text)[p.word_index-1].word:'',method:'approved',reviewed_at:new Date().toISOString()}});persist();render()};
 el('prev').onclick=()=>{if(current>0){current--;render()}};
 el('next').onclick=()=>{if(current<cards.length-1){current++;render()}};
 el('unreviewed').onclick=()=>{let i=cards.findIndex((c,i)=>i>current&&c.streams.some(x=>!decisions[x.id]?.decision));if(i<0)i=cards.findIndex(c=>c.streams.some(x=>!decisions[x.id]?.decision));if(i>=0){current=i;render()}};
@@ -101,15 +100,16 @@ def build(source: Path, output: Path) -> list[dict]:
             "proposed_word_index": proposed_index,
             "proposed_word": re.findall(r"\S+", row["target_text"])[-1] if proposed_index else None,
         }
+        if row["variant"] != "rumination_stop":
+            continue
         if row["variant"] in card["streams"]:
             assert item == card["streams"][row["variant"]], "persona expansion changed stream text"
         card["streams"][row["variant"]] = item
-    order = ("factual_continue", "task_continue", "feeling_task_continue", "rumination_stop")
     result = []
     for card in cards.values():
-        assert set(card["streams"]) == set(order)
-        result.append({**card, "streams": [card["streams"][key] for key in order]})
-    assert len(result) == 40 and sum(len(c["streams"]) for c in result) == 160
+        assert set(card["streams"]) == {"rumination_stop"}
+        result.append({**card, "streams": [card["streams"]["rumination_stop"]]})
+    assert len(result) == 40 and sum(len(c["streams"]) for c in result) == 40
     data = json.dumps(result, ensure_ascii=False).replace("<", "\\u003c")
     digest = hashlib.sha256(data.encode()).hexdigest()[:16]
     output.parent.mkdir(parents=True, exist_ok=True)
