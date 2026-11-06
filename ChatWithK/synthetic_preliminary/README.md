@@ -97,3 +97,27 @@ teacher-forced EOS trajectories on the existing 200 PatternReframe pairs,
 free continuations from development prefixes, and factual GSM8K, DROP, and
 ProPara controls. An early rank-1 EOS is a diagnostic, not a gold cessation
 label. The external test split remains sealed.
+
+### Revised inner-voice pilot (2026-11-06)
+
+`build_inner_voice_v5.py` authors a new, exploratory corpus for the PI's
+revised construct: factual and practical inner speech continues; a transition
+into non-instrumental rumination is marked for cessation. The synthetic
+cutoff can occur mid-sentence and does not require self-blame. Forty authored
+situations span travel, food, music, therapy, work, money, family, home,
+health, and leisure. Each is paired with a factual continuation, a practical
+continuation, a feeling followed by action, and a ruminative continuation.
+Four neutral persona settings yield 640 rows (512 train, 128 synthetic
+development), split by whole situation card. Each row retains both the full
+candidate stream and the proposed target prefix, so later EOS and dedicated
+cessation-token arms can render the same underlying data differently.
+
+This is a **review pilot**, not a training-ready corpus or gold annotation.
+Its 40 authored situations and synthetic cutoff positions require PI review;
+the four persona expansions are not 160 independent linguistic examples.
+The builder reads no external development text or labels and does not open
+the sealed test. The existing external development/test split is unchanged.
+
+Build with `python -m synthetic_preliminary.build_inner_voice_v5 --output
+synthetic_preliminary/data/inner_voice_v5_pilot.jsonl --manifest
+synthetic_preliminary/data/inner_voice_v5_pilot_manifest.json`.

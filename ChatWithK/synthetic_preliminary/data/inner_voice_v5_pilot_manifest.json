@@ -1,0 +1,16 @@
+{
+  "status": "exploratory_pilot_not_training_approved",
+  "construct": "cessation_at_noninstrumental_rumination_transition",
+  "seed": 20261106,
+  "rows": 640,
+  "train_rows": 512,
+  "development_rows": 128,
+  "cards": 40,
+  "train_cards": 32,
+  "development_cards": 8,
+  "groups_per_card": 4,
+  "sha256": "c736d11944034a34fcfd114a414b315028b7a7bda96000f8a6c6e5528c005e01",
+  "external_text_used": false,
+  "external_development_labels_used": false,
+  "sealed_test_opened": false
+}
