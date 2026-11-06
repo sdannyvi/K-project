@@ -152,3 +152,12 @@ Build with `python -m synthetic_preliminary.build_inner_voice_v5b --output
 synthetic_preliminary/data/inner_voice_v5b_pilot.jsonl --manifest
 synthetic_preliminary/data/inner_voice_v5b_pilot_manifest.json`, then use the
 same review-form builder with the v5b JSONL source.
+
+After the PI approved all 40 v5b cessation streams, the exploratory scale-up
+began with `generate_inner_voice_cards.py`. It uses the pinned Qwen3-14B
+checkpoint to propose *new* everyday cards from the approved exemplars. Raw
+generations and rejects remain in cluster scratch; they are not training data
+until validated and sampled for direct-voice quality, novelty, correct
+word-boundary marking, and factual/practical controls. The generator reads no
+external development or sealed-test text. `inner_voice_card_generation.sbatch`
+runs it on one GPU, with one model confined to that GPU.
