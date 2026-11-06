@@ -1,0 +1,14 @@
+{
+  "status": "exploratory_rewording_for_pi_review_not_training_approved",
+  "supersedes": "inner_voice_v5_pilot",
+  "change": "rumination is spoken directly; factual and task controls unchanged",
+  "seed": 20261106,
+  "rows": 640,
+  "train_rows": 512,
+  "development_rows": 128,
+  "cards": 40,
+  "sha256": "d6563716475bc30965b10319e309dad53b42525d688d513e7826cc01e2a9765a",
+  "external_text_used": false,
+  "external_development_labels_used_for_training": false,
+  "sealed_test_opened": false
+}

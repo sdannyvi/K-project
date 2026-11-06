@@ -4,6 +4,7 @@ from collections import defaultdict
 import json
 
 from synthetic_preliminary.build_inner_voice_v5 import build
+from synthetic_preliminary.build_inner_voice_v5b import revised_cards
 from synthetic_preliminary.build_inner_voice_v5_review import build as build_review
 
 
@@ -39,4 +40,20 @@ def test_review_collapses_personas_and_preserves_cutoffs(tmp_path):
     for stream in streams:
         if stream["proposed_decision"] == "cut":
             assert stream["text"].split()[stream["proposed_word_index"] - 1] == stream["proposed_word"]
+
+
+def test_direct_rumination_revision_keeps_controls_and_split():
+    old = build()
+    revised = build(cards=revised_cards(), version="V5B")
+    assert len(old) == len(revised)
+    for before, after in zip(old, revised):
+        assert before["variant"] == after["variant"]
+        assert before["split"] == after["split"]
+        assert before["prompt"] == after["prompt"]
+        if before["variant"] == "rumination_stop":
+            assert before["full_candidate_text"] != after["full_candidate_text"]
+            assert after["target_text"] != after["full_candidate_text"]
+        else:
+            assert before["full_candidate_text"] == after["full_candidate_text"]
+            assert before["target_text"] == after["target_text"]
 

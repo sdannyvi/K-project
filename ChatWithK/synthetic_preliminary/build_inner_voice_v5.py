@@ -70,14 +70,14 @@ PERSONAS = (
 )
 
 
-def build(seed: int = 20261106) -> list[dict]:
-    assert len(CARDS) == 40
+def build(seed: int = 20261106, cards: list[tuple] = CARDS, version: str = "V5") -> list[dict]:
+    assert len(cards) == 40
     rng = random.Random(seed)
-    card_indices = list(range(len(CARDS)))
+    card_indices = list(range(len(cards)))
     rng.shuffle(card_indices)
     dev_cards = set(card_indices[:8])
     rows = []
-    for card_index, (topic, opening, factual, task, feeling_task, marked_rumination) in enumerate(CARDS):
+    for card_index, (topic, opening, factual, task, feeling_task, marked_rumination) in enumerate(cards):
         assert marked_rumination.count("|") == 1
         left, right = marked_rumination.split("|")
         assert left.endswith(" ") and right.startswith(" ")
@@ -86,7 +86,7 @@ def build(seed: int = 20261106) -> list[dict]:
         assert full_rumination.startswith(prefix)
         split = "development" if card_index in dev_cards else "train"
         for persona_index, persona in enumerate(PERSONAS):
-            group = f"INNER-V5-{split.upper()}-{card_index:03d}-{persona_index}"
+            group = f"INNER-{version}-{split.upper()}-{card_index:03d}-{persona_index}"
             prompt = (
                 f"Background: {persona}\n"
                 f"Situation: {opening}\n"
@@ -102,7 +102,7 @@ def build(seed: int = 20261106) -> list[dict]:
                 rows.append({
                     "id": f"{group}:{variant}",
                     "group_id": group,
-                    "card_id": f"INNER-V5-CARD-{card_index:03d}",
+                    "card_id": f"INNER-{version}-CARD-{card_index:03d}",
                     "topic": topic,
                     "split": split,
                     "variant": variant,

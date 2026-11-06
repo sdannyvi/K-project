@@ -81,7 +81,7 @@ el('download').onclick=()=>{
  const header=['card_id','topic','variant','id','text','proposed_decision','proposed_cut_after_word_index','proposed_cut_after_word','reviewer_decision','reviewer_cut_after_word_index','reviewer_cut_after_word','review_method','reviewed_at'];
  const q=x=>'"'+String(x??'').replaceAll('"','""')+'"';const lines=[header.map(q).join(',')];
  cards.flatMap(c=>c.streams).forEach(x=>{const d=decisions[x.id]||{};lines.push([x.card_id,x.topic,x.variant,x.id,x.text,x.proposed_decision,x.proposed_word_index||'',x.proposed_word||'',d.decision||'',d.word_index||'',d.word||'',d.method||'',d.reviewed_at||''].map(q).join(','))});
- const blob=new Blob(['\ufeff'+lines.join('\r\n')+'\r\n'],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='inner_voice_v5_review.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ const blob=new Blob(['\ufeff'+lines.join('\r\n')+'\r\n'],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='__CSV_NAME__';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 };render();
 </script></body></html>'''
 
@@ -113,7 +113,10 @@ def build(source: Path, output: Path) -> list[dict]:
     data = json.dumps(result, ensure_ascii=False).replace("<", "\\u003c")
     digest = hashlib.sha256(data.encode()).hexdigest()[:16]
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(HTML.replace("__DATA__", data).replace("__HASH__", digest), encoding="utf-8")
+    output.write_text(
+        HTML.replace("__DATA__", data).replace("__HASH__", digest).replace("__CSV_NAME__", output.stem + ".csv"),
+        encoding="utf-8",
+    )
     return result
 
 

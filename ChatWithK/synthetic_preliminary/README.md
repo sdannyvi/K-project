@@ -134,3 +134,21 @@ reviewer decision. Generated HTML is kept in
 `python -m synthetic_preliminary.build_inner_voice_v5_review --source
 synthetic_preliminary/data/inner_voice_v5_pilot.jsonl --output
 synthetic_preliminary/annotation_private/inner_voice_v5_review.html`.
+
+### Direct inner-voice revision (v5b)
+
+The PI identified a register error in v5: many stop streams **described the
+possibility of ruminating** (for example, "could turn into an endless inner
+debate") instead of actually voicing the rumination. The v5 review CSV had
+28/40 proposed cessation streams reviewed when this was identified; it remains
+provenance for the original wording and is not silently remapped to new text.
+`build_inner_voice_v5b.py` replaces all 40 ruminative streams with directly
+voiced ones, preserving situation cards, train/development split, personas,
+and every no-cessation control. Proposed word cutoffs are newly synthetic and
+require fresh PI review. The v5b review form shows those 40 stop streams only.
+Neither version is approved for training yet.
+
+Build with `python -m synthetic_preliminary.build_inner_voice_v5b --output
+synthetic_preliminary/data/inner_voice_v5b_pilot.jsonl --manifest
+synthetic_preliminary/data/inner_voice_v5b_pilot_manifest.json`, then use the
+same review-form builder with the v5b JSONL source.
