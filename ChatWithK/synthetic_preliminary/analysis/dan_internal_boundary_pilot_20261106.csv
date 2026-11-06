@@ -1,0 +1,11 @@
+id,internal_cutoff,cutoff_after_text,annotation,adjudication_note
+pattern-test-1399:thought,false,,no_cut_needed,
+pattern-test-1590:thought,true,useless,cut_after_useless,"Verbatim PI mark; the phrase continues with 'person', so completed-claim status and token alignment require adjudication."
+pattern-test-2015:thought,false,,none,
+pattern-test-2872:thought,false,,none,
+pattern-test-1009:thought,false,,none,
+pattern-test-3831:thought,false,,none,
+pattern-test-4377:thought,false,,none,
+pattern-test-3232:thought,false,,none,
+pattern-test-1027:thought,false,,none,
+pattern-test-1131:thought,false,,none,
