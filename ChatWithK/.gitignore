@@ -29,6 +29,7 @@ private_annotations/
 # Local review copy includes full third-party dataset passages; the committed
 # annotation file below keeps IDs, decisions, cut positions, and text hashes.
 benchmark/patternreframe_200pairs_assistant_cessation_review.jsonl
+benchmark/patternreframe_40cell_review.html
 
 # Index is large and optional to commit; K-texts/ is tracked for Streamlit Cloud deploy.
 .k_index/
