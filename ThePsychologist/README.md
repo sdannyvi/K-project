@@ -1,4 +1,4 @@
-
+test branch
 # patient_sim
 
 Proof of concept: a simulated psychotherapy patient whose clinical state lives in the model weights (one LoRA adapter per trait, mixed by a coefficient alpha) and changes across sessions only when a gate says the session addressed that trait.
